@@ -5,9 +5,12 @@
 #include "Game.h"
 #include "InputHandler.h"
 #include "AxisInput.h"
+#include "Constants.h"
 
 InputHandler::InputHandler() {
 	axisInput = new AxisInput();
+	rightXValue = 0;
+	rightYValue = 0;
 }
 
 void InputHandler::HandleInput(SDL_Event e, Game *game) {
@@ -26,6 +29,14 @@ AxisInput* InputHandler::GetAxisInput() {
 	return axisInput;
 }
 
+int InputHandler::GetRightXValue() {
+	return rightXValue;
+}
+
+int InputHandler::GetRightYValue() {
+	return rightYValue;
+}
+
 void InputHandler::HandleControllerAxisInput(SDL_Event e) {
 	int value = e.caxis.value;
 	MovementSpeed speed = MapAxisValueToMovementSpeed(value);
@@ -33,9 +44,12 @@ void InputHandler::HandleControllerAxisInput(SDL_Event e) {
 
 	if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
 		axisInput->SetLeftX(speed * dir);
-	}
-	else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
+	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
 		axisInput->SetLeftY(speed * dir);
+	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX) {
+		rightXValue = value;
+	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
+		rightYValue = value * -1;
 	}
 }
 

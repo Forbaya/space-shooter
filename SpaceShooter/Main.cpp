@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <chrono>
+#include <math.h> 
 
 #include "Player.h"
 #include "Game.h"
@@ -101,7 +102,7 @@ void Run() {
 		frames++;
 
 		if (time >= std::chrono::nanoseconds(1000000000)) {
-			printf("Frames: %d, Ticks: %d\n", frames, ticks);
+			//printf("Frames: %d, Ticks: %d\n", frames, ticks);
 			ticks = 0;
 			frames = 0;
 			time = std::chrono::nanoseconds(0);
@@ -140,6 +141,14 @@ void DrawStars() {
 /* Updates the game world. */
 void Tick() {
 	game->GetPlayer()->Move(inputHandler->GetAxisInput()->GetLeftX(), inputHandler->GetAxisInput()->GetLeftY());
+	//printf("x: %d, y: %d\n", inputHandler->GetRightXValue(), inputHandler->GetRightYValue());
+	double x = (double) inputHandler->GetRightXValue();
+	double y = (double) inputHandler->GetRightYValue();
+	double slope = 0;
+	if (x != 0) {
+		slope = y / x;
+	}
+	printf("x: %f, y: %f, slope: %f\n", x, y, slope);
 }
 
 /* Closes the window. */

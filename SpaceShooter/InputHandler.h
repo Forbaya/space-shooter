@@ -12,12 +12,16 @@ public:
 	InputHandler();
 	void HandleInput(SDL_Event e, Game *game);
 	AxisInput* GetAxisInput();
+	int GetRightXValue();
+	int GetRightYValue();
 private:
 	void HandleControllerAxisInput(SDL_Event e);
 	void HandleControllerButtonInput(SDL_Event e, Player *player);
 	MovementSpeed MapAxisValueToMovementSpeed(int value);
 	const int minimumAxisMovement = 3600;
 	AxisInput *axisInput;
+	int rightXValue;
+	int rightYValue;
 };
 
 #endif
