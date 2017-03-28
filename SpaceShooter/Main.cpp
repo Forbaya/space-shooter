@@ -102,7 +102,7 @@ void Run() {
 		frames++;
 
 		if (time >= std::chrono::nanoseconds(1000000000)) {
-			//printf("Frames: %d, Ticks: %d\n", frames, ticks);
+			printf("Frames: %d, Ticks: %d\n", frames, ticks);
 			ticks = 0;
 			frames = 0;
 			time = std::chrono::nanoseconds(0);
@@ -148,7 +148,7 @@ void Tick() {
 	if (x != 0) {
 		slope = y / x;
 	}
-	printf("x: %f, y: %f, slope: %f\n", x, y, slope);
+	//printf("x: %f, y: %f, slope: %f\n", x, y, slope);
 }
 
 /* Closes the window. */

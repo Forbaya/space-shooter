@@ -1,8 +1,11 @@
+#include <cmath>
+
 #include "Vector2.h"
 
-Vector2::Vector2(int xx, int yy) {
-	x = xx;
-	y = yy;
+
+Vector2::Vector2(int x, int y) {
+	this->x = x;
+	this->y = y;
 }
 
 Vector2::Vector2() {
@@ -24,4 +27,24 @@ int Vector2::GetX() {
 
 int Vector2::GetY() {
 	return y;
+}
+
+Vector2 Vector2::operator-(const Vector2 &v) {
+	x -= v.x;
+	y -= v.y;
+
+	return Vector2(*this);
+}
+
+Vector2 Vector2::operator*(const double &v) {
+	x *= v;
+	y *= v;
+
+	return Vector2(*this);
+}
+
+void Vector2::Normalize() {
+	double length = sqrt(x*x + y*y);
+	x = x / length;
+	y = y / length;
 }

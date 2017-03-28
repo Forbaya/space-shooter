@@ -9,6 +9,9 @@ class Vector2 {
 		void SetY(int y);
 		int GetX();
 		int GetY();
+		Vector2 operator-(const Vector2 &rhs);
+		Vector2 operator*(const double & v);
+		void Normalize();
 	private:
 		int x;
 		int y;

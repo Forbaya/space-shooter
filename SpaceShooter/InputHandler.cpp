@@ -40,7 +40,7 @@ int InputHandler::GetRightYValue() {
 void InputHandler::HandleControllerAxisInput(SDL_Event e) {
 	int value = e.caxis.value;
 	MovementSpeed speed = MapAxisValueToMovementSpeed(value);
-	int dir = value > 0 ? 1 : -1;
+	int dir = value >= 0 ? 1 : -1;
 
 	if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
 		axisInput->SetLeftX(speed * dir);
@@ -90,7 +90,7 @@ MovementSpeed InputHandler::MapAxisValueToMovementSpeed(int value) {
 	if (value > 10000 || value < -10000) {
 		return AVERAGE_SPEED;
 	}
-	if (value > 3600 || value < -3600) {
+	if (value > 5000 || value < -5000) {
 		return SLOW_SPEED;
 	}
 	return NO_SPEED;
