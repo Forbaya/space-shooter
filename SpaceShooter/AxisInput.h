@@ -1,10 +1,6 @@
 #ifndef AXISINPUT_H
 #define AXISINPUT_H
 
-enum MovementSpeed {
-	NO_SPEED = 0, SLOW_SPEED = 1, AVERAGE_SPEED = 2, FAST_SPEED = 3, REALLY_FAST_SPEED = 4
-};
-
 class AxisInput {
 public:
 	AxisInput();

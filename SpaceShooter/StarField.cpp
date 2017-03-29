@@ -19,3 +19,7 @@ void StarField::Render(SDL_Surface *screen) {
 		SDL_FillRect(screen, &star.GetRect(), SDL_MapRGB(screen->format, 255, 255, 255));
 	}
 }
+
+void StarField::Tick() {
+
+}

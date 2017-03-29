@@ -1,13 +1,12 @@
+#include <chrono>
+#include <iostream>
+#include <math.h> 
 #include <SDL.h>
 #include <stdio.h>
-#include <iostream>
-#include <chrono>
-#include <math.h> 
-
-#include "Player.h"
-#include "Game.h"
 #include "Constants.h"
 #include "InputHandler.h"
+#include "Game.h"
+#include "Player.h"
 
 using namespace std::chrono_literals;
 
@@ -17,9 +16,9 @@ SDL_GameController *controller = NULL;
 Game *game = NULL;
 InputHandler *inputHandler = NULL;
 SDL_Event e;
+Uint32 bgColor;
 
 bool running;
-Uint32 bgColor;
 
 bool Initialize();
 void Run();

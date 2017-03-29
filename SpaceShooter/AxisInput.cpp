@@ -1,4 +1,5 @@
 #include "AxisInput.h"
+#include "Constants.h"
 
 AxisInput::AxisInput() {
 	leftX = NO_SPEED;

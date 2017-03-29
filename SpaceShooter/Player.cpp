@@ -1,8 +1,7 @@
 #include <SDL.h>
-
+#include "InputHandler.h"
 #include "Constants.h"
 #include "Player.h"
-#include "InputHandler.h"
 
 Player::Player(int width, int height) {
 	rect.x = SCREEN_WIDTH / 2 - 32;

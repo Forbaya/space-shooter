@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include <SDL.h>
-
 #include "Entity.h"
 
 class Player : public Entity {

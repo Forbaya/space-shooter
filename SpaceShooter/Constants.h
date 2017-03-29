@@ -1,4 +1,4 @@
-#if !defined(CONSTANTS_H)
+#ifndef CONSTANTS_H
 #define CONSTANTS_H
 
 const int SCREEN_WIDTH = 720;
@@ -8,6 +8,10 @@ enum StarSpeed {
 	STAR_MINIMUM_SPEED = 15,
 	STAR_MIDDLE_SPEED = 22,
 	STAR_MAXIXMUM_SPEED = 30
+};
+
+enum MovementSpeed {
+	NO_SPEED = 0, SLOW_SPEED = 1, AVERAGE_SPEED = 2, FAST_SPEED = 3, REALLY_FAST_SPEED = 4
 };
 
 #endif

@@ -1,11 +1,10 @@
+#include <iostream>
 #include <SDL.h>
 #include <stdio.h>
-#include <iostream>
-
-#include "Game.h"
-#include "InputHandler.h"
 #include "AxisInput.h"
 #include "Constants.h"
+#include "InputHandler.h"
+#include "Game.h"
 
 InputHandler::InputHandler() {
 	axisInput = new AxisInput();
