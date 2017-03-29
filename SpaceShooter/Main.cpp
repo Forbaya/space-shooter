@@ -18,7 +18,6 @@ Game *game = NULL;
 InputHandler *inputHandler = NULL;
 SDL_Event e;
 
-
 bool running;
 Uint32 bgColor;
 
@@ -28,7 +27,6 @@ void Tick();
 void Close();
 void Render();
 void HandleInput(SDL_Event e);
-void DrawStars();
 
 /* Initializes SDL. */
 bool Initialize() {
@@ -116,26 +114,10 @@ void HandleInput(SDL_Event e) {
 
 void Render() {
 	SDL_FillRect(screen, NULL, bgColor);
-	DrawStars();
+	game->Render(screen);
 	SDL_FillRect(screen, &game->GetPlayer()->GetRect(), SDL_MapRGB(screen->format, 255, 0, 0));
 	SDL_UpdateWindowSurface(window);
 
-}
-
-void DrawStars() {
-	SDL_Rect test;
-	test.x = SCREEN_WIDTH / 2 + 32;
-	test.y = SCREEN_HEIGHT / 2 + 32;
-	test.w = 2;
-	test.h = 2;
-	SDL_FillRect(screen, &test, SDL_MapRGB(screen->format, 255, 255, 255));
-
-	SDL_Rect test2;
-	test2.x = SCREEN_WIDTH / 2 - 32;
-	test2.y = SCREEN_HEIGHT / 2 - 32;
-	test2.w = 2;
-	test2.h = 2;
-	SDL_FillRect(screen, &test2, SDL_MapRGB(screen->format, 255, 255, 255));
 }
 
 /* Updates the game world. */

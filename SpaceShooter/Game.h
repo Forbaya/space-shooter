@@ -1,7 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <SDL.h>
 #include "Player.h"
+#include "StarField.h"
 
 class Game {
 	public:
@@ -11,9 +13,12 @@ class Game {
 		void Stop();
 		Player *GetPlayer();
 		void Tick();
+		void Render(SDL_Surface *screen);
 	private:
 		bool running;
-		Player *player = new Player(16, 16);
+		Player *player;
+		StarField *starField;
+
 };
 
 #endif

@@ -7,4 +7,3 @@ void Tick();
 void Close();
 void Render();
 void HandleInput(SDL_Event e);
-void DrawStars();
