@@ -7,6 +7,7 @@
 class Player : public Entity {
 	public:
 		Player(int, int);
+		~Player();
 		SDL_Rect GetRect();
 		void Move(int x, int y);
 		void Tick();

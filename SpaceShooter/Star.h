@@ -3,16 +3,19 @@
 
 #include <SDL.h>
 #include "Constants.h"
+#include "Entity.h"
 
-class Star {
+class Star : public Entity {
 	public:
 		Star(int x, int y, int size, int speed);
 		~Star();
 		int GetX();
 		int GetY();
 		int GetSize();
-		StarSpeed GetSpeed();
+		float GetSpeed();
 		SDL_Rect GetRect();
+		void Move(int x, int y);
+		void Tick();
 	private:
 		int x;
 		int y;

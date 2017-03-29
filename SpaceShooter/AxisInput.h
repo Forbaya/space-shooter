@@ -4,6 +4,7 @@
 class AxisInput {
 public:
 	AxisInput();
+	~AxisInput();
 	int GetLeftX();
 	int GetLeftY();
 	int GetRightX();

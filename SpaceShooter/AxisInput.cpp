@@ -8,6 +8,9 @@ AxisInput::AxisInput() {
 	rightY = NO_SPEED;
 }
 
+AxisInput::~AxisInput() {
+}
+
 int AxisInput::GetLeftX() {
 	return leftX;
 }

@@ -29,13 +29,23 @@ int Star::GetSize() {
 	return size;
 }
 
-StarSpeed Star::GetSpeed() {
+float Star::GetSpeed() {
 	if (size == 2) {
-		return StarSpeed::STAR_MAXIXMUM_SPEED;
+		return STAR_MAXIXMUM_SPEED;
 	}
-	return size == 3 ? StarSpeed::STAR_MIDDLE_SPEED : StarSpeed::STAR_MAXIXMUM_SPEED;
+	return size == 3 ? STAR_MIDDLE_SPEED : STAR_MAXIXMUM_SPEED;
 }
 
 SDL_Rect Star::GetRect(){
 	return rect;
+}
+
+void Star::Move(int x, int y) {
+	this->x += x;
+	this->y += y;
+	rect.x += x;
+	rect.y += y;
+}
+
+void Star::Tick() {
 }

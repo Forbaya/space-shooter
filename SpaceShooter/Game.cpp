@@ -1,12 +1,16 @@
 #include <SDL.h>
+#include "InputHandler.h"
 #include "Player.h"
 #include "Game.h"
 
 Game::Game() {
 	player = new Player(16, 16);
-	starField = new StarField(50);
+	starField = new StarField(60);
 
 	running = true;
+}
+
+Game::~Game() {
 }
 
 void Game::Start() {
@@ -25,8 +29,13 @@ Player* Game::GetPlayer() {
 	return player;
 }
 
-void Game::Tick() {
+StarField* Game::GetStarField() {
+	return starField;
+}
 
+void Game::Tick(AxisInput *axisInput) {
+	player->Move(axisInput->GetLeftX(), axisInput->GetLeftY());
+	starField->Tick(axisInput);
 }
 
 void Game::Render(SDL_Surface *screen) {

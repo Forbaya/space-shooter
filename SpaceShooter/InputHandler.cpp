@@ -12,6 +12,9 @@ InputHandler::InputHandler() {
 	rightYValue = 0;
 }
 
+InputHandler::~InputHandler() {
+} 
+
 void InputHandler::HandleInput(SDL_Event e, Game *game) {
 	if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
 		game->Stop();

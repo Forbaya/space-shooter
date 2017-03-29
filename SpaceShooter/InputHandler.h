@@ -9,6 +9,7 @@
 class InputHandler {
 	public:
 		InputHandler();
+		~InputHandler();
 		void HandleInput(SDL_Event e, Game *game);
 		AxisInput* GetAxisInput();
 		int GetRightXValue();

@@ -116,12 +116,11 @@ void Render() {
 	game->Render(screen);
 	SDL_FillRect(screen, &game->GetPlayer()->GetRect(), SDL_MapRGB(screen->format, 255, 0, 0));
 	SDL_UpdateWindowSurface(window);
-
 }
 
 /* Updates the game world. */
 void Tick() {
-	game->GetPlayer()->Move(inputHandler->GetAxisInput()->GetLeftX(), inputHandler->GetAxisInput()->GetLeftY());
+	game->Tick(inputHandler->GetAxisInput());
 	//printf("x: %d, y: %d\n", inputHandler->GetRightXValue(), inputHandler->GetRightYValue());
 	double x = (double) inputHandler->GetRightXValue();
 	double y = (double) inputHandler->GetRightYValue();

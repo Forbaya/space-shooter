@@ -7,6 +7,9 @@ Bullet::Bullet(Vector2 position, Vector2 direction, int size, int speed) {
 	this->speed = speed;
 }
 
+Bullet::~Bullet() {
+}
+
 Vector2 Bullet::GetPosition() {
 	return position;
 }

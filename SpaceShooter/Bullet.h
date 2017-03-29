@@ -7,6 +7,7 @@
 class Bullet : public Entity {
 	public:
 		Bullet(Vector2 position, Vector2 direction, int size, int speed);
+		~Bullet();
 		Vector2 GetPosition();
 		Vector2 GetDirection();
 		int GetSpeed();

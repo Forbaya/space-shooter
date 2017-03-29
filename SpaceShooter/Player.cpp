@@ -10,6 +10,9 @@ Player::Player(int width, int height) {
 	rect.h = 16;
 }
 
+Player::~Player() {
+}
+
 SDL_Rect Player::GetRect() {
 	return rect;
 }
