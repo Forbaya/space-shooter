@@ -8,8 +8,6 @@
 
 InputHandler::InputHandler() {
 	axisInput = new AxisInput();
-	rightXValue = 0;
-	rightYValue = 0;
 }
 
 InputHandler::~InputHandler() {
@@ -31,28 +29,27 @@ AxisInput* InputHandler::GetAxisInput() {
 	return axisInput;
 }
 
-int InputHandler::GetRightXValue() {
-	return rightXValue;
-}
-
-int InputHandler::GetRightYValue() {
-	return rightYValue;
-}
-
 void InputHandler::HandleControllerAxisInput(SDL_Event e) {
 	int value = e.caxis.value;
 	MovementSpeed speed = MapAxisValueToMovementSpeed(value);
 	int dir = value >= 0 ? 1 : -1;
 
+	int testX = 0;
+	int testY = 0;
 	if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
 		axisInput->SetLeftX(speed * dir);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
 		axisInput->SetLeftY(speed * dir);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX) {
-		rightXValue = value;
+		int rightX = value >= 3600 || value <= -3600 ? 1 * dir : 0;
+		testX = rightX;
+		axisInput->SetRightX(rightX);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
-		rightYValue = value * -1;
+		int rightY = value >= 3600 || value <= -3600 ? 1 * dir : 0;
+		axisInput->SetRightY(rightY);
+		testY = rightY;
 	}
+	//printf("x: %d\ty: %d\n", testX, testY);
 }
 
 void InputHandler::HandleControllerButtonInput(SDL_Event e, Player *player) {

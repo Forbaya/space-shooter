@@ -6,8 +6,8 @@
 
 StarField::StarField(int starCount) {
 	for (int i = 0; i < starCount; i++) {
-		int x = rand() % (SCREEN_WIDTH + 1);
-		int y = rand() % (SCREEN_HEIGHT + 1);
+		int x = rand() % (SCREEN_WIDTH * 2) - (SCREEN_HEIGHT / 2);
+		int y = rand() % (SCREEN_HEIGHT * 2) - (SCREEN_HEIGHT / 2);
 		int size = rand() % 3 + 2;
 
 		Star *star = new Star(x, y, size, 1);

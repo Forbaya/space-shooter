@@ -99,7 +99,7 @@ void Run() {
 		frames++;
 
 		if (time >= std::chrono::nanoseconds(1000000000)) {
-			printf("Frames: %d, Ticks: %d\n", frames, ticks);
+			//printf("Frames: %d, Ticks: %d\n", frames, ticks);
 			ticks = 0;
 			frames = 0;
 			time = std::chrono::nanoseconds(0);
@@ -114,21 +114,12 @@ void HandleInput(SDL_Event e) {
 void Render() {
 	SDL_FillRect(screen, NULL, bgColor);
 	game->Render(screen);
-	SDL_FillRect(screen, &game->GetPlayer()->GetRect(), SDL_MapRGB(screen->format, 255, 0, 0));
 	SDL_UpdateWindowSurface(window);
 }
 
 /* Updates the game world. */
 void Tick() {
 	game->Tick(inputHandler->GetAxisInput());
-	//printf("x: %d, y: %d\n", inputHandler->GetRightXValue(), inputHandler->GetRightYValue());
-	double x = (double) inputHandler->GetRightXValue();
-	double y = (double) inputHandler->GetRightYValue();
-	double slope = 0;
-	if (x != 0) {
-		slope = y / x;
-	}
-	//printf("x: %f, y: %f, slope: %f\n", x, y, slope);
 }
 
 /* Closes the window. */

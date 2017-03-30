@@ -1,20 +1,27 @@
+#include <iostream>
 #include "Bullet.h"
+#include "Constants.h"
 
-Bullet::Bullet(Vector2 position, Vector2 direction, int size, int speed) {
+Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed) {
 	this->position = position;
 	this->direction = direction;
 	this->size = size;
 	this->speed = speed;
+
+	rect.x = position->GetX();
+	rect.y = position->GetY();
+	rect.w = size;
+	rect.h = size;
 }
 
 Bullet::~Bullet() {
 }
 
-Vector2 Bullet::GetPosition() {
+Vector2* Bullet::GetPosition() {
 	return position;
 }
 
-Vector2 Bullet::GetDirection() {
+Vector2* Bullet::GetDirection() {
 	return direction;
 }
 
@@ -26,7 +33,7 @@ int Bullet::GetSize() {
 	return size;
 }
 
-void Bullet::SetPosition(Vector2 position) {
+void Bullet::SetPosition(Vector2 *position) {
 	this->position = position;
 }
 
@@ -34,8 +41,22 @@ void Bullet::GetSpeed(int speed) {
 	this->speed = speed;
 }
 
-void Bullet::Tick() {
+void Bullet::Tick(AxisInput *axisInput) {
+	//printf("x: %d y: %d\n", position->GetX(), position->GetY());
+	Move(direction->GetX(), direction->GetY());
 }
 
 void Bullet::Move(int x, int y) {
+	position->SetX(position->GetX() + x);
+	position->SetY(position->GetY() + y);
+	rect.x = position->GetX() + x;
+	rect.y = position->GetY() + y;
+}
+
+void Bullet::Render(SDL_Surface *screen) {
+	SDL_FillRect(screen, &GetRect(), SDL_MapRGB(screen->format, 255, 255, 0));
+}
+
+SDL_Rect Bullet::GetRect() {
+	return rect;
 }

@@ -5,7 +5,7 @@
 
 Game::Game() {
 	player = new Player(16, 16);
-	starField = new StarField(60);
+	starField = new StarField(200);
 
 	running = true;
 }
@@ -34,10 +34,11 @@ StarField* Game::GetStarField() {
 }
 
 void Game::Tick(AxisInput *axisInput) {
-	player->Move(axisInput->GetLeftX(), axisInput->GetLeftY());
+	player->Tick(axisInput);
 	starField->Tick(axisInput);
 }
 
 void Game::Render(SDL_Surface *screen) {
 	starField->Render(screen);
+	player->Render(screen);
 }
