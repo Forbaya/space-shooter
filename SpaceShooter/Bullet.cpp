@@ -42,15 +42,14 @@ void Bullet::GetSpeed(int speed) {
 }
 
 void Bullet::Tick(AxisInput *axisInput) {
-	//printf("x: %d y: %d\n", position->GetX(), position->GetY());
 	Move(direction->GetX(), direction->GetY());
 }
 
 void Bullet::Move(int x, int y) {
-	position->SetX(position->GetX() + x);
-	position->SetY(position->GetY() + y);
-	rect.x = position->GetX() + x;
-	rect.y = position->GetY() + y;
+	position->SetX(position->GetX() + x * speed);
+	position->SetY(position->GetY() + y * speed);
+	rect.x = position->GetX() + x * speed;
+	rect.y = position->GetY() + y * speed;
 }
 
 void Bullet::Render(SDL_Surface *screen) {

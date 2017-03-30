@@ -99,7 +99,7 @@ void Run() {
 		frames++;
 
 		if (time >= std::chrono::nanoseconds(1000000000)) {
-			//printf("Frames: %d, Ticks: %d\n", frames, ticks);
+			printf("Frames: %d, Ticks: %d\n", frames, ticks);
 			ticks = 0;
 			frames = 0;
 			time = std::chrono::nanoseconds(0);

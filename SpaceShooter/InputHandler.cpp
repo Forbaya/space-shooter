@@ -45,7 +45,7 @@ void InputHandler::HandleControllerAxisInput(SDL_Event e) {
 		testX = rightX;
 		axisInput->SetRightX(rightX);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
-		int rightY = value >= 3600 || value <= -3600 ? 1 * dir : 0;
+		int rightY = value >= 15000 || value <= -15000 ? 1 * dir : 0;
 		axisInput->SetRightY(rightY);
 		testY = rightY;
 	}
