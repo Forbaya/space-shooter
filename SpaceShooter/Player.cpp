@@ -1,3 +1,4 @@
+#include <chrono>
 #include <SDL.h>
 #include "AxisInput.h"
 #include "Bullet.h"
@@ -11,6 +12,10 @@ Player::Player(int width, int height) {
 	rect.y = SCREEN_HEIGHT / 2 - 32;
 	rect.w = 16;
 	rect.h = 16;
+
+	shotCooldown = std::chrono::nanoseconds(50000000);
+	shotCooldownLeft = std::chrono::nanoseconds(0);
+	noShotCooldown = std::chrono::nanoseconds(0);
 }
 
 Player::~Player() {
@@ -62,10 +67,23 @@ void Player::Move(int x, int y) {
 }
 
 void Player::Shoot(AxisInput *axisInput) {
-	//printf("Shooting\n");
-	Vector2 *direction = new Vector2(axisInput->GetRightX(), axisInput->GetRightY());
-	Bullet *bullet = new Bullet(new Vector2(position->GetX(), position->GetY()), new Vector2(direction->GetX(), direction->GetY()), 5, 4);
-	bullets.push_back(bullet);
+	if (shotCooldownLeft <= noShotCooldown) {
+		printf("Shooting!\n");
+		Vector2 *direction = new Vector2(axisInput->GetRightX(), axisInput->GetRightY());
+		Bullet *bullet = new Bullet(new Vector2(position->GetX(), position->GetY()), new Vector2(direction->GetX(), direction->GetY()), 5, 4);
+		bullets.push_back(bullet);
+
+		shotCooldownLeft = shotCooldown;
+		currentTime = std::chrono::high_resolution_clock::now();
+		bool kappa = true;
+	}
+	else {
+		previousTime = currentTime;
+		currentTime = std::chrono::high_resolution_clock::now();
+		auto deltaTime = currentTime - previousTime;
+		shotCooldownLeft -= std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+	}
+	
 }
 
 std::vector<Bullet*> Player::GetBullets() {

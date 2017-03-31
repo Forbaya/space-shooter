@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <chrono>
 #include <SDL.h>
 #include <vector>
 #include "AxisInput.h"
@@ -22,6 +23,11 @@ class Player : public Entity {
 		SDL_Rect rect;
 		Vector2 *position;
 		std::vector<Bullet*> bullets;
+		std::chrono::nanoseconds shotCooldown;
+		std::chrono::nanoseconds noShotCooldown;
+		std::chrono::nanoseconds shotCooldownLeft;
+		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> currentTime;
+		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> previousTime;
 };
 
 #endif
