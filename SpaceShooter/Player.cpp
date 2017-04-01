@@ -18,7 +18,7 @@ Player::Player(int width, int height) {
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
 	noShotCooldown = std::chrono::nanoseconds(0);
-	frameTime = std::chrono::nanoseconds(250000000);
+	frameTime = std::chrono::nanoseconds(100000000);
 	passedFrameTime = std::chrono::nanoseconds(0);
 
 	currentFrameTime = clock::now();
@@ -39,7 +39,7 @@ void Player::Tick(AxisInput *axisInput) {
 	auto deltaTime = currentFrameTime - previousFrameTime;
 	passedFrameTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
 	if (passedFrameTime >= frameTime) {
-		rotation = fmod(rotation + 90.0, 360.0);
+		rotation = fmod(rotation + 45.0, 360.0);
 		passedFrameTime -= frameTime;
 	}
 
