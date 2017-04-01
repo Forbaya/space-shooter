@@ -67,12 +67,12 @@ void Player::Move(int x, int y) {
 void Player::Shoot(AxisInput *axisInput) {
 	if (shotCooldownLeft <= noShotCooldown) {
 		Vector2 *direction = new Vector2(axisInput->GetRightX(), axisInput->GetRightY());
-		Bullet *bullet = new Bullet(new Vector2(position->GetX(), position->GetY()), new Vector2(direction->GetX(), direction->GetY()), 5, 6);
+		int bulletSize = 4;
+		Bullet *bullet = new Bullet(new Vector2(position->GetX() + rect.w/2 - bulletSize/2, position->GetY() + rect.h/2 - bulletSize/2), new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6);
 		bullets.push_back(bullet);
 
 		shotCooldownLeft = shotCooldown;
 		currentTime = std::chrono::high_resolution_clock::now();
-		bool kappa = true;
 	} else {
 		previousTime = currentTime;
 		currentTime = std::chrono::high_resolution_clock::now();
