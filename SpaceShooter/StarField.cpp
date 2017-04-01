@@ -22,7 +22,7 @@ StarField::~StarField() {
 void StarField::Render(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	for (Star *star : stars) {
-		SDL_RenderDrawRect(renderer, &star->GetRect());
+		star->Render(renderer);
 	}
 }
 

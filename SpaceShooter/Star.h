@@ -16,6 +16,7 @@ class Star : public Entity {
 		SDL_Rect GetRect();
 		void Move(int x, int y);
 		void Tick(AxisInput *axisInput);
+		void Render(SDL_Renderer *renderer);
 	private:
 		int x;
 		int y;
