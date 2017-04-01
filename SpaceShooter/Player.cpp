@@ -8,12 +8,20 @@
 #include "InputHandler.h"
 
 Player::Player(int width, int height) {
-	position = new Vector2(SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32);
-	rect = {SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32, 32, 32};
+	using clock = std::chrono::high_resolution_clock;
+
+	position = new Vector2(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
+	rect = {SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32, 32, 32};
+	center = {rect.w/2, rect.h/2};
+	rotation = 0;
 
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
 	noShotCooldown = std::chrono::nanoseconds(0);
+	frameTime = std::chrono::nanoseconds(250000000);
+	passedFrameTime = std::chrono::nanoseconds(0);
+
+	currentFrameTime = clock::now();
 }
 
 Player::~Player() {
@@ -24,6 +32,17 @@ SDL_Rect Player::GetRect() {
 }
 
 void Player::Tick(AxisInput *axisInput) {
+	using clock = std::chrono::high_resolution_clock;
+
+	previousFrameTime = currentFrameTime;
+	currentFrameTime = clock::now();
+	auto deltaTime = currentFrameTime - previousFrameTime;
+	passedFrameTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+	if (passedFrameTime >= frameTime) {
+		rotation = fmod(rotation + 90.0, 360.0);
+		passedFrameTime -= frameTime;
+	}
+
 	if (axisInput->GetRightX() != 0 || axisInput->GetRightY() != 0) {
 		Shoot(axisInput);
 	}
@@ -68,7 +87,8 @@ void Player::Shoot(AxisInput *axisInput) {
 	if (shotCooldownLeft <= noShotCooldown) {
 		Vector2 *direction = new Vector2(axisInput->GetRightX(), axisInput->GetRightY());
 		int bulletSize = 6;
-		Bullet *bullet = new Bullet(new Vector2(position->GetX() + rect.w/2 - bulletSize/2, position->GetY() + rect.h/2 - bulletSize/2), new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6);
+		Bullet *bullet = new Bullet(new Vector2(position->GetX() + rect.w/2 - bulletSize/2, position->GetY() + rect.h/2 - bulletSize/2), 
+									new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6);
 		bullets.push_back(bullet);
 
 		shotCooldownLeft = shotCooldown;
@@ -89,7 +109,7 @@ void Player::Render(SDL_Renderer *renderer) {
 	for (Bullet *bullet : bullets) {
 		bullet->Render(renderer);
 	}
-	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
 }
 
 void Player::LoadTexture(std::string path, SDL_Renderer *renderer) {

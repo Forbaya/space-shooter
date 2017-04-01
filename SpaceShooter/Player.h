@@ -22,15 +22,21 @@ class Player : public Entity {
 		void LoadTexture(std::string path, SDL_Renderer *renderer);
 		SDL_Texture* GetTexture();
 	private:
-		SDL_Rect rect;
 		Vector2 *position;
+		SDL_Rect rect;
+		SDL_Point center;
 		std::vector<Bullet*> bullets;
 		std::chrono::nanoseconds shotCooldown;
 		std::chrono::nanoseconds noShotCooldown;
 		std::chrono::nanoseconds shotCooldownLeft;
+		std::chrono::nanoseconds frameTime;
+		std::chrono::nanoseconds passedFrameTime;
 		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> currentTime;
 		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> previousTime;
+		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> currentFrameTime;
+		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> previousFrameTime;
 		SDL_Texture *texture;
+		double rotation;
 };
 
 #endif

@@ -50,7 +50,7 @@ void Bullet::Move(int x, int y) {
 }
 
 void Bullet::Render(SDL_Renderer *renderer) {
-	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	SDL_SetRenderDrawColor(renderer, 236, 28, 31, 0);
 	SDL_RenderFillRect(renderer, &rect);
 }
 
