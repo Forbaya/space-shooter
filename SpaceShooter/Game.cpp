@@ -3,8 +3,10 @@
 #include "Player.h"
 #include "Game.h"
 
-Game::Game() {
+Game::Game(SDL_Renderer *renderer) {
+	this->renderer = renderer;
 	player = new Player(16, 16);
+	player->LoadTexture("spaceship.png", renderer);
 	starField = new StarField(200);
 
 	running = true;
@@ -40,5 +42,5 @@ void Game::Tick(AxisInput *axisInput) {
 
 void Game::Render(SDL_Surface *screen) {
 	starField->Render(screen);
-	player->Render(screen);
+	player->Render(screen, renderer);
 }

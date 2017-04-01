@@ -18,7 +18,9 @@ class Player : public Entity {
 		void Tick(AxisInput *axisInput);
 		void Shoot(AxisInput *axisInput);
 		std::vector<Bullet*> GetBullets();
-		void Render(SDL_Surface *screen);
+		void Render(SDL_Surface *screen, SDL_Renderer *renderer);
+		SDL_Texture* LoadTexture(std::string path, SDL_Renderer *renderer);
+		SDL_Texture* GetTexture();
 	private:
 		SDL_Rect rect;
 		Vector2 *position;
@@ -28,6 +30,7 @@ class Player : public Entity {
 		std::chrono::nanoseconds shotCooldownLeft;
 		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> currentTime;
 		std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<__int64, std::ratio<1, 1000000000>>> previousTime;
+		SDL_Texture *texture;
 };
 
 #endif

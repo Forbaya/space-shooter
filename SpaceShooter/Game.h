@@ -8,7 +8,7 @@
 
 class Game {
 	public:
-		Game();
+		Game(SDL_Renderer *renderer);
 		~Game();
 		bool IsRunning();
 		void Start();
@@ -21,6 +21,7 @@ class Game {
 		bool running;
 		Player *player;
 		StarField *starField;
+		SDL_Renderer *renderer;
 };
 
 #endif

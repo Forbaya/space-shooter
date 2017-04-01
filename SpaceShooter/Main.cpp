@@ -2,7 +2,10 @@
 #include <iostream>
 #include <math.h> 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
+#include <stdio.h>
+#include <string>
 #include "Constants.h"
 #include "InputHandler.h"
 #include "Game.h"
@@ -12,6 +15,7 @@ using namespace std::chrono_literals;
 
 SDL_Window *window = NULL;
 SDL_Surface *screen = NULL;
+SDL_Renderer* renderer = NULL;
 SDL_GameController *controller = NULL;
 Game *game = NULL;
 InputHandler *inputHandler = NULL;
@@ -42,7 +46,19 @@ bool Initialize() {
 		return false;
 	}
 
-	game = new Game();
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (renderer == NULL) {
+		printf("Renderer couldn't be created! SDL_Error: %s\n", SDL_GetError());
+		return false;
+	}
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+		printf("SDL_image couldn't initialize! SDL_image error: %s\n", IMG_GetError());
+		return false;
+	}
+
+	game = new Game(renderer);
 	inputHandler = new InputHandler();
 
 	screen = SDL_GetWindowSurface(window);
@@ -129,7 +145,9 @@ void Close() {
 
 	SDL_DestroyWindow(window);
 	window = NULL;
+	renderer = NULL;
 
+	IMG_Quit();
 	SDL_Quit();
 }
 
