@@ -5,8 +5,8 @@
 
 Game::Game(SDL_Renderer *renderer) {
 	this->renderer = renderer;
-	player = new Player(16, 16);
-	player->LoadTexture("res/spaceship.png", renderer);
+	player = new Player(32, 32);
+	player->LoadTexture("res/spritesheet.png", renderer);
 	starField = new StarField(200);
 
 	running = true;

@@ -9,7 +9,7 @@
 
 Player::Player(int width, int height) {
 	position = new Vector2(SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32);
-	rect = {SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32, 16, 16};
+	rect = {SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32, 32, 32};
 
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
@@ -48,9 +48,9 @@ void Player::Move(int x, int y) {
 		rect.x = 0;
 		position->SetX(0);
 	}
-	if (rect.x > SCREEN_WIDTH - 16) {
-		rect.x = SCREEN_WIDTH - 16;
-		position->SetX(SCREEN_WIDTH - 16);
+	if (rect.x > SCREEN_WIDTH - rect.w) {
+		rect.x = SCREEN_WIDTH - rect.w;
+		position->SetX(SCREEN_WIDTH - rect.w);
 	}
 	rect.y += y;
 	position->SetY(position->GetY() + y);
@@ -58,16 +58,16 @@ void Player::Move(int x, int y) {
 		rect.y = 0;
 		position->SetY(0);
 	}
-	if (rect.y > SCREEN_HEIGHT - 16) {
-		rect.y = SCREEN_HEIGHT - 16;
-		position->SetY(SCREEN_HEIGHT - 16);
+	if (rect.y > SCREEN_HEIGHT - rect.h) {
+		rect.y = SCREEN_HEIGHT - rect.h;
+		position->SetY(SCREEN_HEIGHT - rect.h);
 	}
 }
 
 void Player::Shoot(AxisInput *axisInput) {
 	if (shotCooldownLeft <= noShotCooldown) {
 		Vector2 *direction = new Vector2(axisInput->GetRightX(), axisInput->GetRightY());
-		int bulletSize = 4;
+		int bulletSize = 6;
 		Bullet *bullet = new Bullet(new Vector2(position->GetX() + rect.w/2 - bulletSize/2, position->GetY() + rect.h/2 - bulletSize/2), new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6);
 		bullets.push_back(bullet);
 
