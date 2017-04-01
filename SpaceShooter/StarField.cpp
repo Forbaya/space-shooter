@@ -1,3 +1,4 @@
+#include <SDL_image.h>
 #include <SDL.h>
 #include <vector>
 #include "AxisInput.h"
@@ -18,9 +19,10 @@ StarField::StarField(int starCount) {
 StarField::~StarField() {
 }
 
-void StarField::Render(SDL_Surface *screen) {
+void StarField::Render(SDL_Renderer *renderer) {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	for (Star *star : stars) {
-		SDL_FillRect(screen, &star->GetRect(), SDL_MapRGB(screen->format, 255, 255, 255));
+		SDL_RenderDrawRect(renderer, &star->GetRect());
 	}
 }
 

@@ -1,6 +1,6 @@
 #include <chrono>
-#include <SDL.h>
 #include <SDL_image.h>
+#include <SDL.h>
 #include "AxisInput.h"
 #include "Bullet.h"
 #include "Constants.h"
@@ -9,10 +9,7 @@
 
 Player::Player(int width, int height) {
 	position = new Vector2(SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32);
-	rect.x = SCREEN_WIDTH / 2 - 32;
-	rect.y = SCREEN_HEIGHT / 2 - 32;
-	rect.w = 16;
-	rect.h = 16;
+	rect = {SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32, 16, 16};
 
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
@@ -88,17 +85,14 @@ std::vector<Bullet*> Player::GetBullets() {
 	return bullets;
 }
 
-void Player::Render(SDL_Surface *screen, SDL_Renderer *renderer) {
+void Player::Render(SDL_Renderer *renderer) {
 	for (Bullet *bullet : bullets) {
-		bullet->Render(screen);
+		bullet->Render(renderer);
 	}
-	SDL_FillRect(screen, &GetRect(), SDL_MapRGB(screen->format, 255, 0, 0));
-	//SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
-	//SDL_RenderPresent(renderer);
 }
 
-SDL_Texture * Player::LoadTexture(std::string path, SDL_Renderer *renderer) {
+void Player::LoadTexture(std::string path, SDL_Renderer *renderer) {
 	SDL_Texture* newTexture = NULL;
 
 	//Load image at specified path
@@ -116,7 +110,7 @@ SDL_Texture * Player::LoadTexture(std::string path, SDL_Renderer *renderer) {
 		SDL_FreeSurface(loadedSurface);
 	}
 
-	return newTexture;
+	texture = newTexture;
 }
 
 SDL_Texture* Player::GetTexture() {

@@ -16,7 +16,7 @@ class Game {
 		Player* GetPlayer();
 		StarField* GetStarField();
 		void Tick(AxisInput *axisInput);
-		void Render(SDL_Surface *screen);
+		void Render();
 	private:
 		bool running;
 		Player *player;

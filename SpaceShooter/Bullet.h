@@ -18,7 +18,7 @@ class Bullet : public Entity {
 		void GetSpeed(int speed);
 		void Tick(AxisInput *axisInput);
 		void Move(int x, int y);
-		void Render(SDL_Surface *screen);
+		void Render(SDL_Renderer *renderer);
 		SDL_Rect GetRect();
 	private:
 		Vector2 *position;

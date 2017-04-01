@@ -1,8 +1,8 @@
 #include <chrono>
 #include <iostream>
 #include <math.h> 
-#include <SDL.h>
 #include <SDL_image.h>
+#include <SDL.h>
 #include <stdio.h>
 #include <stdio.h>
 #include <string>
@@ -14,13 +14,11 @@
 using namespace std::chrono_literals;
 
 SDL_Window *window = NULL;
-SDL_Surface *screen = NULL;
-SDL_Renderer* renderer = NULL;
+SDL_Renderer *renderer = NULL;
 SDL_GameController *controller = NULL;
 Game *game = NULL;
 InputHandler *inputHandler = NULL;
 SDL_Event e;
-Uint32 bgColor;
 
 bool running;
 
@@ -51,7 +49,6 @@ bool Initialize() {
 		printf("Renderer couldn't be created! SDL_Error: %s\n", SDL_GetError());
 		return false;
 	}
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
 		printf("SDL_image couldn't initialize! SDL_image error: %s\n", IMG_GetError());
@@ -61,9 +58,7 @@ bool Initialize() {
 	game = new Game(renderer);
 	inputHandler = new InputHandler();
 
-	screen = SDL_GetWindowSurface(window);
 	running = true;
-	bgColor = SDL_MapRGB(screen->format, 0, 0, 0);
 
 	for (int i = 0; i < SDL_NumJoysticks(); i++) {
 		if (SDL_IsGameController(i)) {
@@ -128,9 +123,10 @@ void HandleInput(SDL_Event e) {
 }
 
 void Render() {
-	SDL_FillRect(screen, NULL, bgColor);
-	game->Render(screen);
-	SDL_UpdateWindowSurface(window);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_RenderClear(renderer);
+	game->Render();
+	SDL_RenderPresent(renderer);
 }
 
 /* Updates the game world. */
@@ -156,7 +152,6 @@ int main(int argc, char *args[]) {
 		printf("Could not initialize!\n");
 		return -1;
 	}
-	SDL_UpdateWindowSurface(window);
 
 	Run();
 

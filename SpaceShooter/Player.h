@@ -18,8 +18,8 @@ class Player : public Entity {
 		void Tick(AxisInput *axisInput);
 		void Shoot(AxisInput *axisInput);
 		std::vector<Bullet*> GetBullets();
-		void Render(SDL_Surface *screen, SDL_Renderer *renderer);
-		SDL_Texture* LoadTexture(std::string path, SDL_Renderer *renderer);
+		void Render(SDL_Renderer *renderer);
+		void LoadTexture(std::string path, SDL_Renderer *renderer);
 		SDL_Texture* GetTexture();
 	private:
 		SDL_Rect rect;

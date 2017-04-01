@@ -9,7 +9,7 @@ class StarField {
 	public:
 		StarField(int stars);
 		~StarField();
-		void Render(SDL_Surface *screen);
+		void Render(SDL_Renderer *renderer);
 		void Tick(AxisInput *axisInput);
 	private:
 		std::vector<Star*> stars;

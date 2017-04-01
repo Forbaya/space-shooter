@@ -8,10 +8,7 @@ Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed) {
 	this->size = size;
 	this->speed = speed;
 
-	rect.x = position->GetX();
-	rect.y = position->GetY();
-	rect.w = size;
-	rect.h = size;
+	rect = {position->GetX(), position->GetY(), size, size};
 }
 
 Bullet::~Bullet() {
@@ -52,8 +49,9 @@ void Bullet::Move(int x, int y) {
 	rect.y = position->GetY() + y * speed;
 }
 
-void Bullet::Render(SDL_Surface *screen) {
-	SDL_FillRect(screen, &GetRect(), SDL_MapRGB(screen->format, 255, 255, 0));
+void Bullet::Render(SDL_Renderer *renderer) {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	SDL_RenderDrawRect(renderer, &rect);
 }
 
 SDL_Rect Bullet::GetRect() {

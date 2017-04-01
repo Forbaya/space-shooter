@@ -40,7 +40,7 @@ void Game::Tick(AxisInput *axisInput) {
 	starField->Tick(axisInput);
 }
 
-void Game::Render(SDL_Surface *screen) {
-	starField->Render(screen);
-	player->Render(screen, renderer);
+void Game::Render() {
+	starField->Render(renderer);
+	player->Render(renderer);
 }

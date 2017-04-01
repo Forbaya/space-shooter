@@ -7,10 +7,7 @@ Star::Star(int x, int y, int size, int speed) {
 	this->size = size;
 	this->speed = speed;
 
-	rect.x = x;
-	rect.y = y;
-	rect.w = size;
-	rect.h = size;
+	rect = { x, y, size, size };
 }
 
 Star::~Star() {
