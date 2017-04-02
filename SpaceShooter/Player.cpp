@@ -1,19 +1,12 @@
-#include <algorithm>
-#include <chrono>
-#include <SDL_image.h>
-#include <SDL.h>
-#include "AxisInput.h"
-#include "Bullet.h"
-#include "Constants.h"
 #include "Player.h"
-#include "InputHandler.h"
 
-Player::Player(int width, int height) {
+Player::Player(int width, int height, SDL_Renderer *renderer) {
 	using clock = std::chrono::high_resolution_clock;
 
+	texture = LoadTexture("res/spritesheet.png", renderer);
 	position = new Vector2(SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height);
 	rect = {SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height};
-	center = {width/2, height/2};
+	center = { width/2, height/2 };
 	rotation = 0;
 
 	shotCooldown = std::chrono::nanoseconds(50000000);
@@ -26,10 +19,6 @@ Player::Player(int width, int height) {
 }
 
 Player::~Player() {
-}
-
-SDL_Rect Player::GetRect() {
-	return rect;
 }
 
 void Player::Tick(AxisInput *axisInput) {
@@ -105,36 +94,9 @@ void Player::Shoot(AxisInput *axisInput) {
 	}
 }
 
-std::vector<Bullet*> Player::GetBullets() {
-	return bullets;
-}
-
 void Player::Render(SDL_Renderer *renderer) {
 	for (Bullet *bullet : bullets) {
 		bullet->Render(renderer);
 	}
 	SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
-}
-
-void Player::LoadTexture(std::string path, SDL_Renderer *renderer) {
-	SDL_Texture* newTexture = NULL;
-
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == NULL) {
-		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-	} else {
-		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 255, 255));
-		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-		if (newTexture == NULL) {
-			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		}
-
-		SDL_FreeSurface(loadedSurface);
-	}
-
-	texture = newTexture;
-}
-
-SDL_Texture* Player::GetTexture() {
-	return texture;
 }

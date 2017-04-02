@@ -22,7 +22,6 @@ class Star : public Entity {
 		int y;
 		int size;
 		int speed;
-		SDL_Rect rect;
 };
 
 #endif

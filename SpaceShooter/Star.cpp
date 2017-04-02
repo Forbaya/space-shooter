@@ -1,5 +1,4 @@
 #include "Star.h"
-#include "Constants.h"
 
 Star::Star(int x, int y, int size, int speed) {
 	this->x = x;

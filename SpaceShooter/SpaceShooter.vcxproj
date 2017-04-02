@@ -124,9 +124,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AxisInput.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -136,6 +139,8 @@
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alien.h" />
+    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AxisInput.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Constants.h" />
@@ -143,7 +148,6 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="Main.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarField.h" />

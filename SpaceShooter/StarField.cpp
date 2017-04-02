@@ -1,8 +1,3 @@
-#include <SDL_image.h>
-#include <SDL.h>
-#include <vector>
-#include "AxisInput.h"
-#include "Constants.h"
 #include "StarField.h"
 
 StarField::StarField(int starCount) {
