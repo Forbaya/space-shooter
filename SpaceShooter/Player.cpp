@@ -19,7 +19,7 @@ Player::Player(int width, int height) {
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
 	noShotCooldown = std::chrono::nanoseconds(0);
-	frameTime = std::chrono::nanoseconds(00000000);
+	frameTime = std::chrono::nanoseconds(100000000);
 	passedFrameTime = std::chrono::nanoseconds(0);
 
 	currentFrameTime = clock::now();
