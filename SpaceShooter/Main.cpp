@@ -110,7 +110,7 @@ void Run() {
 		frames++;
 
 		if (time >= std::chrono::nanoseconds(1000000000)) {
-			printf("Frames: %d, Ticks: %d, Bullets: %d\n", frames, ticks, game->GetPlayer()->GetBullets().size());
+			//printf("Frames: %d, Ticks: %d, Bullets: %d\n", frames, ticks, game->GetPlayer()->GetBullets().size());
 			ticks = 0;
 			frames = 0;
 			time = std::chrono::nanoseconds(0);

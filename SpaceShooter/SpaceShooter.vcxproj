@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="AxisInput.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="AxisInput.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputHandler.h" />

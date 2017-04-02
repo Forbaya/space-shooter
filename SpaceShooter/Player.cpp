@@ -11,8 +11,8 @@
 Player::Player(int width, int height) {
 	using clock = std::chrono::high_resolution_clock;
 
-	position = new Vector2(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
-	rect = {SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32, 32, 32};
+	position = new Vector2(SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height);
+	rect = {SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height};
 	center = {rect.w/2, rect.h/2};
 	rotation = 0;
 

@@ -8,6 +8,7 @@ Game::Game(SDL_Renderer *renderer) {
 	player = new Player(32, 32);
 	player->LoadTexture("res/spritesheet.png", renderer);
 	starField = new StarField(200);
+	enemy = new Enemy(32, 32);
 
 	running = true;
 }
@@ -37,10 +38,40 @@ StarField* Game::GetStarField() {
 
 void Game::Tick(AxisInput *axisInput) {
 	player->Tick(axisInput);
+	enemy->Tick(axisInput);
 	starField->Tick(axisInput);
+	if (CheckCollision(player->GetRect(), enemy->GetRect())) {
+		printf("Enemy collides with player!\n");
+	}
+	std::vector<Bullet*> playerBullets = player->GetBullets();
+	for (Bullet *bullet : playerBullets) {
+		if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
+			printf("Bullet hits enemy!\n");
+		}
+	}
 }
 
 void Game::Render() {
 	starField->Render(renderer);
+	enemy->Render(renderer);
 	player->Render(renderer);
+}
+
+bool Game::CheckCollision(SDL_Rect a, SDL_Rect b) {
+	int leftA = a.x;
+	int rightA = a.x + a.w;
+	int topA = a.y;
+	int bottomA = a.y + a.h;
+
+	int leftB = b.x;
+	int rightB = b.x + b.w;
+	int topB = b.y;
+	int bottomB = b.y + b.h;
+
+	if (bottomA <= topB || topA >= bottomB || rightA <= leftB ||
+		leftA >= rightB) {
+		return false;
+	}
+
+	return true;
 }

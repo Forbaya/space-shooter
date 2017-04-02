@@ -11,7 +11,7 @@
 
 class Player : public Entity {
 	public:
-		Player(int, int);
+		Player(int width, int height);
 		~Player();
 		SDL_Rect GetRect();
 		void Move(int x, int y);
