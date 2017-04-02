@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <chrono>
 #include <SDL_image.h>
 #include <SDL.h>
@@ -18,7 +19,7 @@ Player::Player(int width, int height) {
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
 	noShotCooldown = std::chrono::nanoseconds(0);
-	frameTime = std::chrono::nanoseconds(100000000);
+	frameTime = std::chrono::nanoseconds(00000000);
 	passedFrameTime = std::chrono::nanoseconds(0);
 
 	currentFrameTime = clock::now();
@@ -51,13 +52,16 @@ void Player::Tick(AxisInput *axisInput) {
 
 	for (Bullet *bullet : bullets) {
 		bullet->Tick(axisInput);
-		//if (bullet->GetPosition()->GetX() < -SCREEN_WIDTH * 3 || bullet->GetPosition()->GetX() > SCREEN_WIDTH * 3 ||
-		//	bullet->GetPosition()->GetY() < -SCREEN_HEIGHT * 3 || bullet->GetPosition()->GetY() > SCREEN_HEIGHT * 3) {
-		//	bullets.remove
-		//	delete bullet;
-		//	
-		//}
 	}
+
+	bullets.erase(
+		std::remove_if(
+			bullets.begin(), bullets.end(),
+			[](Bullet *bullet) {
+				return bullet->GetPosition()->GetX() < -SCREEN_WIDTH * 2 || bullet->GetPosition()->GetX() > SCREEN_WIDTH * 2 ||
+						bullet->GetPosition()->GetY() < -SCREEN_HEIGHT * 2 || bullet->GetPosition()->GetY() > SCREEN_HEIGHT * 2;
+			}),
+		bullets.end());
 }
 
 void Player::Move(int x, int y) {
