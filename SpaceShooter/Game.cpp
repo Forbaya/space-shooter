@@ -7,9 +7,11 @@ Game::Game(SDL_Renderer *renderer) {
 	this->renderer = renderer;
 	player = new Player(32, 32);
 	player->LoadTexture("res/spritesheet.png", renderer);
+	
 	starField = new StarField(200);
 	enemy = new Enemy(32, 32);
-
+	enemy->LoadTexture("res/spritesheet.png", renderer);
+	SDL_SetTextureColorMod(enemy->GetTexture(), 255, 128, 255);
 	running = true;
 }
 

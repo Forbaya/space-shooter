@@ -13,7 +13,7 @@ Player::Player(int width, int height) {
 
 	position = new Vector2(SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height);
 	rect = {SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height};
-	center = {rect.w/2, rect.h/2};
+	center = {width/2, height/2};
 	rotation = 0;
 
 	shotCooldown = std::chrono::nanoseconds(50000000);
