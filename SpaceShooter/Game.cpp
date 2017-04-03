@@ -6,6 +6,7 @@ Game::Game(SDL_Renderer *renderer) {
 	starField = new StarField(200);
 	player = new Player(32, 32, renderer);
 	enemy = new Enemy(32, 32, renderer);
+	asteroid = new Asteroid(32, 32, renderer);
 
 	running = true;
 }
@@ -37,6 +38,7 @@ void Game::Tick(AxisInput *axisInput) {
 	starField->Tick(axisInput);
 	player->Tick(axisInput);
 	enemy->Tick(axisInput);
+	asteroid->Tick(axisInput);
 	if (CheckCollision(player->GetRect(), enemy->GetRect())) {
 		player->TakeDamage(enemy->GetDamage());
 		printf("Player health: %d\n", player->GetHealth());
@@ -52,6 +54,7 @@ void Game::Tick(AxisInput *axisInput) {
 
 void Game::Render() {
 	starField->Render(renderer);
+	asteroid->Render(renderer);
 	enemy->Render(renderer);
 	player->Render(renderer);
 }

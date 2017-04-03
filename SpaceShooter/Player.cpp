@@ -4,13 +4,12 @@ Player::Player(int width, int height, SDL_Renderer *renderer) {
 	using clock = std::chrono::high_resolution_clock;
 
 	texture = LoadTexture("res/spritesheet.png", renderer);
-	position = new Vector2(SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height);
+	textureRegion = { 0, 0, width, height };
 	rect = { SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height };
 	center = { width/2, height/2 };
 	rotation = 0;
 	health = 3;
 
-	zero = std::chrono::nanoseconds(0);
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
 	animationLength = std::chrono::nanoseconds(100000000);
@@ -61,24 +60,18 @@ void Player::Tick(AxisInput *axisInput) {
 
 void Player::Move(int x, int y) {
 	rect.x += x;
-	position->SetX(position->GetX() + x);
 	if (rect.x < 0) {
 		rect.x = 0;
-		position->SetX(0);
 	}
 	if (rect.x > SCREEN_WIDTH - rect.w) {
 		rect.x = SCREEN_WIDTH - rect.w;
-		position->SetX(SCREEN_WIDTH - rect.w);
 	}
 	rect.y += y;
-	position->SetY(position->GetY() + y);
 	if (rect.y < 0) {
 		rect.y = 0;
-		position->SetY(0);
 	}
 	if (rect.y > SCREEN_HEIGHT - rect.h) {
 		rect.y = SCREEN_HEIGHT - rect.h;
-		position->SetY(SCREEN_HEIGHT - rect.h);
 	}
 }
 
@@ -91,5 +84,5 @@ void Player::Render(SDL_Renderer *renderer) {
 	} else {
 		SDL_SetTextureColorMod(texture, 255, 255, 255);
 	}
-	SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, texture, &textureRegion, &rect, rotation, &center, SDL_FLIP_NONE);
 }

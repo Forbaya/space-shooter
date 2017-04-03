@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SDL.h>
+#include "Asteroid.h"
 #include "AxisInput.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -25,6 +26,7 @@ class Game {
 		Enemy *enemy;
 		StarField *starField;
 		SDL_Renderer *renderer;
+		Asteroid *asteroid;
 };
 
 #endif

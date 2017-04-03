@@ -4,6 +4,7 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer) {
 	using clock = std::chrono::high_resolution_clock;
 
 	texture = Entity::LoadTexture("res/spritesheet.png", renderer);
+	textureRegion = { 0, 0, width, height };
 	SDL_SetTextureColorMod(texture, 255, 128, 255);
 
 	position = new Vector2(-32, 32);
@@ -12,7 +13,6 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer) {
 	health = 10;
 	damage = 1;
 
-	zero = std::chrono::nanoseconds(0);
 	animationLength = std::chrono::nanoseconds(100000000);
 	passedAnimationTime = std::chrono::nanoseconds(0);
 	immunity = std::chrono::nanoseconds(0);
@@ -57,7 +57,7 @@ void Enemy::Render(SDL_Renderer *renderer) {
 		} else {
 			SDL_SetTextureColorMod(texture, 255, 128, 255);
 		}
-		SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer, texture, &textureRegion, &rect, rotation, &center, SDL_FLIP_NONE);
 	}
 }
 

@@ -10,16 +10,17 @@
 class Entity {
 	public:
 		SDL_Texture *texture;
+		SDL_Rect textureRegion;
 		SDL_Rect rect;
 		SDL_Point center;
 		double rotation;
 		Vector2 *position;
-		std::chrono::nanoseconds zero;
 		std::chrono::nanoseconds animationLength;
 		std::chrono::nanoseconds passedAnimationTime;
 		std::chrono::nanoseconds immunity;
 		std::chrono::nanoseconds immunityLength;
 		Time currentTickTime;
+
 		Time previousTickTime;
 		int health;
 
