@@ -15,9 +15,10 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer) {
 	zero = std::chrono::nanoseconds(0);
 	animationLength = std::chrono::nanoseconds(100000000);
 	passedAnimationTime = std::chrono::nanoseconds(0);
-	currentTickTime = clock::now();
 	immunity = std::chrono::nanoseconds(0);
 	immunityLength = std::chrono::nanoseconds(1000000000);
+
+	currentTickTime = clock::now();
 }
 
 void Enemy::Tick(AxisInput *axisInput) {
@@ -51,6 +52,11 @@ void Enemy::Move(int x, int y) {
 
 void Enemy::Render(SDL_Renderer *renderer) {
 	if (!IsDead()) {
+		if (IsImmune()) {
+			SDL_SetTextureColorMod(texture, 255, 0, 0);
+		} else {
+			SDL_SetTextureColorMod(texture, 255, 128, 255);
+		}
 		SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
 	}
 }

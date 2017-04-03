@@ -10,12 +10,14 @@ Player::Player(int width, int height, SDL_Renderer *renderer) {
 	rotation = 0;
 	health = 3;
 
+	zero = std::chrono::nanoseconds(0);
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
-	zero = std::chrono::nanoseconds(0);
-
 	animationLength = std::chrono::nanoseconds(100000000);
 	passedAnimationTime = std::chrono::nanoseconds(0);
+	immunity = std::chrono::nanoseconds(0);
+	immunityLength = std::chrono::nanoseconds(1000000000);
+
 	currentTickTime = clock::now();
 }
 
@@ -28,6 +30,7 @@ void Player::Tick(AxisInput *axisInput) {
 	previousTickTime = currentTickTime;
 	currentTickTime = clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
+	immunity -= std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
 	shotCooldownLeft -= std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
 	passedAnimationTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
 	if (passedAnimationTime >= animationLength) {
@@ -82,6 +85,11 @@ void Player::Move(int x, int y) {
 void Player::Render(SDL_Renderer *renderer) {
 	for (Bullet *bullet : bullets) {
 		bullet->Render(renderer);
+	}
+	if (IsImmune()) {
+		SDL_SetTextureColorMod(texture, 255, 0, 0);
+	} else {
+		SDL_SetTextureColorMod(texture, 255, 255, 255);
 	}
 	SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
 }
