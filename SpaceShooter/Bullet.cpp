@@ -1,12 +1,13 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed) {
+Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int damage) {
 	this->position = position;
 	this->direction = direction;
 	this->size = size;
 	this->speed = speed;
+	this->damage = damage;
 
-	rect = {position->GetX(), position->GetY(), size, size};
+	rect = { position->GetX(), position->GetY(), size, size };
 }
 
 Bullet::~Bullet() {
@@ -46,4 +47,20 @@ void Bullet::Move(int x, int y) {
 void Bullet::Render(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 236, 28, 31, 0);
 	SDL_RenderFillRect(renderer, &rect);
+}
+
+int Bullet::GetDamage() {
+	return damage;
+}
+
+void Bullet::SetDamage(int damage) {
+	this->damage = damage;
+}
+
+void Bullet::SetCollision(bool collision) {
+	this->collision = collision;
+}
+
+bool Bullet::GetCollision() {
+	return collision;
 }

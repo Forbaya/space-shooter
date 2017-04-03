@@ -13,14 +13,14 @@
 class Alien : public Entity {
 	public:
 		std::chrono::nanoseconds shotCooldown;
-		std::chrono::nanoseconds noShotCooldown;
 		std::chrono::nanoseconds shotCooldownLeft;
 		std::vector<Bullet*> bullets;
-		Time currentTime;
-		Time previousTime;
+		int damage;
 
 		void Shoot(AxisInput *axisInput);
 		std::vector<Bullet*> GetBullets();
+		void SetDamage(int damage);
+		int GetDamage();
 };
 
 #endif

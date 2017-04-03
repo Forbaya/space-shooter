@@ -17,7 +17,6 @@ class Player : public Alien {
 		~Player();
 		void Move(int x, int y);
 		void Tick(AxisInput *axisInput);
-		void Shoot(AxisInput *axisInput);
 		void Render(SDL_Renderer *renderer);
 };
 

@@ -8,7 +8,7 @@
 
 class Bullet : public Entity {
 	public:
-		Bullet(Vector2 *position, Vector2 *direction, int size, int speed);
+		Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int damage);
 		~Bullet();
 		Vector2* GetDirection();
 		int GetSpeed();
@@ -18,10 +18,16 @@ class Bullet : public Entity {
 		void Tick(AxisInput *axisInput);
 		void Move(int x, int y);
 		void Render(SDL_Renderer *renderer);
+		int GetDamage();
+		void SetDamage(int damage);
+		void SetCollision(bool collision);
+		bool GetCollision();
 	private:
 		Vector2 *direction;
 		int size;
 		int speed;
+		int damage;
+		bool collision;
 };
 
 #endif

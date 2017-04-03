@@ -17,11 +17,6 @@ class Enemy : public Alien {
 		void Render(SDL_Renderer *renderer);
 		int GetHealth();
 		void SetHealth(int health);
-	private:
-		std::chrono::nanoseconds immunity;
-		std::chrono::nanoseconds immunityLength;
-		int health;
-		int damage;
 };
 
 #endif

@@ -27,3 +27,23 @@ SDL_Rect Entity::GetRect() {
 Vector2* Entity::GetPosition() {
 	return position;
 }
+
+int Entity::GetHealth() {
+	return health;
+}
+
+bool Entity::IsDead() {
+	return health <= 0;
+}
+
+void Entity::TakeDamage(int damage) {
+	if (!IsImmune()) {
+		health -= damage;
+		immunity = immunityLength;
+		printf("Damage is taken!\n");
+	}
+}
+
+bool Entity::IsImmune() {
+	return immunity > zero;
+}

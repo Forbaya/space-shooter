@@ -5,17 +5,18 @@ Player::Player(int width, int height, SDL_Renderer *renderer) {
 
 	texture = LoadTexture("res/spritesheet.png", renderer);
 	position = new Vector2(SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height);
-	rect = {SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height};
+	rect = { SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height };
 	center = { width/2, height/2 };
 	rotation = 0;
+	health = 3;
 
 	shotCooldown = std::chrono::nanoseconds(50000000);
 	shotCooldownLeft = std::chrono::nanoseconds(0);
-	noShotCooldown = std::chrono::nanoseconds(0);
-	frameTime = std::chrono::nanoseconds(100000000);
-	passedFrameTime = std::chrono::nanoseconds(0);
+	zero = std::chrono::nanoseconds(0);
 
-	currentFrameTime = clock::now();
+	animationLength = std::chrono::nanoseconds(100000000);
+	passedAnimationTime = std::chrono::nanoseconds(0);
+	currentTickTime = clock::now();
 }
 
 Player::~Player() {
@@ -24,13 +25,14 @@ Player::~Player() {
 void Player::Tick(AxisInput *axisInput) {
 	using clock = std::chrono::high_resolution_clock;
 
-	previousFrameTime = currentFrameTime;
-	currentFrameTime = clock::now();
-	auto deltaTime = currentFrameTime - previousFrameTime;
-	passedFrameTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
-	if (passedFrameTime >= frameTime) {
+	previousTickTime = currentTickTime;
+	currentTickTime = clock::now();
+	auto deltaTime = currentTickTime - previousTickTime;
+	shotCooldownLeft -= std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+	passedAnimationTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+	if (passedAnimationTime >= animationLength) {
 		rotation = fmod(rotation + 45.0, 360.0);
-		passedFrameTime -= frameTime;
+		passedAnimationTime -= animationLength;
 	}
 
 	if (axisInput->GetRightX() != 0 || axisInput->GetRightY() != 0) {
@@ -43,12 +45,13 @@ void Player::Tick(AxisInput *axisInput) {
 		bullet->Tick(axisInput);
 	}
 
+	// Removes bullets that are far out of screen from the vector.
 	bullets.erase(
 		std::remove_if(
 			bullets.begin(), bullets.end(),
 			[](Bullet *bullet) {
 				return bullet->GetPosition()->GetX() < -SCREEN_WIDTH * 2 || bullet->GetPosition()->GetX() > SCREEN_WIDTH * 2 ||
-						bullet->GetPosition()->GetY() < -SCREEN_HEIGHT * 2 || bullet->GetPosition()->GetY() > SCREEN_HEIGHT * 2;
+						bullet->GetPosition()->GetY() < -SCREEN_HEIGHT * 2 || bullet->GetPosition()->GetY() > SCREEN_HEIGHT * 2 || bullet->GetCollision();
 			}),
 		bullets.end());
 }
@@ -73,24 +76,6 @@ void Player::Move(int x, int y) {
 	if (rect.y > SCREEN_HEIGHT - rect.h) {
 		rect.y = SCREEN_HEIGHT - rect.h;
 		position->SetY(SCREEN_HEIGHT - rect.h);
-	}
-}
-
-void Player::Shoot(AxisInput *axisInput) {
-	if (shotCooldownLeft <= noShotCooldown) {
-		Vector2 *direction = new Vector2(axisInput->GetRightX(), axisInput->GetRightY());
-		int bulletSize = 6;
-		Bullet *bullet = new Bullet(new Vector2(position->GetX() + rect.w/2 - bulletSize/2, position->GetY() + rect.h/2 - bulletSize/2), 
-									new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6);
-		bullets.push_back(bullet);
-
-		shotCooldownLeft = shotCooldown;
-		currentTime = std::chrono::high_resolution_clock::now();
-	} else {
-		previousTime = currentTime;
-		currentTime = std::chrono::high_resolution_clock::now();
-		auto deltaTime = currentTime - previousTime;
-		shotCooldownLeft -= std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
 	}
 }
 

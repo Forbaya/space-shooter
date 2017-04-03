@@ -34,16 +34,18 @@ StarField* Game::GetStarField() {
 }
 
 void Game::Tick(AxisInput *axisInput) {
+	starField->Tick(axisInput);
 	player->Tick(axisInput);
 	enemy->Tick(axisInput);
-	starField->Tick(axisInput);
 	if (CheckCollision(player->GetRect(), enemy->GetRect())) {
-		printf("Enemy collides with player!\n");
+		player->TakeDamage(enemy->GetDamage());
+		printf("Player health: %d\n", player->GetHealth());
 	}
 	std::vector<Bullet*> playerBullets = player->GetBullets();
 	for (Bullet *bullet : playerBullets) {
 		if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
-			printf("Bullet hits enemy!\n");
+			enemy->TakeDamage(bullet->GetDamage());
+			bullet->SetCollision(true);
 		}
 	}
 }

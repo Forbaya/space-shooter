@@ -10,32 +10,36 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer) {
 	rect = { -32, 32, width, height };
 	center = { width / 2, height / 2 };
 	health = 10;
+	damage = 1;
 
-	frameTime = std::chrono::nanoseconds(100000000);
-	passedFrameTime = std::chrono::nanoseconds(0);
-
-	currentFrameTime = clock::now();
-
-	currentTime = clock::now();
+	zero = std::chrono::nanoseconds(0);
+	animationLength = std::chrono::nanoseconds(100000000);
+	passedAnimationTime = std::chrono::nanoseconds(0);
+	currentTickTime = clock::now();
+	immunity = std::chrono::nanoseconds(0);
+	immunityLength = std::chrono::nanoseconds(1000000000);
 }
 
-void Enemy::Tick(AxisInput * axisInput) {
-	using clock = std::chrono::high_resolution_clock;
+void Enemy::Tick(AxisInput *axisInput) {
+	if (!IsDead()) {
+		using clock = std::chrono::high_resolution_clock;
 
-	previousFrameTime = currentFrameTime;
-	currentFrameTime = clock::now();
-	auto deltaTime = currentFrameTime - previousFrameTime;
-	passedFrameTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
-	if (passedFrameTime >= frameTime) {
-		rotation = fmod(rotation + 45.0, 360.0);
-		passedFrameTime -= frameTime;
+		previousTickTime = currentTickTime;
+		currentTickTime = clock::now();
+		auto deltaTime = currentTickTime - previousTickTime;
+		immunity -= std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+		passedAnimationTime += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+		if (passedAnimationTime >= animationLength) {
+			rotation = fmod(rotation + 45.0, 360.0);
+			passedAnimationTime -= animationLength;
+		}
+
+		Move(1, 0);
+		if (position->GetX() >= SCREEN_WIDTH + 32) {
+			position->SetX(-32);
+			rect.x = -32;
+		}
 	}
-
-	Move(1, 0);
-	if (position->GetX() >= SCREEN_WIDTH + 32) {
-		position->SetX(-32);
-		rect.x = -32;
-	}	
 }
 
 void Enemy::Move(int x, int y) {
@@ -46,7 +50,7 @@ void Enemy::Move(int x, int y) {
 }
 
 void Enemy::Render(SDL_Renderer *renderer) {
-	if (health) {
+	if (!IsDead()) {
 		SDL_RenderCopyEx(renderer, texture, NULL, &rect, rotation, &center, SDL_FLIP_NONE);
 	}
 }
