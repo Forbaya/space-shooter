@@ -18,11 +18,13 @@ class Asteroid : public Entity {
 		bool GetCollision();
 		void SetDamage(int damage);
 		bool GetDamage();
+		Nanoseconds GetNextSpawnTime();
 	private:
 		Vector2 *direction;
 		int velocity;
 		bool collision;
 		bool damage;
+		Nanoseconds nextSpawnTime;
 };
 
 #endif

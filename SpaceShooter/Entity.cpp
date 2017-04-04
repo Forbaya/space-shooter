@@ -40,7 +40,6 @@ void Entity::TakeDamage(int damage) {
 	if (!IsImmune()) {
 		health -= damage;
 		immunity = immunityLength;
-		printf("Damage is taken!\n");
 	}
 }
 

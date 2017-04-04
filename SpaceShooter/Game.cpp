@@ -10,8 +10,12 @@ Game::Game(SDL_Renderer *renderer) {
 	enemies.push_back(enemy);
 	Asteroid *asteroid = new Asteroid(32, 32, renderer);
 	asteroids.push_back(asteroid);
+	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
+	passedAsteroidSpawnTime = zero;
 
 	running = true;
+
+	currentTickTime = Clock::now();
 }
 
 Game::~Game() {
@@ -38,6 +42,18 @@ StarField* Game::GetStarField() {
 }
 
 void Game::Tick(AxisInput *axisInput) {
+	previousTickTime = currentTickTime;
+	currentTickTime = Clock::now();
+	auto deltaTime = currentTickTime - previousTickTime;
+
+	passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+	if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
+		Asteroid *asteroid = new Asteroid(32, 32, renderer);
+		asteroids.push_back(asteroid);
+		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
+		passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
+	}
+
 	starField->Tick(axisInput);
 	player->Tick(axisInput);
 	for (Enemy *enemy : enemies) {
@@ -50,7 +66,6 @@ void Game::Tick(AxisInput *axisInput) {
 	for (Enemy *enemy : enemies) {
 		if (CheckCollision(player->GetRect(), enemy->GetRect())) {
 			player->TakeDamage(enemy->GetDamage());
-			printf("Player health: %d\n", player->GetHealth());
 		}
 	}
 
@@ -73,6 +88,12 @@ void Game::Tick(AxisInput *axisInput) {
 			asteroid->TakeDamage(asteroid->GetHealth());
 			player->TakeDamage(asteroid->GetDamage());
 		}
+		//for (Asteroid *anotherAsteroid : asteroids) {
+		//	if (asteroid != anotherAsteroid && CheckCollision(asteroid->GetRect(), anotherAsteroid->GetRect())) {
+		//		asteroid->TakeDamage(asteroid->GetHealth());
+		//		anotherAsteroid->TakeDamage(anotherAsteroid->GetHealth());
+		//	}
+		//}
 	}
 
 	enemies.erase(
@@ -89,7 +110,8 @@ void Game::Tick(AxisInput *axisInput) {
 		std::remove_if(
 			asteroids.begin(), asteroids.end(),
 			[](Asteroid *asteroid) {
-				return asteroid->IsDead();
+				return asteroid->GetRect().x < -SCREEN_WIDTH * 3 || asteroid->GetRect().x > SCREEN_WIDTH * 3 ||
+						asteroid->GetRect().y < -SCREEN_HEIGHT * 3 || asteroid->GetRect().y > SCREEN_HEIGHT * 3 || asteroid->IsDead();
 			}
 		),
 		asteroids.end()

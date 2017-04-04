@@ -8,10 +8,13 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
 	RandomizeSpawnSpot(width, height);
 	rotation = 0;
 	rotationSpeed = 1.0;
-	health = 20;
+	health = 2;
 	damage = 2;
 	srand(time(NULL));
 	velocity = rand() % 10 + 1;
+	collision = false;
+
+	nextSpawnTime = Nanoseconds(500000000);
 
 	currentTickTime = Clock::now();
 }
@@ -76,4 +79,8 @@ void Asteroid::SetDamage(int damage) {
 
 bool Asteroid::GetDamage() {
 	return damage;
+}
+
+Nanoseconds Asteroid::GetNextSpawnTime() {
+	return nextSpawnTime;
 }

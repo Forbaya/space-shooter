@@ -29,6 +29,10 @@ class Game {
 		SDL_Renderer *renderer;
 		std::vector<Asteroid*> asteroids;
 		std::vector<Enemy*> enemies;
+		Time currentTickTime;
+		Time previousTickTime;
+		Nanoseconds nextAsteroidSpawnTime;
+		Nanoseconds passedAsteroidSpawnTime;
 };
 
 #endif

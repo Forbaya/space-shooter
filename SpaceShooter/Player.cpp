@@ -43,8 +43,8 @@ void Player::Tick(AxisInput *axisInput) {
 		std::remove_if(
 			bullets.begin(), bullets.end(),
 			[](Bullet *bullet) {
-				return bullet->GetPosition()->GetX() < -SCREEN_WIDTH * 2 || bullet->GetPosition()->GetX() > SCREEN_WIDTH * 2 ||
-						bullet->GetPosition()->GetY() < -SCREEN_HEIGHT * 2 || bullet->GetPosition()->GetY() > SCREEN_HEIGHT * 2 || bullet->GetCollision();
+				return bullet->GetRect().x < -SCREEN_WIDTH * 2 || bullet->GetRect().x > SCREEN_WIDTH * 2 ||
+						bullet->GetRect().y < -SCREEN_HEIGHT * 2 || bullet->GetRect().y > SCREEN_HEIGHT * 2 || bullet->GetCollision();
 			}
 		),
 		bullets.end()

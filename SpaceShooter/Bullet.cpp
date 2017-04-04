@@ -6,6 +6,7 @@ Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int d
 	this->size = size;
 	this->speed = speed;
 	this->damage = damage;
+	collision = false;
 
 	rect = { position->GetX(), position->GetY(), size, size };
 }
