@@ -3,6 +3,7 @@
 Game::Game(SDL_Renderer *renderer) {
 	this->renderer = renderer;
 
+	srand(time(NULL));
 	starField = new StarField(200);
 	player = new Player(32, 32, renderer);
 	enemy = new Enemy(32, 32, renderer);
@@ -47,6 +48,10 @@ void Game::Tick(AxisInput *axisInput) {
 	for (Bullet *bullet : playerBullets) {
 		if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
 			enemy->TakeDamage(bullet->GetDamage());
+			bullet->SetCollision(true);
+		}
+		else if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
+			asteroid->TakeDamage(bullet->GetDamage());
 			bullet->SetCollision(true);
 		}
 	}

@@ -12,8 +12,8 @@
 
 class Alien : public Entity {
 	public:
-		std::chrono::nanoseconds shotCooldown;
-		std::chrono::nanoseconds shotCooldownLeft;
+		Nanoseconds shotCooldown;
+		Nanoseconds shotCooldownLeft;
 		std::vector<Bullet*> bullets;
 		int damage;
 

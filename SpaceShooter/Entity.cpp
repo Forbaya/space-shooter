@@ -47,3 +47,10 @@ void Entity::TakeDamage(int damage) {
 bool Entity::IsImmune() {
 	return immunity > zero;
 }
+
+void Entity::Rotate() {
+	if (passedAnimationTime >= animationLength) {
+		rotation = fmod(rotation + rotationSpeed, 360.0);
+		passedAnimationTime -= animationLength;
+	}
+}

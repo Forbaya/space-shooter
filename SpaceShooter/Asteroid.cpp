@@ -1,18 +1,18 @@
 #include "Asteroid.h"
 
 Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
-	using clock = std::chrono::high_resolution_clock;
-
 	texture = LoadTexture("res/spritesheet.png", renderer);
 	textureRegion = { 32, 0, width, height };
 	center = { width / 2, height / 2 };
 	
 	RandomizeSpawnSpot(width, height);
 	rotation = 0;
+	rotationSpeed = 1.0;
 	health = 20;
+	srand(time(NULL));
 	velocity = rand() % 10 + 1;
 
-	currentTickTime = clock::now();
+	currentTickTime = Clock::now();
 }
 
 Asteroid::~Asteroid() {
@@ -23,19 +23,14 @@ void Asteroid::Move(int x, int y) {
 	rect.y += y;
 }
 
-void Asteroid::Tick(AxisInput * axisInput) {
-	using clock = std::chrono::high_resolution_clock;
-
+void Asteroid::Tick(AxisInput *axisInput) {
 	previousTickTime = currentTickTime;
-	currentTickTime = clock::now();
+	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
 
-	if (passedAnimationTime >= animationLength) {
-		rotation = fmod(rotation + 1.0, 360.0);
-		passedAnimationTime -= animationLength;
-	}
+	Rotate();
 
-	Move(direction->GetX(), direction->GetY());
+	Move(direction->GetX() * velocity, direction->GetY() * velocity);
 }
 
 void Asteroid::Render(SDL_Renderer *renderer) {
@@ -64,6 +59,4 @@ void Asteroid::RandomizeSpawnSpot(int width, int height) {
 	}
 
 	rect = { x, y, width, height };
-
-
 }

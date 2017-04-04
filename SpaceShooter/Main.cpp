@@ -77,23 +77,21 @@ bool Initialize() {
 
 /* The game loop. */
 void Run() {
-	using clock = std::chrono::high_resolution_clock;
-
 	int ticks = 0;
 	int frames = 0;
 	int targetTicksPerSecond = 60;
-	std::chrono::nanoseconds nsPerTick(1000000000 / targetTicksPerSecond);
-	std::chrono::nanoseconds lag(0);
-	std::chrono::nanoseconds time(0);
+	Nanoseconds nsPerTick(1000000000 / targetTicksPerSecond);
+	Nanoseconds lag(0);
+	Nanoseconds time(0);
 
-	auto previousTime = clock::now();
+	auto previousTime = Clock::now();
 
 	while (game->IsRunning()) {
-		auto currentTime = clock::now();
+		auto currentTime = Clock::now();
 		auto deltaTime = currentTime - previousTime;
 		previousTime = currentTime;
-		lag += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
-		time += std::chrono::duration_cast<std::chrono::nanoseconds>(deltaTime);
+		lag += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+		time += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 
 		if (SDL_PollEvent(&e) != 0) {
 			HandleInput(e);
@@ -109,11 +107,11 @@ void Run() {
 		Render();
 		frames++;
 
-		if (time >= std::chrono::nanoseconds(1000000000)) {
+		if (time >= Nanoseconds(1000000000)) {
 			//printf("Frames: %d, Ticks: %d, Bullets: %d\n", frames, ticks, game->GetPlayer()->GetBullets().size());
 			ticks = 0;
 			frames = 0;
-			time = std::chrono::nanoseconds(0);
+			time = Nanoseconds(0);
 		}
 	}
 }

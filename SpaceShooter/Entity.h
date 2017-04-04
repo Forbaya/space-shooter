@@ -14,13 +14,13 @@ class Entity {
 		SDL_Rect rect;
 		SDL_Point center;
 		double rotation;
+		double rotationSpeed;
 		Vector2 *position;
-		std::chrono::nanoseconds animationLength;
-		std::chrono::nanoseconds passedAnimationTime;
-		std::chrono::nanoseconds immunity;
-		std::chrono::nanoseconds immunityLength;
+		Nanoseconds animationLength;
+		Nanoseconds passedAnimationTime;
+		Nanoseconds immunity;
+		Nanoseconds immunityLength;
 		Time currentTickTime;
-
 		Time previousTickTime;
 		int health;
 
@@ -35,6 +35,7 @@ class Entity {
 		bool IsDead();
 		void TakeDamage(int damage);
 		bool IsImmune();
+		void Rotate();
 };
 
 #endif
