@@ -45,8 +45,10 @@ void Player::Tick(AxisInput *axisInput) {
 			[](Bullet *bullet) {
 				return bullet->GetPosition()->GetX() < -SCREEN_WIDTH * 2 || bullet->GetPosition()->GetX() > SCREEN_WIDTH * 2 ||
 						bullet->GetPosition()->GetY() < -SCREEN_HEIGHT * 2 || bullet->GetPosition()->GetY() > SCREEN_HEIGHT * 2 || bullet->GetCollision();
-			}),
-		bullets.end());
+			}
+		),
+		bullets.end()
+	);
 }
 
 void Player::Move(int x, int y) {

@@ -73,8 +73,27 @@ void Game::Tick(AxisInput *axisInput) {
 			asteroid->TakeDamage(asteroid->GetHealth());
 			player->TakeDamage(asteroid->GetDamage());
 		}
-
 	}
+
+	enemies.erase(
+		std::remove_if(
+			enemies.begin(), enemies.end(),
+			[](Enemy *enemy) {
+				return enemy->IsDead();
+			}
+		),
+		enemies.end()
+	);
+
+	asteroids.erase(
+		std::remove_if(
+			asteroids.begin(), asteroids.end(),
+			[](Asteroid *asteroid) {
+				return asteroid->IsDead();
+			}
+		),
+		asteroids.end()
+	);
 }
 
 void Game::Render() {
