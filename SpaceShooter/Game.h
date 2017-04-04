@@ -21,14 +21,14 @@ class Game {
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();
+		std::vector<Enemy*> GetEnemies();
 	private:
 		bool running;
 		Player *player;
-		Enemy *enemy;
 		StarField *starField;
 		SDL_Renderer *renderer;
-		Asteroid *asteroid;
 		std::vector<Asteroid*> asteroids;
+		std::vector<Enemy*> enemies;
 };
 
 #endif
