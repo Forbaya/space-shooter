@@ -9,6 +9,7 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
 	rotation = 0;
 	rotationSpeed = 1.0;
 	health = 20;
+	damage = 2;
 	srand(time(NULL));
 	velocity = rand() % 10 + 1;
 
@@ -59,4 +60,20 @@ void Asteroid::RandomizeSpawnSpot(int width, int height) {
 	}
 
 	rect = { x, y, width, height };
+}
+
+void Asteroid::SetCollision(bool collision) {
+	this->collision = collision;
+}
+
+bool Asteroid::GetCollision() {
+	return collision;
+}
+
+void Asteroid::SetDamage(int damage) {
+	this->damage = damage;
+}
+
+bool Asteroid::GetDamage() {
+	return damage;
 }

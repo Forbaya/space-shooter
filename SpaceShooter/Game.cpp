@@ -8,6 +8,7 @@ Game::Game(SDL_Renderer *renderer) {
 	player = new Player(32, 32, renderer);
 	enemy = new Enemy(32, 32, renderer);
 	asteroid = new Asteroid(32, 32, renderer);
+	asteroids.push_back(asteroid);
 
 	running = true;
 }
@@ -39,7 +40,9 @@ void Game::Tick(AxisInput *axisInput) {
 	starField->Tick(axisInput);
 	player->Tick(axisInput);
 	enemy->Tick(axisInput);
-	asteroid->Tick(axisInput);
+	for (Asteroid *asteroid : asteroids) {
+		asteroid->Tick(axisInput);
+	}
 	if (CheckCollision(player->GetRect(), enemy->GetRect())) {
 		player->TakeDamage(enemy->GetDamage());
 		printf("Player health: %d\n", player->GetHealth());
@@ -49,10 +52,15 @@ void Game::Tick(AxisInput *axisInput) {
 		if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
 			enemy->TakeDamage(bullet->GetDamage());
 			bullet->SetCollision(true);
-		}
-		else if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
+		} else if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
 			asteroid->TakeDamage(bullet->GetDamage());
 			bullet->SetCollision(true);
+		}
+	}
+	for (Asteroid *asteroid : asteroids) {
+		if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
+			asteroid->TakeDamage(asteroid->GetHealth());
+			player->TakeDamage(asteroid->GetDamage());
 		}
 	}
 }
@@ -75,10 +83,9 @@ bool Game::CheckCollision(SDL_Rect a, SDL_Rect b) {
 	int topB = b.y;
 	int bottomB = b.y + b.h;
 
-	if (bottomA <= topB || topA >= bottomB || rightA <= leftB ||
-		leftA >= rightB) {
-		return false;
-	}
+	return bottomA > topB && topA < bottomB && rightA > leftB && leftA < rightB;
+}
 
-	return true;
+std::vector<Asteroid*> Game::GetAsteroids() {
+	return asteroids;
 }

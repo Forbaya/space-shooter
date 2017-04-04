@@ -20,6 +20,7 @@ class Game {
 		void Tick(AxisInput *axisInput);
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
+		std::vector<Asteroid*> GetAsteroids();
 	private:
 		bool running;
 		Player *player;
@@ -27,6 +28,7 @@ class Game {
 		StarField *starField;
 		SDL_Renderer *renderer;
 		Asteroid *asteroid;
+		std::vector<Asteroid*> asteroids;
 };
 
 #endif

@@ -14,9 +14,15 @@ class Asteroid : public Entity {
 		void Tick(AxisInput *axisInput);
 		void Render(SDL_Renderer *renderer);
 		void RandomizeSpawnSpot(int width, int height);
+		void SetCollision(bool collision);
+		bool GetCollision();
+		void SetDamage(int damage);
+		bool GetDamage();
 	private:
 		Vector2 *direction;
 		int velocity;
+		bool collision;
+		bool damage;
 };
 
 #endif
