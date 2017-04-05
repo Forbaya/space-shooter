@@ -8,7 +8,7 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
 	RandomizeSpawnSpot(width, height);
 	rotation = 0;
 	rotationSpeed = 1.0;
-	health = 2;
+	health = 1;
 	damage = 2;
 	srand(time(NULL));
 	velocity = rand() % 10 + 1;

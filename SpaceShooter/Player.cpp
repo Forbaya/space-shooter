@@ -9,7 +9,7 @@ Player::Player(int width, int height, SDL_Renderer *renderer) {
 	rotationSpeed = 45.0;
 	health = 3;
 
-	shotCooldown = Nanoseconds(50000000);
+	shotCooldown = Nanoseconds(100000000);
 	shotCooldownLeft = Nanoseconds(0);
 	animationLength = Nanoseconds(100000000);
 	passedAnimationTime = Nanoseconds(0);

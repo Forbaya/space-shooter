@@ -110,8 +110,14 @@ void Game::Tick(AxisInput *axisInput) {
 		std::remove_if(
 			asteroids.begin(), asteroids.end(),
 			[](Asteroid *asteroid) {
-				return asteroid->GetRect().x < -SCREEN_WIDTH * 3 || asteroid->GetRect().x > SCREEN_WIDTH * 3 ||
-						asteroid->GetRect().y < -SCREEN_HEIGHT * 3 || asteroid->GetRect().y > SCREEN_HEIGHT * 3 || asteroid->IsDead();
+				bool deleteAsteroid = asteroid->GetRect().x < -SCREEN_WIDTH * 3 || asteroid->GetRect().x > SCREEN_WIDTH * 3 ||
+					asteroid->GetRect().y < -SCREEN_HEIGHT * 3 || asteroid->GetRect().y > SCREEN_HEIGHT * 3 || asteroid->IsDead();
+				if (deleteAsteroid) {
+					delete asteroid;
+					return true;
+				}
+
+				return false;
 			}
 		),
 		asteroids.end()
