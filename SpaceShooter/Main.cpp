@@ -108,7 +108,7 @@ void Run() {
 		frames++;
 
 		if (time >= Nanoseconds(1000000000)) {
-			printf("Frames: %d, Ticks: %d, Bullets: %d\n", frames, ticks, game->GetPlayer()->GetBullets().size());
+			printf("Frames: %d, Ticks: %d\n", frames, ticks);
 			ticks = 0;
 			frames = 0;
 			time = Nanoseconds(0);

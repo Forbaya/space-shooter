@@ -15,7 +15,6 @@ class Game {
 		bool IsRunning();
 		void Start();
 		void Stop();
-		Player* GetPlayer();
 		StarField* GetStarField();
 		void Tick(AxisInput *axisInput);
 		void Render();
@@ -24,11 +23,11 @@ class Game {
 		std::vector<Enemy*> GetEnemies();
 	private:
 		bool running;
-		Player *player;
 		StarField *starField;
 		SDL_Renderer *renderer;
 		std::vector<Asteroid*> asteroids;
 		std::vector<Enemy*> enemies;
+		std::vector<Player*> players;
 		Time currentTickTime;
 		Time previousTickTime;
 		Nanoseconds nextAsteroidSpawnTime;

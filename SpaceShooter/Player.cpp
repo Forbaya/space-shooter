@@ -20,6 +20,11 @@ Player::Player(int width, int height, SDL_Renderer *renderer) {
 }
 
 Player::~Player() {
+	for (Bullet *bullet : GetBullets()) {
+		delete bullet;
+		bullet = NULL;
+	}
+
 	SDL_DestroyTexture(texture);
 	texture = NULL;
 }
@@ -78,4 +83,8 @@ void Player::Render(SDL_Renderer *renderer) {
 
 	IsImmune() ? SDL_SetTextureColorMod(texture, 255, 0, 0) : SDL_SetTextureColorMod(texture, 255, 255, 255);
 	SDL_RenderCopyEx(renderer, texture, &textureRegion, &rect, rotation, &center, SDL_FLIP_NONE);
+}
+
+bool Player::IsDestroyable() {
+	return IsDead();
 }

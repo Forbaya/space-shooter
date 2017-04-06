@@ -5,7 +5,8 @@ Game::Game(SDL_Renderer *renderer) {
 
 	srand(time(NULL));
 	starField = new StarField(200);
-	player = new Player(32, 32, renderer);
+	Player *player = new Player(32, 32, renderer);
+	players.push_back(player);
 	Enemy *enemy = new Enemy(32, 32, renderer);
 	enemies.push_back(enemy);
 	Asteroid *asteroid = new Asteroid(32, 32, renderer);
@@ -33,10 +34,6 @@ bool Game::IsRunning() {
 	return running;
 }
 
-Player* Game::GetPlayer() {
-	return player;
-}
-
 StarField* Game::GetStarField() {
 	return starField;
 }
@@ -55,7 +52,9 @@ void Game::Tick(AxisInput *axisInput) {
 	}
 
 	starField->Tick(axisInput);
-	player->Tick(axisInput);
+	for (Player *player : players) {
+		player->Tick(axisInput);
+	}
 	for (Enemy *enemy : enemies) {
 		enemy->Tick(axisInput);
 	}
@@ -64,36 +63,37 @@ void Game::Tick(AxisInput *axisInput) {
 	}
 
 	for (Enemy *enemy : enemies) {
-		if (CheckCollision(player->GetRect(), enemy->GetRect())) {
-			player->TakeDamage(enemy->GetDamage());
+		for (Player *player : players) {
+			if (CheckCollision(player->GetRect(), enemy->GetRect())) {
+				player->TakeDamage(enemy->GetDamage());
+			}
 		}
 	}
 
-	for (Bullet *bullet : player->GetBullets()) {
-		for (Enemy *enemy : enemies) {
-			if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
-				enemy->TakeDamage(bullet->GetDamage());
-				bullet->SetCollision(true);
+	for (Player *player : players) {
+		for (Bullet *bullet : player->GetBullets()) {
+			for (Enemy *enemy : enemies) {
+				if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
+					enemy->TakeDamage(bullet->GetDamage());
+					bullet->SetCollision(true);
+				}
 			}
-		}
-		for (Asteroid *asteroid : asteroids) {
-			if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
-				asteroid->TakeDamage(bullet->GetDamage());
-				bullet->SetCollision(true);
+			for (Asteroid *asteroid : asteroids) {
+				if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
+					asteroid->TakeDamage(bullet->GetDamage());
+					bullet->SetCollision(true);
+				}
 			}
 		}
 	}
+	
 	for (Asteroid *asteroid : asteroids) {
-		if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
-			asteroid->TakeDamage(asteroid->GetHealth());
-			player->TakeDamage(asteroid->GetDamage());
+		for (Player *player : players) {
+			if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
+				asteroid->TakeDamage(asteroid->GetHealth());
+				player->TakeDamage(asteroid->GetDamage());
+			}
 		}
-		//for (Asteroid *anotherAsteroid : asteroids) {
-		//	if (asteroid != anotherAsteroid && CheckCollision(asteroid->GetRect(), anotherAsteroid->GetRect())) {
-		//		asteroid->TakeDamage(asteroid->GetHealth());
-		//		anotherAsteroid->TakeDamage(anotherAsteroid->GetHealth());
-		//	}
-		//}
 	}
 
 	enemies.erase(
@@ -119,6 +119,18 @@ void Game::Tick(AxisInput *axisInput) {
 		),
 		asteroids.end()
 	);
+
+	players.erase(
+		std::remove_if(
+			players.begin(), players.end(),
+			[&](Player *player) {
+				bool destroyable = player->IsDestroyable();
+				if (destroyable) delete player;
+				return destroyable;
+			}
+		),
+		players.end()
+	);
 }
 
 void Game::Render() {
@@ -129,7 +141,9 @@ void Game::Render() {
 	for (Enemy *enemy : enemies) {
 		enemy->Render(renderer);
 	}
-	player->Render(renderer);
+	for (Player *player : players) {
+		player->Render(renderer);
+	}	
 }
 
 bool Game::CheckCollision(SDL_Rect a, SDL_Rect b) {

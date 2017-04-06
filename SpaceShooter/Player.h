@@ -18,6 +18,7 @@ class Player : public Alien {
 		void Move(int x, int y);
 		void Tick(AxisInput *axisInput);
 		void Render(SDL_Renderer *renderer);
+		bool IsDestroyable();
 };
 
 #endif
