@@ -14,7 +14,7 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
 	velocity = rand() % 10 + 1;
 	collision = false;
 
-	nextSpawnTime = Nanoseconds(500000000);
+	nextSpawnTime = Nanoseconds(1000000000);
 
 	currentTickTime = Clock::now();
 }
@@ -44,24 +44,29 @@ void Asteroid::Render(SDL_Renderer *renderer) {
 }
 
 void Asteroid::RandomizeSpawnSpot(int width, int height) {
+	srand(time(NULL));
 	int border = rand() % 4;
-	int x, y;
+	int x, y, directionX, directionY;
 	if (border == TOP) {
 		x = rand() % (SCREEN_WIDTH + 1);
 		y = -32;
-		direction = new Vector2(0, 1);
+		directionX = rand() % 3 - 1;
+		direction = new Vector2(directionX, 1);
 	} else if (border == LEFT) {
 		x = -32;
 		y = rand() % (SCREEN_HEIGHT + 1);
-		direction = new Vector2(1, 0);
+		directionY = rand() % 3 - 1;
+		direction = new Vector2(1, directionY);
 	} else if (border == BOTTOM) {
 		x = rand() % (SCREEN_WIDTH + 1);
 		y = SCREEN_HEIGHT + 32;
-		direction = new Vector2(0, -1);
+		directionX = rand() % 3 - 1;
+		direction = new Vector2(directionX, -1);
 	} else {
 		x = SCREEN_WIDTH + 32;
 		y = rand() % (SCREEN_HEIGHT + 1);
-		direction = new Vector2(-1, 0);
+		directionY = rand() % 3 - 1;
+		direction = new Vector2(-1, directionY);
 	}
 
 	rect = { x, y, width, height };
@@ -88,6 +93,6 @@ Nanoseconds Asteroid::GetNextSpawnTime() {
 }
 
 bool Asteroid::IsDestroyable() {
-	return  rect.x < -SCREEN_WIDTH * 3 || rect.x > SCREEN_WIDTH * 3 ||
-		rect.y < -SCREEN_HEIGHT * 3 || rect.y > SCREEN_HEIGHT * 3 || IsDead();
+	return rect.x < -SCREEN_WIDTH * 3 || rect.x > SCREEN_WIDTH * 3 ||
+			rect.y < -SCREEN_HEIGHT * 3 || rect.y > SCREEN_HEIGHT * 3 || IsDead();
 }

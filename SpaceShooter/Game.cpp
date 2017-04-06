@@ -47,8 +47,8 @@ void Game::Tick(AxisInput *axisInput) {
 	if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
 		Asteroid *asteroid = new Asteroid(32, 32, renderer);
 		asteroids.push_back(asteroid);
-		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 		passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
+		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	}
 
 	starField->Tick(axisInput);
