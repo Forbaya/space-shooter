@@ -99,8 +99,10 @@ void Game::Tick(AxisInput *axisInput) {
 	enemies.erase(
 		std::remove_if(
 			enemies.begin(), enemies.end(),
-			[](Enemy *enemy) {
-				return enemy->IsDead();
+			[&](Enemy *enemy) {
+				bool destroyable = enemy->IsDestroyable();
+				if (destroyable) delete enemy;
+				return destroyable;
 			}
 		),
 		enemies.end()
@@ -109,15 +111,10 @@ void Game::Tick(AxisInput *axisInput) {
 	asteroids.erase(
 		std::remove_if(
 			asteroids.begin(), asteroids.end(),
-			[](Asteroid *asteroid) {
-				bool deleteAsteroid = asteroid->GetRect().x < -SCREEN_WIDTH * 3 || asteroid->GetRect().x > SCREEN_WIDTH * 3 ||
-					asteroid->GetRect().y < -SCREEN_HEIGHT * 3 || asteroid->GetRect().y > SCREEN_HEIGHT * 3 || asteroid->IsDead();
-				if (deleteAsteroid) {
-					delete asteroid;
-					return true;
-				}
-
-				return false;
+			[&](Asteroid *asteroid) {
+				bool destroyable = asteroid->IsDestroyable();
+				if (destroyable) delete asteroid;
+				return destroyable;
 			}
 		),
 		asteroids.end()

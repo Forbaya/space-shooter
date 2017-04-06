@@ -20,6 +20,11 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer) {
 	currentTickTime = Clock::now();
 }
 
+Enemy::~Enemy() {
+	SDL_DestroyTexture(texture);
+	texture = NULL;
+}
+
 void Enemy::Tick(AxisInput *axisInput) {
 	if (!IsDead()) {
 		previousTickTime = currentTickTime;
@@ -56,4 +61,8 @@ int Enemy::GetHealth() {
 
 void Enemy::SetHealth(int health) {
 	this->health = health;
+}
+
+bool Enemy::IsDestroyable() {
+	return IsDead();
 }

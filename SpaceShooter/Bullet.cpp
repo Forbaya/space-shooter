@@ -12,6 +12,8 @@ Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int d
 }
 
 Bullet::~Bullet() {
+	delete position;
+	delete direction;
 }
 
 Vector2* Bullet::GetDirection() {
@@ -64,4 +66,9 @@ void Bullet::SetCollision(bool collision) {
 
 bool Bullet::GetCollision() {
 	return collision;
+}
+
+bool Bullet::IsDestroyable() {
+	return rect.x < -SCREEN_WIDTH * 2 || rect.x > SCREEN_WIDTH * 2 ||
+			rect.y < -SCREEN_HEIGHT * 2 || rect.y > SCREEN_HEIGHT * 2 || GetCollision();
 }

@@ -19,6 +19,7 @@ class Asteroid : public Entity {
 		void SetDamage(int damage);
 		bool GetDamage();
 		Nanoseconds GetNextSpawnTime();
+		bool IsDestroyable();
 	private:
 		Vector2 *direction;
 		int velocity;

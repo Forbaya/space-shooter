@@ -22,6 +22,7 @@ class Bullet : public Entity {
 		void SetDamage(int damage);
 		void SetCollision(bool collision);
 		bool GetCollision();
+		bool IsDestroyable();
 	private:
 		Vector2 *direction;
 		int size;

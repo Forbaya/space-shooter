@@ -20,6 +20,8 @@ Player::Player(int width, int height, SDL_Renderer *renderer) {
 }
 
 Player::~Player() {
+	SDL_DestroyTexture(texture);
+	texture = NULL;
 }
 
 void Player::Tick(AxisInput *axisInput) {
@@ -42,9 +44,10 @@ void Player::Tick(AxisInput *axisInput) {
 	bullets.erase(
 		std::remove_if(
 			bullets.begin(), bullets.end(),
-			[](Bullet *bullet) {
-				return bullet->GetRect().x < -SCREEN_WIDTH * 2 || bullet->GetRect().x > SCREEN_WIDTH * 2 ||
-						bullet->GetRect().y < -SCREEN_HEIGHT * 2 || bullet->GetRect().y > SCREEN_HEIGHT * 2 || bullet->GetCollision();
+			[&](Bullet *bullet) {
+				bool destroyable = bullet->IsDestroyable();
+				if (destroyable) delete bullet;
+				return destroyable;
 			}
 		),
 		bullets.end()

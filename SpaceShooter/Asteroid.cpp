@@ -20,6 +20,8 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
 }
 
 Asteroid::~Asteroid() {
+	SDL_DestroyTexture(texture);
+	texture = NULL;
 }
 
 void Asteroid::Move(int x, int y) {
@@ -83,4 +85,9 @@ bool Asteroid::GetDamage() {
 
 Nanoseconds Asteroid::GetNextSpawnTime() {
 	return nextSpawnTime;
+}
+
+bool Asteroid::IsDestroyable() {
+	return  rect.x < -SCREEN_WIDTH * 3 || rect.x > SCREEN_WIDTH * 3 ||
+		rect.y < -SCREEN_HEIGHT * 3 || rect.y > SCREEN_HEIGHT * 3 || IsDead();
 }

@@ -12,11 +12,13 @@
 class Enemy : public Alien {
 	public:
 		Enemy(int width, int height, SDL_Renderer *renderer);
+		~Enemy();
 		void Tick(AxisInput *axisInput);
 		void Move(int x, int y);
 		void Render(SDL_Renderer *renderer);
 		int GetHealth();
 		void SetHealth(int health);
+		bool IsDestroyable();
 };
 
 #endif
