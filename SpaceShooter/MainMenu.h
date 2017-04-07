@@ -5,10 +5,13 @@
 #include "AxisInput.h"
 
 class MainMenu {
-	MainMenu(SDL_Renderer *renderer);
-	~MainMenu();
-	void Tick(AxisInput *axisInput);
-	void Render();
+	public:
+		MainMenu(SDL_Renderer *renderer);
+		~MainMenu();
+		void Tick(AxisInput *axisInput);
+		void Render();
+	private:
+		SDL_Renderer *renderer;
 };
 
 #endif
