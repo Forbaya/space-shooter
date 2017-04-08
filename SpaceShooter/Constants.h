@@ -23,8 +23,12 @@ enum Border {
 	TOP = 0, LEFT = 1, BOTTOM = 2, RIGHT = 3
 };
 
-enum MainMenuSelections {
+enum Buttons {
 	NEW_GAME, HISCORES, INSTRUCTIONS, QUIT
+};
+
+enum Screens {
+	MAIN_MENU_SCREEN, GAME_SCREEN, HISCORES_SCREEN, INSTRUCTIONS_SCREEN
 };
 
 #endif

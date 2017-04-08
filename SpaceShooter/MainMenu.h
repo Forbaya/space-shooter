@@ -4,6 +4,8 @@
 #include <SDL_ttf.h>
 #include <SDL.h>
 #include <string>
+#include <vector>
+#include "Button.h"
 #include "GamepadInput.h"
 #include "Screen.h"
 
@@ -13,26 +15,23 @@ class MainMenu : public Screen {
 		~MainMenu();
 		void Tick(GamepadInput *gamepadInput);
 		void Render();
-		SDL_Texture* LoadTextTexture(std::string textureText, SDL_Color textColor);
 		void ChangeSelectedOption(GamepadInput *gamepadInput);
+		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
 	private:
 		SDL_Renderer *renderer;
 		TTF_Font *font;
+
+		std::vector<Button*> buttons;
+
 		SDL_Texture *logoTexture;
-		SDL_Texture *newGameTexture;
-		SDL_Texture *hiscoresTexture;
-		SDL_Texture *instructionsTexture;
-		SDL_Texture *quitTexture;
 		SDL_Rect logoRect;
-		SDL_Rect newGameRect;
-		SDL_Rect hiscoresRect;
-		SDL_Rect instructionsRect;
-		SDL_Rect quitRect;
 		SDL_Color white;
-		SDL_Color selected;
-		int textTextureWidth;
-		int textTextureHeight;
+		SDL_Color selectedColor;
 		int selectedOption;
+		Time currentTickTime;
+		Time previousTickTime;
+		Nanoseconds optionSwapCooldown;
+		Nanoseconds optionSwapCooldownLeft;
 };
 
 #endif

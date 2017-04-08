@@ -2,6 +2,7 @@
 
 InputHandler::InputHandler() {
 	gamepadInput = new GamepadInput();
+	screen = MAIN_MENU_SCREEN;
 }
 
 InputHandler::~InputHandler() {
@@ -23,22 +24,40 @@ GamepadInput* InputHandler::GetGamepadInput() {
 	return gamepadInput;
 }
 
+int InputHandler::GetScreen() {
+	return screen;
+}
+
+void InputHandler::SetScreen(int screen) {
+	this->screen = screen;
+}
+
 void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 	int value = e.caxis.value;
 	MovementSpeed speed = MapAxisValueToMovementSpeed(value);
 	int dir = value >= 0 ? 1 : -1;
 
-	if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
-		gamepadInput->SetLeftX(speed * dir);
-	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
-		gamepadInput->SetLeftY(speed * dir);
-	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX) {
-		int rightX = value >= 3600 || value <= -3600 ? 1 * dir : 0;
-		gamepadInput->SetRightX(rightX);
-	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
-		int rightY = value >= 15000 || value <= -15000 ? 1 * dir : 0;
-		gamepadInput->SetRightY(rightY);
+	if (screen == MAIN_MENU_SCREEN) {
+		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY && (value >= 3600 || value <= -3600)) {
+			gamepadInput->SetLeftY(dir);
+		}
+		else {
+			gamepadInput->SetLeftY(0);
+		}
+	} else if (screen == GAME_SCREEN) {
+		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
+			gamepadInput->SetLeftX(speed * dir);
+		} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
+			gamepadInput->SetLeftY(speed * dir);
+		} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX) {
+			int rightX = value >= 3600 || value <= -3600 ? 1 * dir : 0;
+			gamepadInput->SetRightX(rightX);
+		} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
+			int rightY = value >= 15000 || value <= -15000 ? 1 * dir : 0;
+			gamepadInput->SetRightY(rightY);
+		}
 	}
+	
 }
 
 void InputHandler::HandleGamepadButtonInput(SDL_Event e) {

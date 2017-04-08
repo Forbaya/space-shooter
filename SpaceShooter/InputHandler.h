@@ -12,11 +12,14 @@ class InputHandler {
 		~InputHandler();
 		void HandleInput(SDL_Event e, Game *game);
 		GamepadInput* GetGamepadInput();
+		int GetScreen();
+		void SetScreen(int screen);
 	private:
 		void HandleGamepadAxisInput(SDL_Event e);
 		void HandleGamepadButtonInput(SDL_Event e);
 		MovementSpeed MapAxisValueToMovementSpeed(int value);
 		GamepadInput *gamepadInput;
+		int screen;
 };
 
 #endif
