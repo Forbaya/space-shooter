@@ -6,7 +6,7 @@
 #include <SDL.h>
 #include <vector>
 #include "Alien.h"
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Bullet.h"
 #include "Constants.h"
 #include "Vector2.h"
@@ -16,7 +16,7 @@ class Player : public Alien {
 		Player(int width, int height, SDL_Renderer *renderer);
 		~Player();
 		void Move(int x, int y);
-		void Tick(AxisInput *axisInput);
+		void Tick(GamepadInput *gamepadInput);
 		void Render(SDL_Renderer *renderer);
 		bool IsDestroyable();
 };

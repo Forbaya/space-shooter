@@ -2,7 +2,7 @@
 #define STARTIELD_H
 
 #include <vector>
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Star.h"
 
 class StarField {
@@ -10,7 +10,7 @@ class StarField {
 		StarField(int stars);
 		~StarField();
 		void Render(SDL_Renderer *renderer);
-		void Tick(AxisInput *axisInput);
+		void Tick(GamepadInput *gamepadInput);
 	private:
 		std::vector<Star*> stars;
 };

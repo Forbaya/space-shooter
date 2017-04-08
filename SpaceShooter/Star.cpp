@@ -43,7 +43,7 @@ void Star::Move(int x, int y) {
 	rect.y += y;
 }
 
-void Star::Tick(AxisInput *axisInput) {
+void Star::Tick(GamepadInput *gamepadInput) {
 }
 
 void Star::Render(SDL_Renderer *renderer) {

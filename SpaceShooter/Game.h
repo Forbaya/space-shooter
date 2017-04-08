@@ -3,12 +3,13 @@
 
 #include <SDL.h>
 #include "Asteroid.h"
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Screen.h"
 #include "StarField.h"
 
-class Game {
+class Game : public Screen {
 	public:
 		Game(SDL_Renderer *renderer);
 		~Game();
@@ -16,7 +17,7 @@ class Game {
 		void Start();
 		void Stop();
 		StarField* GetStarField();
-		void Tick(AxisInput *axisInput);
+		void Tick(GamepadInput *gamepadInput);
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();

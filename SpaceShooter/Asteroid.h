@@ -11,7 +11,7 @@ class Asteroid : public Entity {
 		Asteroid(int width, int height, SDL_Renderer *renderer);
 		~Asteroid();
 		void Move(int x, int y);
-		void Tick(AxisInput *axisInput);
+		void Tick(GamepadInput *gamepadInput);
 		void Render(SDL_Renderer *renderer);
 		void RandomizeSpawnSpot(int width, int height);
 		void SetCollision(bool collision);

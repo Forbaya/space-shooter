@@ -29,7 +29,7 @@ Player::~Player() {
 	texture = NULL;
 }
 
-void Player::Tick(AxisInput *axisInput) {
+void Player::Tick(GamepadInput *gamepadInput) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
@@ -38,11 +38,11 @@ void Player::Tick(AxisInput *axisInput) {
 	passedAnimationTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	
 	Rotate();
-	Shoot(axisInput);
-	Move(axisInput->GetLeftX(), axisInput->GetLeftY());
+	Shoot(gamepadInput);
+	Move(gamepadInput->GetLeftX(), gamepadInput->GetLeftY());
 
 	for (Bullet *bullet : bullets) {
-		bullet->Tick(axisInput);
+		bullet->Tick(gamepadInput);
 	}
 
 	// Removes bullets that are far out of screen and bullets that hit something from the vector.

@@ -9,16 +9,19 @@
 #include "Constants.h"
 #include "InputHandler.h"
 #include "Game.h"
+#include "MainMenu.h"
 #include "Player.h"
 
 using namespace std::chrono_literals;
 
-SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
-SDL_GameController *controller = NULL;
-Game *game = NULL;
-InputHandler *inputHandler = NULL;
+SDL_Window *window;
+SDL_Renderer *renderer;
+SDL_GameController *controller;
+Game *game;
+MainMenu *mainMenu;
+InputHandler *inputHandler;
 SDL_Event e;
+Screen *screen;
 
 bool running;
 
@@ -55,7 +58,14 @@ bool Initialize() {
 		return false;
 	}
 
+	if (TTF_Init() == -1) {
+		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+		return false;
+	}
+
 	game = new Game(renderer);
+	mainMenu = new MainMenu(renderer);
+	screen = &(*mainMenu);
 	inputHandler = new InputHandler();
 
 	running = true;
@@ -123,13 +133,15 @@ void HandleInput(SDL_Event e) {
 void Render() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_RenderClear(renderer);
-	game->Render();
+	//game->Render();
+	screen->Render();
 	SDL_RenderPresent(renderer);
 }
 
 /* Updates the game world. */
 void Tick() {
-	game->Tick(inputHandler->GetAxisInput());
+	//game->Tick(inputHandler->GetGamepadInput());
+	screen->Tick(inputHandler->GetGamepadInput());
 }
 
 /* Closes the window. */
@@ -141,6 +153,7 @@ void Close() {
 	window = NULL;
 	renderer = NULL;
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

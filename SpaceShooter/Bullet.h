@@ -2,7 +2,7 @@
 #define BULLET_H
 
 #include <SDL.h>
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Entity.h"
 #include "Vector2.h"
 
@@ -15,7 +15,7 @@ class Bullet : public Entity {
 		int GetSize();
 		void SetPosition(Vector2 *position);
 		void GetSpeed(int speed);
-		void Tick(AxisInput *axisInput);
+		void Tick(GamepadInput *gamepadInput);
 		void Move(int x, int y);
 		void Render(SDL_Renderer *renderer);
 		int GetDamage();

@@ -4,7 +4,7 @@
 #include <SDL_image.h>
 #include <SDL.h>
 #include <string>
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Vector2.h"
 
 class Entity {
@@ -24,7 +24,7 @@ class Entity {
 		Time previousTickTime;
 		int health;
 
-		virtual void Tick(AxisInput *axisInput)=0;
+		virtual void Tick(GamepadInput *gamepadInput)=0;
 		virtual void Move(int x, int y)=0;
 		virtual void Render(SDL_Renderer *renderer)=0;
 

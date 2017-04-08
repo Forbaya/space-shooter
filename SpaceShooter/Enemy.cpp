@@ -25,7 +25,7 @@ Enemy::~Enemy() {
 	texture = NULL;
 }
 
-void Enemy::Tick(AxisInput *axisInput) {
+void Enemy::Tick(GamepadInput *gamepadInput) {
 	if (!IsDead()) {
 		previousTickTime = currentTickTime;
 		currentTickTime = Clock::now();

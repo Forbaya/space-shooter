@@ -2,7 +2,7 @@
 #define INPUT_HANDLER_H
 
 #include <SDL.h>
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Game.h"
 #include "Player.h"
 
@@ -11,13 +11,12 @@ class InputHandler {
 		InputHandler();
 		~InputHandler();
 		void HandleInput(SDL_Event e, Game *game);
-		AxisInput* GetAxisInput();
+		GamepadInput* GetGamepadInput();
 	private:
-		void HandleControllerAxisInput(SDL_Event e);
-		void HandleControllerButtonInput(SDL_Event e, Player *player);
+		void HandleGamepadAxisInput(SDL_Event e);
+		void HandleGamepadButtonInput(SDL_Event e);
 		MovementSpeed MapAxisValueToMovementSpeed(int value);
-		const int minimumAxisMovement = 3600;
-		AxisInput *axisInput;
+		GamepadInput *gamepadInput;
 };
 
 #endif

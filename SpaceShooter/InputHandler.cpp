@@ -1,7 +1,7 @@
 #include "InputHandler.h"
 
 InputHandler::InputHandler() {
-	axisInput = new AxisInput();
+	gamepadInput = new GamepadInput();
 }
 
 InputHandler::~InputHandler() {
@@ -12,64 +12,55 @@ void InputHandler::HandleInput(SDL_Event e, Game *game) {
 		game->Stop();
 	}
 	else if (e.type == SDL_CONTROLLERAXISMOTION) {
-		HandleControllerAxisInput(e);
+		HandleGamepadAxisInput(e);
 	}
 	else if (e.type == SDL_CONTROLLERBUTTONDOWN) {
-		//HandleControllerButtonInput(e, player);
+		HandleGamepadButtonInput(e);
 	}
 }
 
-AxisInput* InputHandler::GetAxisInput() {
-	return axisInput;
+GamepadInput* InputHandler::GetGamepadInput() {
+	return gamepadInput;
 }
 
-void InputHandler::HandleControllerAxisInput(SDL_Event e) {
+void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 	int value = e.caxis.value;
 	MovementSpeed speed = MapAxisValueToMovementSpeed(value);
 	int dir = value >= 0 ? 1 : -1;
 
-	int testX = 0;
-	int testY = 0;
 	if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
-		axisInput->SetLeftX(speed * dir);
+		gamepadInput->SetLeftX(speed * dir);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
-		axisInput->SetLeftY(speed * dir);
+		gamepadInput->SetLeftY(speed * dir);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX) {
 		int rightX = value >= 3600 || value <= -3600 ? 1 * dir : 0;
-		testX = rightX;
-		axisInput->SetRightX(rightX);
+		gamepadInput->SetRightX(rightX);
 	} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
 		int rightY = value >= 15000 || value <= -15000 ? 1 * dir : 0;
-		axisInput->SetRightY(rightY);
-		testY = rightY;
+		gamepadInput->SetRightY(rightY);
 	}
-	//printf("x: %d\ty: %d\n", testX, testY);
 }
 
-void InputHandler::HandleControllerButtonInput(SDL_Event e, Player *player) {
+void InputHandler::HandleGamepadButtonInput(SDL_Event e) {
 	if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-		printf("A\n");
+		gamepadInput->SetButtonA(true);
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
-		printf("B\n");
+		gamepadInput->SetButtonB(true);
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
-		printf("X\n");
+		gamepadInput->SetButtonX(true);
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
-		printf("Y\n");
+		gamepadInput->SetButtonY(true);
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-		printf("UP\n");
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-		printf("DOWN\n");
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-		printf("LEFT\n");
 	}
 	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-		printf("RIGHT\n");
 	}
 }
 

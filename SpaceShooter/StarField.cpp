@@ -21,10 +21,10 @@ void StarField::Render(SDL_Renderer *renderer) {
 	}
 }
 
-void StarField::Tick(AxisInput *axisInput) {
+void StarField::Tick(GamepadInput *gamepadInput) {
 	for (Star *star : stars) {
-		int x = axisInput->GetLeftX();
-		int y = axisInput->GetLeftY();
+		int x = gamepadInput->GetLeftX();
+		int y = gamepadInput->GetLeftY();
 
 		star->Move(-x * star->GetSpeed(), -y * star->GetSpeed());
 	}

@@ -38,7 +38,7 @@ StarField* Game::GetStarField() {
 	return starField;
 }
 
-void Game::Tick(AxisInput *axisInput) {
+void Game::Tick(GamepadInput *gamepadInput) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
@@ -51,15 +51,15 @@ void Game::Tick(AxisInput *axisInput) {
 		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	}
 
-	starField->Tick(axisInput);
+	starField->Tick(gamepadInput);
 	for (Player *player : players) {
-		player->Tick(axisInput);
+		player->Tick(gamepadInput);
 	}
 	for (Enemy *enemy : enemies) {
-		enemy->Tick(axisInput);
+		enemy->Tick(gamepadInput);
 	}
 	for (Asteroid *asteroid : asteroids) {
-		asteroid->Tick(axisInput);
+		asteroid->Tick(gamepadInput);
 	}
 
 	for (Enemy *enemy : enemies) {

@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <string>
 #include "Alien.h"
-#include "AxisInput.h"
+#include "GamepadInput.h"
 #include "Constants.h"
 #include "Vector2.h"
 
@@ -13,7 +13,7 @@ class Enemy : public Alien {
 	public:
 		Enemy(int width, int height, SDL_Renderer *renderer);
 		~Enemy();
-		void Tick(AxisInput *axisInput);
+		void Tick(GamepadInput *gamepadInput);
 		void Move(int x, int y);
 		void Render(SDL_Renderer *renderer);
 		int GetHealth();

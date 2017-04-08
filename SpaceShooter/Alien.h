@@ -17,7 +17,7 @@ class Alien : public Entity {
 		std::vector<Bullet*> bullets;
 		int damage;
 
-		void Shoot(AxisInput *axisInput);
+		void Shoot(GamepadInput *gamepadInput);
 		std::vector<Bullet*> GetBullets();
 		void SetDamage(int damage);
 		int GetDamage();
