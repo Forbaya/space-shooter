@@ -10,16 +10,19 @@ MainMenu::MainMenu(SDL_Renderer *renderer) {
 	SDL_Rect newGameRect = { SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2, 100, 20 };
 	SDL_Rect hiscoresRect = { SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 25, 100, 20 };
 	SDL_Rect instructionsRect = { SCREEN_WIDTH / 2 - 65, SCREEN_HEIGHT / 2 + 50, 130, 20 };
-	SDL_Rect quitRect = { SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT / 2 + 75, 40, 20 };
+	SDL_Rect optionsRect = { SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT / 2 + 75, 80, 20 };
+	SDL_Rect quitRect = { SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT / 2 + 100, 40, 20 };
 	
 	logoTexture = LoadTextTexture("SPACE SHOOTER!", white, renderer);
 	Button *newGameButton = new Button(NEW_GAME, renderer, "New Game", newGameRect, true);
 	Button *hiscoresButton = new Button(HISCORES, renderer, "Hiscores", hiscoresRect, false);
 	Button *instructionsButton = new Button(INSTRUCTIONS, renderer, "Instructions", instructionsRect, false);
+	Button *optionsButton = new Button(OPTIONS, renderer, "Options", optionsRect, false);
 	Button *quitButton = new Button(QUIT, renderer, "Quit", quitRect, false);
 	buttons.push_back(newGameButton);
 	buttons.push_back(hiscoresButton);
 	buttons.push_back(instructionsButton);
+	buttons.push_back(optionsButton);
 	buttons.push_back(quitButton);
 
 	optionSwapCooldown = Nanoseconds(500000000);
@@ -45,7 +48,7 @@ void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption++;
-		if (selectedOption >= 4) {
+		if (selectedOption >= 5) {
 			selectedOption = NEW_GAME;
 		}
 		Button *previouslySelectedButton = buttons.at(previousOption);

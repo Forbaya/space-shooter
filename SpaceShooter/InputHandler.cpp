@@ -38,7 +38,7 @@ void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 	int dir = value >= 0 ? 1 : -1;
 
 	if (screen == MAIN_MENU_SCREEN) {
-		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY && (value >= 3600 || value <= -3600)) {
+		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY && (value >= 8000 || value <= -8000)) {
 			gamepadInput->SetLeftY(dir);
 		}
 		else {
@@ -57,7 +57,6 @@ void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 			gamepadInput->SetRightY(rightY);
 		}
 	}
-	
 }
 
 void InputHandler::HandleGamepadButtonInput(SDL_Event e) {

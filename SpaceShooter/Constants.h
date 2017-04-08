@@ -24,7 +24,7 @@ enum Border {
 };
 
 enum Buttons {
-	NEW_GAME, HISCORES, INSTRUCTIONS, QUIT
+	NEW_GAME, HISCORES, INSTRUCTIONS, OPTIONS, QUIT
 };
 
 enum Screens {
