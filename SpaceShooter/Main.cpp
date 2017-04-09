@@ -65,7 +65,7 @@ bool Initialize() {
 
 	game = new Game(renderer);
 	mainMenu = new MainMenu(renderer);
-	screen = &(*mainMenu);
+	screen = &(*game);
 	inputHandler = new InputHandler();
 
 	running = true;

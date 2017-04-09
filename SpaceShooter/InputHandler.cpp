@@ -2,7 +2,7 @@
 
 InputHandler::InputHandler() {
 	gamepadInput = new GamepadInput();
-	screen = MAIN_MENU_SCREEN;
+	screen = GAME_SCREEN;
 }
 
 InputHandler::~InputHandler() {

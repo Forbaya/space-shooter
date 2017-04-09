@@ -51,7 +51,9 @@ void Game::Tick(GamepadInput *gamepadInput) {
 		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	}
 
-	starField->Tick(gamepadInput);
+	if (players.size() > 0) {
+		starField->Tick(gamepadInput);
+	}
 	for (Player *player : players) {
 		player->Tick(gamepadInput);
 	}
