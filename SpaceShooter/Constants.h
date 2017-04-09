@@ -13,7 +13,7 @@ const float STAR_MINIMUM_SPEED = 1.2f;
 const float STAR_MIDDLE_SPEED = 0.8f;
 const float STAR_MAXIXMUM_SPEED = 0.5f;
 
-const Nanoseconds zero = Nanoseconds(0);
+const Nanoseconds zeroNanoseconds = Nanoseconds(0);
 
 enum MovementSpeed {
 	NO_SPEED = 0, SLOW_SPEED = 1, AVERAGE_SPEED = 2, FAST_SPEED = 3, REALLY_FAST_SPEED = 4

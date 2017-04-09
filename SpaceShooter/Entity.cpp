@@ -44,7 +44,7 @@ void Entity::TakeDamage(int damage) {
 }
 
 bool Entity::IsImmune() {
-	return immunity > zero;
+	return immunity > zeroNanoseconds;
 }
 
 void Entity::Rotate() {

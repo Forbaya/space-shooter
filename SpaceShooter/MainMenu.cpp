@@ -26,7 +26,7 @@ MainMenu::MainMenu(SDL_Renderer *renderer) {
 	buttons.push_back(quitButton);
 
 	optionSwapCooldown = Nanoseconds(500000000);
-	optionSwapCooldownLeft = zero;
+	optionSwapCooldownLeft = zeroNanoseconds;
 
 	currentTickTime = Clock::now();
 }
@@ -44,7 +44,7 @@ void MainMenu::Tick(GamepadInput *gamepadInput) {
 }
 
 void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
-	if (optionSwapCooldownLeft <= zero && gamepadInput->GetLeftY() == 1) {
+	if (optionSwapCooldownLeft <= zeroNanoseconds && gamepadInput->GetLeftY() == 1) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption++;
@@ -55,7 +55,7 @@ void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
-	} else if (optionSwapCooldownLeft <= zero && gamepadInput->GetLeftY() == -1) {
+	} else if (optionSwapCooldownLeft <= zeroNanoseconds && gamepadInput->GetLeftY() == -1) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption--;

@@ -12,7 +12,7 @@ Game::Game(SDL_Renderer *renderer) {
 	Asteroid *asteroid = new Asteroid(32, 32, renderer);
 	asteroids.push_back(asteroid);
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
-	passedAsteroidSpawnTime = zero;
+	passedAsteroidSpawnTime = zeroNanoseconds;
 
 	running = true;
 
