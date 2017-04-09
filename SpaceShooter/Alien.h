@@ -11,12 +11,14 @@
 #include "Vector2.h"
 
 class Alien : public Entity {
-	public:
+	protected:
 		Nanoseconds shotCooldown;
 		Nanoseconds shotCooldownLeft;
 		std::vector<Bullet*> bullets;
 		int damage;
-
+	public:
+		Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
+		~Alien();
 		void Shoot(GamepadInput *gamepadInput);
 		std::vector<Bullet*> GetBullets();
 		void SetDamage(int damage);

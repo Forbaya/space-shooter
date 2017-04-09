@@ -5,11 +5,11 @@ Game::Game(SDL_Renderer *renderer) {
 
 	srand(time(NULL));
 	starField = new StarField(200);
-	Player *player = new Player(32, 32, renderer);
+	Player *player = new Player(32, 32, renderer, new Vector2(0, 0));
 	players.push_back(player);
-	Enemy *enemy = new Enemy(32, 32, renderer);
+	Enemy *enemy = new Enemy(32, 32, renderer, new Vector2(0, 0));
 	enemies.push_back(enemy);
-	Asteroid *asteroid = new Asteroid(32, 32, renderer);
+	Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
 	asteroids.push_back(asteroid);
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	passedAsteroidSpawnTime = zeroNanoseconds;
@@ -45,7 +45,7 @@ void Game::Tick(GamepadInput *gamepadInput) {
 
 	passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
-		Asteroid *asteroid = new Asteroid(32, 32, renderer);
+		Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
 		asteroids.push_back(asteroid);
 		passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
 		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();

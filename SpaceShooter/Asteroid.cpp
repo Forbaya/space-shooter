@@ -1,12 +1,8 @@
 #include "Asteroid.h"
 
-Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer) {
-	texture = LoadTexture("res/spritesheet.png", renderer);
-	textureRegion = { 32, 0, width, height };
-	center = { width / 2, height / 2 };
-	
+Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion) 
+		: Entity(width, height, renderer, textureRegion) {
 	RandomizeSpawnSpot(width, height);
-	rotation = 0;
 	rotationSpeed = 1.0;
 	health = 1;
 	damage = 2;

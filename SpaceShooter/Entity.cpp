@@ -1,5 +1,21 @@
 #include "Entity.h"
 
+Entity::Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion) {
+	center = { width / 2, height / 2 };
+	rotation = 0;
+
+	if (renderer != NULL) {
+		texture = LoadTexture("res/spritesheet.png", renderer);
+	}
+	if (textureRegion != NULL) {
+		this->textureRegion = { textureRegion->GetX(), textureRegion->GetY(), width, height };
+	}
+	
+}
+
+Entity::~Entity() {
+}
+
 SDL_Texture* Entity::LoadTexture(std::string path, SDL_Renderer *renderer) {
 	SDL_Texture* newTexture = NULL;
 

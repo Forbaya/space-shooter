@@ -13,7 +13,7 @@
 
 class Player : public Alien {
 	public:
-		Player(int width, int height, SDL_Renderer *renderer);
+		Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
 		~Player();
 		void Move(int x, int y);
 		void Tick(GamepadInput *gamepadInput);

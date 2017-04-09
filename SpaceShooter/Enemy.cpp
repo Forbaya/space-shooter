@@ -1,13 +1,10 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int width, int height, SDL_Renderer *renderer) {
-	texture = Entity::LoadTexture("res/spritesheet.png", renderer);
-	textureRegion = { 0, 0, width, height };
+Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion) 
+		: Alien(width, height, renderer, textureRegion) {
 	SDL_SetTextureColorMod(texture, 255, 128, 255);
 
 	rect = { -32, 32, width, height };
-	center = { width / 2, height / 2 };
-	rotation = 0;
 	rotationSpeed = 45.0;
 	health = 10;
 	damage = 1;

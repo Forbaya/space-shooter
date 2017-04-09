@@ -1,11 +1,8 @@
 #include "Player.h"
 
-Player::Player(int width, int height, SDL_Renderer *renderer) {
-	texture = LoadTexture("res/spritesheet.png", renderer);
-	textureRegion = { 0, 0, width, height };
+Player::Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion)
+		: Alien(width, height, renderer, textureRegion) {
 	rect = { SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height };
-	center = { width/2, height/2 };
-	rotation = 0;
 	rotationSpeed = 45.0;
 	health = 3;
 

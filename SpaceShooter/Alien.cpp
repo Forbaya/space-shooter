@@ -1,5 +1,12 @@
 #include "Alien.h"
 
+Alien::Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion)
+		: Entity(width, height, renderer, textureRegion) {
+}
+
+Alien::~Alien() {
+}
+
 void Alien::Shoot(GamepadInput *gamepadInput) {
 	if (gamepadInput->GetRightX() != 0 || gamepadInput->GetRightY() != 0) {
 		if (shotCooldownLeft <= zeroNanoseconds) {

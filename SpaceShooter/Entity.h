@@ -8,7 +8,7 @@
 #include "Vector2.h"
 
 class Entity {
-	public:
+	protected:
 		SDL_Texture *texture;
 		SDL_Rect textureRegion;
 		SDL_Rect rect;
@@ -23,7 +23,9 @@ class Entity {
 		Time currentTickTime;
 		Time previousTickTime;
 		int health;
-
+	public:
+		Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
+		~Entity();
 		virtual void Tick(GamepadInput *gamepadInput)=0;
 		virtual void Move(int x, int y)=0;
 		virtual void Render(SDL_Renderer *renderer)=0;

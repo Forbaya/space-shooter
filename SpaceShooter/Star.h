@@ -5,7 +5,7 @@
 #include "Constants.h"
 #include "Entity.h"
 
-class Star : public Entity {
+class Star {
 	public:
 		Star(int x, int y, int size, int speed);
 		~Star();
@@ -22,6 +22,7 @@ class Star : public Entity {
 		int y;
 		int size;
 		int speed;
+		SDL_Rect rect;
 };
 
 #endif

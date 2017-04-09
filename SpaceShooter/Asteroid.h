@@ -8,7 +8,7 @@
 
 class Asteroid : public Entity {
 	public:
-		Asteroid(int width, int height, SDL_Renderer *renderer);
+		Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
 		~Asteroid();
 		void Move(int x, int y);
 		void Tick(GamepadInput *gamepadInput);
