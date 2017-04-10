@@ -1,6 +1,6 @@
 #include "MainMenu.h"
 
-MainMenu::MainMenu(SDL_Renderer *renderer) {
+MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	white = { 255, 255, 255 };
@@ -41,6 +41,7 @@ void MainMenu::Tick(GamepadInput *gamepadInput) {
 	optionSwapCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 
 	ChangeSelectedOption(gamepadInput);
+	SelectOption(gamepadInput);
 }
 
 void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
@@ -85,6 +86,16 @@ SDL_Texture* MainMenu::LoadTextTexture(std::string text, SDL_Color textColor, SD
 	}
 
 	return texture;
+}
+
+void MainMenu::SelectOption(GamepadInput *gamepadInput) {
+	if (gamepadInput->GetButtonA()) {
+		if (selectedOption == QUIT) {
+			SetRunning(false);
+		} else if (selectedOption == NEW_GAME) {
+			SetNextScreen(GAME_SCREEN);
+		}
+	}
 }
 
 void MainMenu::Render() {

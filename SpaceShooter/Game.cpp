@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(SDL_Renderer *renderer) {
+Game::Game(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
 
 	srand(time(NULL));
@@ -14,8 +14,6 @@ Game::Game(SDL_Renderer *renderer) {
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	passedAsteroidSpawnTime = zeroNanoseconds;
 
-	running = true;
-
 	currentTickTime = Clock::now();
 }
 
@@ -28,10 +26,6 @@ void Game::Start() {
 
 void Game::Stop() {
 	running = false;
-}
-
-bool Game::IsRunning() {
-	return running;
 }
 
 StarField* Game::GetStarField() {

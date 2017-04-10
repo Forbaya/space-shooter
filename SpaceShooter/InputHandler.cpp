@@ -2,7 +2,7 @@
 
 InputHandler::InputHandler() {
 	gamepadInput = new GamepadInput();
-	screen = GAME_SCREEN;
+	screen = MAIN_MENU_SCREEN;
 }
 
 InputHandler::~InputHandler() {
@@ -15,7 +15,7 @@ void InputHandler::HandleInput(SDL_Event e, Game *game) {
 	else if (e.type == SDL_CONTROLLERAXISMOTION) {
 		HandleGamepadAxisInput(e);
 	}
-	else if (e.type == SDL_CONTROLLERBUTTONDOWN) {
+	else if (e.type == SDL_CONTROLLERBUTTONDOWN || e.type == SDL_CONTROLLERBUTTONUP) {
 		HandleGamepadButtonInput(e);
 	}
 }
@@ -40,8 +40,7 @@ void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 	if (screen == MAIN_MENU_SCREEN) {
 		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY && (value >= 8000 || value <= -8000)) {
 			gamepadInput->SetLeftY(dir);
-		}
-		else {
+		} else {
 			gamepadInput->SetLeftY(0);
 		}
 	} else if (screen == GAME_SCREEN) {
@@ -60,25 +59,42 @@ void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 }
 
 void InputHandler::HandleGamepadButtonInput(SDL_Event e) {
-	if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-		gamepadInput->SetButtonA(true);
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
-		gamepadInput->SetButtonB(true);
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
-		gamepadInput->SetButtonX(true);
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
-		gamepadInput->SetButtonY(true);
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-	}
-	else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+	if (e.type == SDL_CONTROLLERBUTTONDOWN) {
+		if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
+			gamepadInput->SetButtonA(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
+			gamepadInput->SetButtonB(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
+			gamepadInput->SetButtonX(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
+			gamepadInput->SetButtonY(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+			gamepadInput->SetDpadUp(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+			gamepadInput->SetDpadRight(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+			gamepadInput->SetDpadDown(true);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+			gamepadInput->SetDpadLeft(true);
+		} 
+	} else {
+		if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
+			gamepadInput->SetButtonA(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
+			gamepadInput->SetButtonB(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
+			gamepadInput->SetButtonX(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
+			gamepadInput->SetButtonY(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+			gamepadInput->SetDpadUp(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+			gamepadInput->SetDpadRight(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+			gamepadInput->SetDpadDown(false);
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+			gamepadInput->SetDpadLeft(false);
+		} 
 	}
 }
 

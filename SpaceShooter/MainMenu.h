@@ -17,12 +17,11 @@ class MainMenu : public Screen {
 		void Render();
 		void ChangeSelectedOption(GamepadInput *gamepadInput);
 		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
+		void SelectOption(GamepadInput *gamepadInput);
 	private:
 		SDL_Renderer *renderer;
 		TTF_Font *font;
-
 		std::vector<Button*> buttons;
-
 		SDL_Texture *logoTexture;
 		SDL_Rect logoRect;
 		SDL_Color white;

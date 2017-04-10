@@ -23,8 +23,6 @@ InputHandler *inputHandler;
 SDL_Event e;
 Screen *screen;
 
-bool running;
-
 bool Initialize();
 void Run();
 void Tick();
@@ -65,18 +63,13 @@ bool Initialize() {
 
 	game = new Game(renderer);
 	mainMenu = new MainMenu(renderer);
-	screen = &(*game);
+	screen = &(*mainMenu);
 	inputHandler = new InputHandler();
-
-	running = true;
 
 	for (int i = 0; i < SDL_NumJoysticks(); i++) {
 		if (SDL_IsGameController(i)) {
 			controller = SDL_GameControllerOpen(i);
-			if (controller) {
-				break;
-			}
-			else {
+			if (!controller) {
 				fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
 			}
 		}
@@ -96,7 +89,7 @@ void Run() {
 
 	auto previousTime = Clock::now();
 
-	while (game->IsRunning()) {
+	while (screen->IsRunning()) {
 		auto currentTime = Clock::now();
 		auto deltaTime = currentTime - previousTime;
 		previousTime = currentTime;
@@ -108,10 +101,9 @@ void Run() {
 		}
 
 		while (lag >= nsPerTick) {
-			lag -= nsPerTick;
-
 			Tick();
 			ticks++;
+			lag -= nsPerTick;
 		}
 
 		Render();
@@ -121,7 +113,7 @@ void Run() {
 			printf("Frames: %d, Ticks: %d\n", frames, ticks);
 			ticks = 0;
 			frames = 0;
-			time = Nanoseconds(0);
+			time = zeroNanoseconds;
 		}
 	}
 }
@@ -133,14 +125,20 @@ void HandleInput(SDL_Event e) {
 void Render() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_RenderClear(renderer);
-	//game->Render();
 	screen->Render();
 	SDL_RenderPresent(renderer);
 }
 
 /* Updates the game world. */
 void Tick() {
-	//game->Tick(inputHandler->GetGamepadInput());
+	int nextScreen = screen->GetNextScreen();
+	if (nextScreen != -1) {
+		if (nextScreen == GAME_SCREEN) {
+			inputHandler->SetScreen(nextScreen);
+			screen = &(*new Game(renderer));
+		}
+	}
+
 	screen->Tick(inputHandler->GetGamepadInput());
 }
 

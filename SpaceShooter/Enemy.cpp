@@ -9,10 +9,10 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegi
 	health = 10;
 	damage = 1;
 
-	animationLength = std::chrono::nanoseconds(100000000);
-	passedAnimationTime = std::chrono::nanoseconds(0);
-	immunity = std::chrono::nanoseconds(0);
-	immunityLength = std::chrono::nanoseconds(1000000000);
+	animationLength = Nanoseconds(100000000);
+	passedAnimationTime = zeroNanoseconds;
+	immunity = zeroNanoseconds;
+	immunityLength = Nanoseconds(1000000000);
 
 	currentTickTime = Clock::now();
 }

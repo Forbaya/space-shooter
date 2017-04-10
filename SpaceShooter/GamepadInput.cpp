@@ -47,6 +47,22 @@ bool GamepadInput::GetButtonY() {
 	return buttonY;
 }
 
+bool GamepadInput::GetDpadUp() {
+	return dpadUp;
+}
+
+bool GamepadInput::GetDpadRight() {
+	return dpadRight;
+}
+
+bool GamepadInput::GetDpadDown() {
+	return dpadDown;
+}
+
+bool GamepadInput::GetDpadLeft() {
+	return dpadLeft;
+}
+
 void GamepadInput::SetLeftX(int leftX) {
 	this->leftX = leftX;
 }
@@ -77,4 +93,20 @@ void GamepadInput::SetButtonX(bool buttonX) {
 
 void GamepadInput::SetButtonY(bool buttonY) {
 	this->buttonY = buttonY;
+}
+
+void GamepadInput::SetDpadUp(bool dpadUp) {
+	this->dpadUp = dpadUp;
+}
+
+void GamepadInput::SetDpadRight(bool dpadRight) {
+	this->dpadRight = dpadRight;
+}
+
+void GamepadInput::SetDpadDown(bool dpadDown) {
+	this->dpadDown = dpadDown;
+}
+
+void GamepadInput::SetDpadLeft(bool dpadLeft) {
+	this->dpadLeft = dpadLeft;
 }

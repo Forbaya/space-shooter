@@ -7,10 +7,10 @@ Player::Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRe
 	health = 3;
 
 	shotCooldown = Nanoseconds(100000000);
-	shotCooldownLeft = Nanoseconds(0);
+	shotCooldownLeft = zeroNanoseconds;
 	animationLength = Nanoseconds(100000000);
-	passedAnimationTime = Nanoseconds(0);
-	immunity = Nanoseconds(0);
+	passedAnimationTime = zeroNanoseconds;
+	immunity = zeroNanoseconds;
 	immunityLength = Nanoseconds(1000000000);
 
 	currentTickTime = Clock::now();
