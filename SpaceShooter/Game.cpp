@@ -2,7 +2,8 @@
 
 Game::Game(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
-
+	
+	paused = false;
 	srand(time(NULL));
 	starField = new StarField(200);
 	Player *player = new Player(32, 32, renderer, new Vector2(0, 0));
@@ -20,12 +21,12 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 Game::~Game() {
 }
 
-void Game::Start() {
-	running = true;
+void Game::SetPaused(bool paused) {
+	this->paused = paused;
 }
 
-void Game::Stop() {
-	running = false;
+bool Game::GetPaused() {
+	return paused;
 }
 
 StarField* Game::GetStarField() {
@@ -33,100 +34,105 @@ StarField* Game::GetStarField() {
 }
 
 void Game::Tick(GamepadInput *gamepadInput) {
-	previousTickTime = currentTickTime;
-	currentTickTime = Clock::now();
-	auto deltaTime = currentTickTime - previousTickTime;
+	SetPaused(gamepadInput->GetStartButton());
 
-	passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
-	if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
-		Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
-		asteroids.push_back(asteroid);
-		passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
-		this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
-	}
+	if (!gamepadInput->GetStartButton()) {
+		previousTickTime = currentTickTime;
+		currentTickTime = Clock::now();
+		auto deltaTime = currentTickTime - previousTickTime;
 
-	if (players.size() > 0) {
-		starField->Tick(gamepadInput);
-	}
-	for (Player *player : players) {
-		player->Tick(gamepadInput);
-	}
-	for (Enemy *enemy : enemies) {
-		enemy->Tick(gamepadInput);
-	}
-	for (Asteroid *asteroid : asteroids) {
-		asteroid->Tick(gamepadInput);
-	}
-
-	for (Enemy *enemy : enemies) {
-		for (Player *player : players) {
-			if (CheckCollision(player->GetRect(), enemy->GetRect())) {
-				player->TakeDamage(enemy->GetDamage());
-			}
+		passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+		if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
+			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
+			asteroids.push_back(asteroid);
+			passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
+			this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 		}
-	}
 
-	for (Player *player : players) {
-		for (Bullet *bullet : player->GetBullets()) {
-			for (Enemy *enemy : enemies) {
-				if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
-					enemy->TakeDamage(bullet->GetDamage());
-					bullet->SetCollision(true);
-				}
-			}
-			for (Asteroid *asteroid : asteroids) {
-				if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
-					asteroid->TakeDamage(bullet->GetDamage());
-					bullet->SetCollision(true);
+		if (players.size() > 0) {
+			starField->Tick(gamepadInput);
+		}
+		for (Player *player : players) {
+			player->Tick(gamepadInput);
+		}
+		for (Enemy *enemy : enemies) {
+			enemy->Tick(gamepadInput);
+		}
+		for (Asteroid *asteroid : asteroids) {
+			asteroid->Tick(gamepadInput);
+		}
+
+		for (Enemy *enemy : enemies) {
+			for (Player *player : players) {
+				if (CheckCollision(player->GetRect(), enemy->GetRect())) {
+					player->TakeDamage(enemy->GetDamage());
 				}
 			}
 		}
-	}
-	
-	for (Asteroid *asteroid : asteroids) {
+
 		for (Player *player : players) {
-			if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
-				asteroid->TakeDamage(asteroid->GetHealth());
-				player->TakeDamage(asteroid->GetDamage());
+			for (Bullet *bullet : player->GetBullets()) {
+				for (Enemy *enemy : enemies) {
+					if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
+						enemy->TakeDamage(bullet->GetDamage());
+						bullet->SetCollision(true);
+					}
+				}
+				for (Asteroid *asteroid : asteroids) {
+					if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
+						asteroid->TakeDamage(bullet->GetDamage());
+						bullet->SetCollision(true);
+					}
+				}
 			}
 		}
+
+		for (Asteroid *asteroid : asteroids) {
+			for (Player *player : players) {
+				if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
+					asteroid->TakeDamage(asteroid->GetHealth());
+					player->TakeDamage(asteroid->GetDamage());
+				}
+			}
+		}
+
+		enemies.erase(
+			std::remove_if(
+				enemies.begin(), enemies.end(),
+				[&](Enemy *enemy) {
+			bool destroyable = enemy->IsDestroyable();
+			if (destroyable) delete enemy;
+			return destroyable;
+		}
+			),
+			enemies.end()
+			);
+
+		asteroids.erase(
+			std::remove_if(
+				asteroids.begin(), asteroids.end(),
+				[&](Asteroid *asteroid) {
+			bool destroyable = asteroid->IsDestroyable();
+			if (destroyable) delete asteroid;
+			return destroyable;
+		}
+			),
+			asteroids.end()
+			);
+
+		players.erase(
+			std::remove_if(
+				players.begin(), players.end(),
+				[&](Player *player) {
+			bool destroyable = player->IsDestroyable();
+			if (destroyable) delete player;
+			return destroyable;
+		}
+			),
+			players.end()
+			);
 	}
-
-	enemies.erase(
-		std::remove_if(
-			enemies.begin(), enemies.end(),
-			[&](Enemy *enemy) {
-				bool destroyable = enemy->IsDestroyable();
-				if (destroyable) delete enemy;
-				return destroyable;
-			}
-		),
-		enemies.end()
-	);
-
-	asteroids.erase(
-		std::remove_if(
-			asteroids.begin(), asteroids.end(),
-			[&](Asteroid *asteroid) {
-				bool destroyable = asteroid->IsDestroyable();
-				if (destroyable) delete asteroid;
-				return destroyable;
-			}
-		),
-		asteroids.end()
-	);
-
-	players.erase(
-		std::remove_if(
-			players.begin(), players.end(),
-			[&](Player *player) {
-				bool destroyable = player->IsDestroyable();
-				if (destroyable) delete player;
-				return destroyable;
-			}
-		),
-		players.end()
-	);
+ 	
 }
 
 void Game::Render() {

@@ -19,6 +19,7 @@ class GamepadInput {
 		bool GetDpadRight();
 		bool GetDpadDown();
 		bool GetDpadLeft();
+		bool GetStartButton();
 		void SetLeftX(int leftX);
 		void SetLeftY(int leftY);
 		void SetRightX(int rightX);
@@ -31,6 +32,7 @@ class GamepadInput {
 		void SetDpadRight(bool dpadRight);
 		void SetDpadDown(bool dpadDown);
 		void SetDpadLeft(bool dpadLeft);
+		void TogglePause();
 	private:
 		int leftX;
 		int leftY;
@@ -44,6 +46,7 @@ class GamepadInput {
 		bool dpadRight;
 		bool dpadDown;
 		bool dpadLeft;
+		bool startButton;
 };
 
 #endif

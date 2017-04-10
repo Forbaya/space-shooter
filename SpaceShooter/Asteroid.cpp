@@ -10,7 +10,7 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textu
 	velocity = rand() % 10 + 1;
 	collision = false;
 
-	nextSpawnTime = Nanoseconds(1000000000);
+	nextSpawnTime = Nanoseconds(100000000);
 
 	currentTickTime = Clock::now();
 }

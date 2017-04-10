@@ -10,6 +10,13 @@ GamepadInput::GamepadInput() {
 	buttonB = false;
 	buttonX = false;
 	buttonY = false;
+	
+	dpadUp = false;
+	dpadRight = false;
+	dpadDown = false;
+	dpadLeft = false;
+
+	startButton = false;
 }
 
 GamepadInput::~GamepadInput() {
@@ -63,6 +70,10 @@ bool GamepadInput::GetDpadLeft() {
 	return dpadLeft;
 }
 
+bool GamepadInput::GetStartButton() {
+	return startButton;
+}
+
 void GamepadInput::SetLeftX(int leftX) {
 	this->leftX = leftX;
 }
@@ -109,4 +120,8 @@ void GamepadInput::SetDpadDown(bool dpadDown) {
 
 void GamepadInput::SetDpadLeft(bool dpadLeft) {
 	this->dpadLeft = dpadLeft;
+}
+
+void GamepadInput::TogglePause() {
+	startButton = startButton ? false : true;
 }

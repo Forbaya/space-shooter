@@ -10,7 +10,6 @@ InputHandler::~InputHandler() {
 
 void InputHandler::HandleInput(SDL_Event e, Game *game) {
 	if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
-		game->Stop();
 	}
 	else if (e.type == SDL_CONTROLLERAXISMOTION) {
 		HandleGamepadAxisInput(e);
@@ -76,7 +75,9 @@ void InputHandler::HandleGamepadButtonInput(SDL_Event e) {
 			gamepadInput->SetDpadDown(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
 			gamepadInput->SetDpadLeft(true);
-		} 
+		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
+			gamepadInput->TogglePause();
+		}
 	} else {
 		if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
 			gamepadInput->SetButtonA(false);
@@ -94,7 +95,7 @@ void InputHandler::HandleGamepadButtonInput(SDL_Event e) {
 			gamepadInput->SetDpadDown(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
 			gamepadInput->SetDpadLeft(false);
-		} 
+		}
 	}
 }
 

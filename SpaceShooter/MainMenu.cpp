@@ -45,7 +45,7 @@ void MainMenu::Tick(GamepadInput *gamepadInput) {
 }
 
 void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
-	if (optionSwapCooldownLeft <= zeroNanoseconds && gamepadInput->GetLeftY() == 1) {
+	if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == 1 || gamepadInput->GetDpadDown())) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption++;
@@ -56,7 +56,7 @@ void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
-	} else if (optionSwapCooldownLeft <= zeroNanoseconds && gamepadInput->GetLeftY() == -1) {
+	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == -1 || gamepadInput->GetDpadUp())) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption--;

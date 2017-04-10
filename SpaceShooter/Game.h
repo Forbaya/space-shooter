@@ -13,9 +13,8 @@ class Game : public Screen {
 	public:
 		Game(SDL_Renderer *renderer);
 		~Game();
-		bool IsRunning();
-		void Start();
-		void Stop();
+		void SetPaused(bool paused);
+		bool GetPaused();
 		StarField* GetStarField();
 		void Tick(GamepadInput *gamepadInput);
 		void Render();
@@ -23,7 +22,7 @@ class Game : public Screen {
 		std::vector<Asteroid*> GetAsteroids();
 		std::vector<Enemy*> GetEnemies();
 	private:
-		bool running;
+		bool paused;
 		StarField *starField;
 		SDL_Renderer *renderer;
 		std::vector<Asteroid*> asteroids;
