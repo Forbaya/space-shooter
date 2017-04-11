@@ -4,7 +4,6 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
 	
 	paused = false;
-	srand(time(NULL));
 	starField = new StarField(200);
 	Player *player = new Player(32, 32, renderer, new Vector2(0, 0));
 	players.push_back(player);

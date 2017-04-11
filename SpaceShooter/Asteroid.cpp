@@ -6,11 +6,10 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textu
 	rotationSpeed = 1.0;
 	health = 1;
 	damage = 2;
-	srand(time(NULL));
 	velocity = rand() % 10 + 1;
 	collision = false;
 
-	nextSpawnTime = Nanoseconds(100000000);
+	nextSpawnTime = Nanoseconds(300000000);
 
 	currentTickTime = Clock::now();
 }
@@ -40,7 +39,6 @@ void Asteroid::Render(SDL_Renderer *renderer) {
 }
 
 void Asteroid::RandomizeSpawnSpot(int width, int height) {
-	srand(time(NULL));
 	int border = rand() % 4;
 	int x, y, directionX, directionY;
 	if (border == TOP) {
