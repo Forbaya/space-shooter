@@ -7,17 +7,18 @@
 #include <vector>
 #include "Button.h"
 #include "GamepadInput.h"
+#include "KeyboardInput.h"
 #include "Screen.h"
 
 class MainMenu : public Screen {
 	public:
 		MainMenu(SDL_Renderer *renderer);
 		~MainMenu();
-		void Tick(GamepadInput *gamepadInput);
+		void Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
 		void Render();
-		void ChangeSelectedOption(GamepadInput *gamepadInput);
+		void ChangeSelectedOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
 		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
-		void SelectOption(GamepadInput *gamepadInput);
+		void SelectOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
 	private:
 		SDL_Renderer *renderer;
 		TTF_Font *font;

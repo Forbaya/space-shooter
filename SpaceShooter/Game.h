@@ -3,8 +3,9 @@
 
 #include <SDL.h>
 #include "Asteroid.h"
-#include "GamepadInput.h"
 #include "Enemy.h"
+#include "GamepadInput.h"
+#include "KeyboardInput.h"
 #include "Player.h"
 #include "Screen.h"
 #include "StarField.h"
@@ -16,7 +17,7 @@ class Game : public Screen {
 		void SetPaused(bool paused);
 		bool GetPaused();
 		StarField* GetStarField();
-		void Tick(GamepadInput *gamepadInput);
+		void Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();

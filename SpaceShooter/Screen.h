@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "GamepadInput.h"
+#include "KeyboardInput.h"
 
 class Screen {
 	protected:
@@ -11,7 +12,7 @@ class Screen {
 	public:
 		Screen();
 		~Screen();
-		virtual void Tick(GamepadInput *gamepadInput);
+		virtual void Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
 		virtual void Render();
 		bool IsRunning();
 		int GetNextScreen();

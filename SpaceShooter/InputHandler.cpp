@@ -2,25 +2,30 @@
 
 InputHandler::InputHandler() {
 	gamepadInput = new GamepadInput();
+	keyboardInput = new KeyboardInput();
 	screen = MAIN_MENU_SCREEN;
 }
 
 InputHandler::~InputHandler() {
-} 
+}
 
 void InputHandler::HandleInput(SDL_Event e, Game *game) {
 	if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
-	}
-	else if (e.type == SDL_CONTROLLERAXISMOTION) {
+	} else if (e.type == SDL_CONTROLLERAXISMOTION) {
 		HandleGamepadAxisInput(e);
-	}
-	else if (e.type == SDL_CONTROLLERBUTTONDOWN || e.type == SDL_CONTROLLERBUTTONUP) {
+	} else if (e.type == SDL_CONTROLLERBUTTONDOWN || e.type == SDL_CONTROLLERBUTTONUP) {
 		HandleGamepadButtonInput(e);
+	} else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+		HandleKeyboardInput(e);
 	}
 }
 
 GamepadInput* InputHandler::GetGamepadInput() {
 	return gamepadInput;
+}
+
+KeyboardInput* InputHandler::GetKeyboardInput() {
+	return keyboardInput;
 }
 
 int InputHandler::GetScreen() {
@@ -29,6 +34,50 @@ int InputHandler::GetScreen() {
 
 void InputHandler::SetScreen(int screen) {
 	this->screen = screen;
+}
+
+void InputHandler::HandleKeyboardInput(SDL_Event e) {
+	if (e.type == SDL_KEYDOWN) {
+		if (e.key.keysym.sym == SDLK_w) {
+			keyboardInput->SetButtonW(true);
+		} else if (e.key.keysym.sym == SDLK_a) {
+			keyboardInput->SetButtonA(true);
+		} else if (e.key.keysym.sym == SDLK_s) {
+			keyboardInput->SetButtonS(true);
+		} else if (e.key.keysym.sym == SDLK_d) {
+			keyboardInput->SetButtonD(true);
+		} else if (e.key.keysym.sym == SDLK_UP) {
+			keyboardInput->SetArrowUp(true);
+		} else if (e.key.keysym.sym == SDLK_RIGHT) {
+			keyboardInput->SetArrowRight(true);
+		} else if (e.key.keysym.sym == SDLK_DOWN) {
+			keyboardInput->SetArrowDown(true);
+		} else if (e.key.keysym.sym == SDLK_LEFT) {
+			keyboardInput->SetArrowLeft(true);
+		} else if (e.key.keysym.sym == SDLK_RETURN) {
+			keyboardInput->SetButtonEnter(true);
+		}
+	} else {
+		if (e.key.keysym.sym == SDLK_w) {
+			keyboardInput->SetButtonW(false);
+		} else if (e.key.keysym.sym == SDLK_a) {
+			keyboardInput->SetButtonA(false);
+		} else if (e.key.keysym.sym == SDLK_s) {
+			keyboardInput->SetButtonS(false);
+		} else if (e.key.keysym.sym == SDLK_d) {
+			keyboardInput->SetButtonD(false);
+		} else if (e.key.keysym.sym == SDLK_UP) {
+			keyboardInput->SetArrowUp(false);
+		} else if (e.key.keysym.sym == SDLK_RIGHT) {
+			keyboardInput->SetArrowRight(false);
+		} else if (e.key.keysym.sym == SDLK_DOWN) {
+			keyboardInput->SetArrowDown(false);
+		} else if (e.key.keysym.sym == SDLK_LEFT) {
+			keyboardInput->SetArrowLeft(false);
+		} else if (e.key.keysym.sym == SDLK_RETURN) {
+			keyboardInput->SetButtonEnter(false);
+		}
+	}
 }
 
 void InputHandler::HandleGamepadAxisInput(SDL_Event e) {

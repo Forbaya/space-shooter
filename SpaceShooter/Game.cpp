@@ -32,7 +32,7 @@ StarField* Game::GetStarField() {
 	return starField;
 }
 
-void Game::Tick(GamepadInput *gamepadInput) {
+void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 	SetPaused(gamepadInput->GetStartButton());
 
 	if (!gamepadInput->GetStartButton()) {

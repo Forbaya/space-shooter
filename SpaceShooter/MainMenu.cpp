@@ -34,18 +34,18 @@ MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 MainMenu::~MainMenu() {
 }
 
-void MainMenu::Tick(GamepadInput *gamepadInput) {
+void MainMenu::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
 	optionSwapCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 
-	ChangeSelectedOption(gamepadInput);
-	SelectOption(gamepadInput);
+	ChangeSelectedOption(gamepadInput, keyboardInput);
+	SelectOption(gamepadInput, keyboardInput);
 }
 
-void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
-	if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == 1 || gamepadInput->GetDpadDown())) {
+void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
+	if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == 1 || gamepadInput->GetDpadDown() || keyboardInput->GetArrowDown())) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption++;
@@ -56,7 +56,7 @@ void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput) {
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
-	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == -1 || gamepadInput->GetDpadUp())) {
+	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == -1 || gamepadInput->GetDpadUp() || keyboardInput->GetArrowUp())) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption--;
@@ -88,8 +88,8 @@ SDL_Texture* MainMenu::LoadTextTexture(std::string text, SDL_Color textColor, SD
 	return texture;
 }
 
-void MainMenu::SelectOption(GamepadInput *gamepadInput) {
-	if (gamepadInput->GetButtonA()) {
+void MainMenu::SelectOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
+	if (gamepadInput->GetButtonA() || keyboardInput->GetButtonEnter()) {
 		if (selectedOption == QUIT) {
 			SetRunning(false);
 		} else if (selectedOption == NEW_GAME) {
