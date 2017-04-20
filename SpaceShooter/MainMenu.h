@@ -32,6 +32,8 @@ class MainMenu : public Screen {
 		Time previousTickTime;
 		Nanoseconds optionSwapCooldown;
 		Nanoseconds optionSwapCooldownLeft;
+		Nanoseconds optionSelectCooldown;
+		Nanoseconds optionSelectCooldownLeft;
 };
 
 #endif

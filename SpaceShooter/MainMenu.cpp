@@ -27,6 +27,8 @@ MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 
 	optionSwapCooldown = Nanoseconds(500000000);
 	optionSwapCooldownLeft = zeroNanoseconds;
+	optionSelectCooldown = Nanoseconds(500000000);
+	optionSelectCooldownLeft = optionSelectCooldown;
 
 	currentTickTime = Clock::now();
 }
@@ -39,9 +41,12 @@ void MainMenu::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
 	optionSwapCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
+	optionSelectCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 
 	ChangeSelectedOption(gamepadInput, keyboardInput);
-	SelectOption(gamepadInput, keyboardInput);
+	if (optionSelectCooldownLeft <= zeroNanoseconds) {
+		SelectOption(gamepadInput, keyboardInput);
+	}
 }
 
 void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {

@@ -136,6 +136,9 @@ void Tick() {
 		if (nextScreen == GAME_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
 			screen = &(*new Game(renderer));
+		} else if (nextScreen == MAIN_MENU_SCREEN) {
+			inputHandler->SetScreen(nextScreen);
+			screen = &(*new MainMenu(renderer));
 		}
 	}
 

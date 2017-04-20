@@ -124,25 +124,25 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 			std::remove_if(
 				enemies.begin(), enemies.end(),
 				[&](Enemy *enemy) {
-			bool destroyable = enemy->IsDestroyable();
-			if (destroyable) delete enemy;
-			return destroyable;
-		}
+					bool destroyable = enemy->IsDestroyable();
+					if (destroyable) delete enemy;
+					return destroyable;
+				}
 			),
 			enemies.end()
-			);
+		);
 
 		asteroids.erase(
 			std::remove_if(
 				asteroids.begin(), asteroids.end(),
 				[&](Asteroid *asteroid) {
-			bool destroyable = asteroid->IsDestroyable();
-			if (destroyable) delete asteroid;
-			return destroyable;
-		}
+					bool destroyable = asteroid->IsDestroyable();
+					if (destroyable) delete asteroid;
+					return destroyable;
+				}
 			),
 			asteroids.end()
-			);
+		);
 
 		players.erase(
 			std::remove_if(
@@ -155,6 +155,10 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 			),
 			players.end()
 		);
+
+		if (players.empty() && gamepadInput->GetButtonA()) {
+			SetNextScreen(MAIN_MENU_SCREEN);
+		}
 	}
 }
 
