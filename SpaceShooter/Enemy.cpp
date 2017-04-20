@@ -6,7 +6,7 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegi
 
 	rect = { -32, 32, width, height };
 	rotationSpeed = 45.0;
-	health = 10;
+	health = 3;
 	damage = 1;
 
 	animationLength = Nanoseconds(100000000);

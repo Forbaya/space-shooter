@@ -13,11 +13,36 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	asteroids.push_back(asteroid);
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	passedAsteroidSpawnTime = zeroNanoseconds;
+	timePaused = zeroNanoseconds;
+
+	font = TTF_OpenFont("res/roboto.ttf", 24);
+	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
+	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
+	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
+	youDiedTexture = LoadTextTexture("YOU DIED!", { 255, 255, 255 }, renderer);
 
 	currentTickTime = Clock::now();
 }
 
 Game::~Game() {
+}
+
+SDL_Texture* Game::LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer) {
+	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	SDL_Texture *texture = NULL;
+	if (surface == NULL) {
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else {
+		texture = SDL_CreateTextureFromSurface(renderer, surface);
+		if (texture == NULL) {
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+		}
+
+		SDL_FreeSurface(surface);
+	}
+
+	return texture;
 }
 
 void Game::SetPaused(bool paused) {
@@ -35,11 +60,11 @@ StarField* Game::GetStarField() {
 void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 	SetPaused(gamepadInput->GetStartButton());
 
-	if (!gamepadInput->GetStartButton()) {
-		previousTickTime = currentTickTime;
-		currentTickTime = Clock::now();
-		auto deltaTime = currentTickTime - previousTickTime;
+	previousTickTime = currentTickTime;
+	currentTickTime = Clock::now();
+	auto deltaTime = currentTickTime - previousTickTime;
 
+	if (!paused) {
 		passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 		if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
 			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
@@ -123,15 +148,14 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 			std::remove_if(
 				players.begin(), players.end(),
 				[&](Player *player) {
-			bool destroyable = player->IsDestroyable();
-			if (destroyable) delete player;
-			return destroyable;
-		}
+					bool destroyable = player->IsDestroyable();
+					if (destroyable) delete player;
+					return destroyable;
+				}
 			),
 			players.end()
-			);
+		);
 	}
- 	
 }
 
 void Game::Render() {
@@ -145,6 +169,12 @@ void Game::Render() {
 	for (Player *player : players) {
 		player->Render(renderer);
 	}	
+	if (players.empty()) {
+		SDL_RenderCopy(renderer, youDiedTexture, NULL, &youDiedRect);
+	}
+	if (paused) {
+		SDL_RenderCopy(renderer, pauseTexture, NULL, &pauseRect);
+	}
 }
 
 bool Game::CheckCollision(SDL_Rect a, SDL_Rect b) {
