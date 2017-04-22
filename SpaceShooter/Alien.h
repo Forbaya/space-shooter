@@ -17,7 +17,7 @@ class Alien : public Entity {
 		std::vector<Bullet*> bullets;
 		int damage;
 	public:
-		Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
+		Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore);
 		~Alien();
 		void Shoot(GamepadInput *gamepadInput);
 		std::vector<Bullet*> GetBullets();

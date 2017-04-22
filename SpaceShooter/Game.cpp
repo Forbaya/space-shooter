@@ -3,13 +3,16 @@
 Game::Game(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
 	
+	score = 0;
+	pScore = &score;
+
 	paused = false;
 	starField = new StarField(200);
-	Player *player = new Player(32, 32, renderer, new Vector2(0, 0));
+	Player *player = new Player(32, 32, renderer, new Vector2(0, 0), pScore);
 	players.push_back(player);
-	Enemy *enemy = new Enemy(32, 32, renderer, new Vector2(0, 0));
+	Enemy *enemy = new Enemy(32, 32, renderer, new Vector2(0, 0), pScore);
 	enemies.push_back(enemy);
-	Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
+	Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0), pScore);
 	asteroids.push_back(asteroid);
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	passedAsteroidSpawnTime = zeroNanoseconds;
@@ -18,8 +21,10 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
+	scoreRect = { SCREEN_WIDTH - 60 - 16, 20, 60, 30 };
 	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
 	youDiedTexture = LoadTextTexture("YOU DIED!", { 255, 255, 255 }, renderer);
+	scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
 
 	currentTickTime = Clock::now();
 }
@@ -67,7 +72,7 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 	if (!paused) {
 		passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 		if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
-			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
+			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0), pScore);
 			asteroids.push_back(asteroid);
 			passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
 			this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
@@ -119,6 +124,9 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 				}
 			}
 		}
+
+		SDL_DestroyTexture(scoreTexture);
+		scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
 
 		enemies.erase(
 			std::remove_if(
@@ -179,6 +187,8 @@ void Game::Render() {
 	if (paused) {
 		SDL_RenderCopy(renderer, pauseTexture, NULL, &pauseRect);
 	}
+
+	SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 }
 
 bool Game::CheckCollision(SDL_Rect a, SDL_Rect b) {
@@ -201,4 +211,12 @@ std::vector<Asteroid*> Game::GetAsteroids() {
 
 std::vector<Enemy*> Game::GetEnemies() {
 	return enemies;
+}
+
+long Game::GetScore() {
+	return score;
+}
+
+long* Game::GetScorePointer() {
+	return pScore;
 }

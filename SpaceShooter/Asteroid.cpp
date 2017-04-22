@@ -1,13 +1,14 @@
 #include "Asteroid.h"
 
-Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion) 
-		: Entity(width, height, renderer, textureRegion) {
+Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore) 
+		: Entity(width, height, renderer, textureRegion, gameScore) {
 	RandomizeSpawnSpot(width, height);
 	rotationSpeed = 1.0;
 	health = 1;
 	damage = 2;
 	velocity = rand() % 10 + 1;
 	collision = false;
+	this->reward = 1;
 
 	nextSpawnTime = Nanoseconds(300000000);
 

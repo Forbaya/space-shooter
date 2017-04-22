@@ -24,6 +24,8 @@ class Game : public Screen {
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();
 		std::vector<Enemy*> GetEnemies();
+		long GetScore();
+		long *GetScorePointer();
 	private:
 		bool paused;
 		StarField *starField;
@@ -38,9 +40,13 @@ class Game : public Screen {
 		Nanoseconds timePaused;
 		SDL_Rect pauseRect;
 		SDL_Rect youDiedRect;
+		SDL_Rect scoreRect;
 		SDL_Texture *pauseTexture;
 		SDL_Texture *youDiedTexture;
+		SDL_Texture *scoreTexture;
 		TTF_Font *font;
+		long score;
+		long *pScore;
 };
 
 #endif

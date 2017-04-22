@@ -23,8 +23,10 @@ class Entity {
 		Time currentTickTime;
 		Time previousTickTime;
 		int health;
+		long *gameScore;
+		int reward;
 	public:
-		Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
+		Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore);
 		~Entity();
 		virtual void Tick(GamepadInput *gamepadInput)=0;
 		virtual void Move(int x, int y)=0;

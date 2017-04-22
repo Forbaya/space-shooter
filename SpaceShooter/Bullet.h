@@ -8,7 +8,7 @@
 
 class Bullet : public Entity {
 	public:
-		Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int damage);
+		Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int damage, long *gameScore);
 		~Bullet();
 		Vector2* GetDirection();
 		int GetSpeed();
