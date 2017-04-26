@@ -3,10 +3,12 @@
 #include <math.h> 
 #include <SDL_image.h>
 #include <SDL.h>
+#include <sqlite3.h>
 #include <stdio.h>
 #include <stdio.h>
 #include <string>
 #include "Constants.h"
+#include "Database.h"
 #include "InputHandler.h"
 #include "Game.h"
 #include "MainMenu.h"
@@ -22,6 +24,7 @@ MainMenu *mainMenu;
 InputHandler *inputHandler;
 SDL_Event e;
 Screen *screen;
+Database *db;
 
 bool Initialize();
 void Run();
@@ -60,6 +63,8 @@ bool Initialize() {
 		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 		return false;
 	}
+
+	db = new Database("Database.db");
 
 	game = new Game(renderer);
 	mainMenu = new MainMenu(renderer);
@@ -149,6 +154,7 @@ void Tick() {
 void Close() {
 	delete game;
 	delete inputHandler;
+	delete db;
 
 	SDL_DestroyWindow(window);
 	window = NULL;
