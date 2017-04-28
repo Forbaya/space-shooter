@@ -164,7 +164,7 @@ void Game::Tick(Inputs *inputs) {
 			players.end()
 		);
 
-		if (players.empty() && inputs->GetGamepadInput()->GetButtonA()) {
+		if (players.empty() && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter())) {
 			SetNextScreen(MAIN_MENU_SCREEN);
 		}
 	}

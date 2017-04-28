@@ -17,6 +17,7 @@ class Player : public Alien {
 		~Player();
 		void Move(int x, int y);
 		void Tick(Inputs *inputs);
+		std::pair<int, int> GetMovement(Inputs *inputs);
 		void Render(SDL_Renderer *renderer);
 		bool IsDestroyable();
 };

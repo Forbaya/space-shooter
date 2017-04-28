@@ -11,7 +11,7 @@ const int SCREEN_WIDTH = 720;
 const int SCREEN_HEIGHT = 480;
 const float STAR_MINIMUM_SPEED = 1.2f;
 const float STAR_MIDDLE_SPEED = 0.8f;
-const float STAR_MAXIXMUM_SPEED = 0.5f;
+const float STAR_MAXIMUM_SPEED = 0.5f;
 
 const Nanoseconds zeroNanoseconds = Nanoseconds(0);
 

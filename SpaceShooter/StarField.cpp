@@ -26,6 +26,19 @@ void StarField::Tick(Inputs *inputs) {
 		int x = inputs->GetGamepadInput()->GetLeftX();
 		int y = inputs->GetGamepadInput()->GetLeftY();
 
+		if (inputs->GetKeyboardInput()->GetButtonW()) {
+			y = -REALLY_FAST_SPEED;
+		}
+		if (inputs->GetKeyboardInput()->GetButtonS()) {
+			y = REALLY_FAST_SPEED;
+		}
+		if (inputs->GetKeyboardInput()->GetButtonA()) {
+			x = -REALLY_FAST_SPEED;
+		}
+		if (inputs->GetKeyboardInput()->GetButtonD()) {
+			x = REALLY_FAST_SPEED;
+		}
+
 		star->Move(-x * star->GetSpeed(), -y * star->GetSpeed());
 	}
 }

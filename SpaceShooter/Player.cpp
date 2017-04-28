@@ -37,8 +37,8 @@ void Player::Tick(Inputs *inputs) {
 	Rotate();
 	Alien::Shoot(inputs);
 
-	
-	Move(inputs->GetGamepadInput()->GetLeftX(), inputs->GetGamepadInput()->GetLeftY());
+	std::pair<int, int> movement = GetMovement(inputs);
+	Move(movement.first, movement.second);
 
 	for (Bullet *bullet : bullets) {
 		bullet->Tick(inputs);
@@ -56,6 +56,25 @@ void Player::Tick(Inputs *inputs) {
 		),
 		bullets.end()
 	);
+}
+
+std::pair<int, int> Player::GetMovement(Inputs *inputs) {
+	int x = inputs->GetGamepadInput()->GetLeftX();
+	int y = inputs->GetGamepadInput()->GetLeftY();
+	if (inputs->GetKeyboardInput()->GetButtonW()) {
+		y = -REALLY_FAST_SPEED;
+	}
+	if (inputs->GetKeyboardInput()->GetButtonS()) {
+		y = REALLY_FAST_SPEED;
+	}
+	if (inputs->GetKeyboardInput()->GetButtonA()) {
+		x = -REALLY_FAST_SPEED;
+	}
+	if (inputs->GetKeyboardInput()->GetButtonD()) {
+		x = REALLY_FAST_SPEED;
+	}
+
+	return std::pair<int, int>(x, y);
 }
 
 void Player::Move(int x, int y) {

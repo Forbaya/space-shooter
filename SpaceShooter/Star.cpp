@@ -27,9 +27,9 @@ int Star::GetSize() {
 
 float Star::GetSpeed() {
 	if (size == 2) {
-		return STAR_MAXIXMUM_SPEED;
+		return STAR_MIDDLE_SPEED;
 	}
-	return size == 3 ? STAR_MIDDLE_SPEED : STAR_MAXIXMUM_SPEED;
+	return size == 3 ? STAR_MAXIMUM_SPEED : STAR_MINIMUM_SPEED;
 }
 
 SDL_Rect Star::GetRect(){
