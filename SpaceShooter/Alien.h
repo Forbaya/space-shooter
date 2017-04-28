@@ -8,6 +8,7 @@
 #include <vector>
 #include "Bullet.h"
 #include "Entity.h"
+#include "Inputs.h"
 #include "Vector2.h"
 
 class Alien : public Entity {
@@ -19,7 +20,7 @@ class Alien : public Entity {
 	public:
 		Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore);
 		~Alien();
-		void Shoot(GamepadInput *gamepadInput);
+		void Shoot(Inputs *inputs);
 		std::vector<Bullet*> GetBullets();
 		void SetDamage(int damage);
 		int GetDamage();

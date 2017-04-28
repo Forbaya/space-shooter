@@ -8,7 +8,7 @@ Screen::Screen() {
 Screen::~Screen() {
 }
 
-void Screen::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
+void Screen::Tick(Inputs *inputs) {
 }
 
 void Screen::Render() {

@@ -14,11 +14,11 @@ class MainMenu : public Screen {
 	public:
 		MainMenu(SDL_Renderer *renderer);
 		~MainMenu();
-		void Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
+		void Tick(Inputs *inputs);
 		void Render();
-		void ChangeSelectedOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
+		void ChangeSelectedOption(Inputs *inputs);
 		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
-		void SelectOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
+		void SelectOption(Inputs *inputs);
 	private:
 		SDL_Renderer *renderer;
 		TTF_Font *font;

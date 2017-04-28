@@ -1,8 +1,7 @@
 #include "InputHandler.h"
 
 InputHandler::InputHandler() {
-	gamepadInput = new GamepadInput();
-	keyboardInput = new KeyboardInput();
+	inputs = new Inputs();
 	screen = MAIN_MENU_SCREEN;
 }
 
@@ -20,12 +19,8 @@ void InputHandler::HandleInput(SDL_Event e, Game *game) {
 	}
 }
 
-GamepadInput* InputHandler::GetGamepadInput() {
-	return gamepadInput;
-}
-
-KeyboardInput* InputHandler::GetKeyboardInput() {
-	return keyboardInput;
+Inputs* InputHandler::GetInputs() {
+	return inputs;
 }
 
 int InputHandler::GetScreen() {
@@ -39,43 +34,43 @@ void InputHandler::SetScreen(int screen) {
 void InputHandler::HandleKeyboardInput(SDL_Event e) {
 	if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_w) {
-			keyboardInput->SetButtonW(true);
+			inputs->GetKeyboardInput()->SetButtonW(true);
 		} else if (e.key.keysym.sym == SDLK_a) {
-			keyboardInput->SetButtonA(true);
+			inputs->GetKeyboardInput()->SetButtonA(true);
 		} else if (e.key.keysym.sym == SDLK_s) {
-			keyboardInput->SetButtonS(true);
+			inputs->GetKeyboardInput()->SetButtonS(true);
 		} else if (e.key.keysym.sym == SDLK_d) {
-			keyboardInput->SetButtonD(true);
+			inputs->GetKeyboardInput()->SetButtonD(true);
 		} else if (e.key.keysym.sym == SDLK_UP) {
-			keyboardInput->SetArrowUp(true);
+			inputs->GetKeyboardInput()->SetArrowUp(true);
 		} else if (e.key.keysym.sym == SDLK_RIGHT) {
-			keyboardInput->SetArrowRight(true);
+			inputs->GetKeyboardInput()->SetArrowRight(true);
 		} else if (e.key.keysym.sym == SDLK_DOWN) {
-			keyboardInput->SetArrowDown(true);
+			inputs->GetKeyboardInput()->SetArrowDown(true);
 		} else if (e.key.keysym.sym == SDLK_LEFT) {
-			keyboardInput->SetArrowLeft(true);
+			inputs->GetKeyboardInput()->SetArrowLeft(true);
 		} else if (e.key.keysym.sym == SDLK_RETURN) {
-			keyboardInput->SetButtonEnter(true);
+			inputs->GetKeyboardInput()->SetButtonEnter(true);
 		}
 	} else {
 		if (e.key.keysym.sym == SDLK_w) {
-			keyboardInput->SetButtonW(false);
+			inputs->GetKeyboardInput()->SetButtonW(false);
 		} else if (e.key.keysym.sym == SDLK_a) {
-			keyboardInput->SetButtonA(false);
+			inputs->GetKeyboardInput()->SetButtonA(false);
 		} else if (e.key.keysym.sym == SDLK_s) {
-			keyboardInput->SetButtonS(false);
+			inputs->GetKeyboardInput()->SetButtonS(false);
 		} else if (e.key.keysym.sym == SDLK_d) {
-			keyboardInput->SetButtonD(false);
+			inputs->GetKeyboardInput()->SetButtonD(false);
 		} else if (e.key.keysym.sym == SDLK_UP) {
-			keyboardInput->SetArrowUp(false);
+			inputs->GetKeyboardInput()->SetArrowUp(false);
 		} else if (e.key.keysym.sym == SDLK_RIGHT) {
-			keyboardInput->SetArrowRight(false);
+			inputs->GetKeyboardInput()->SetArrowRight(false);
 		} else if (e.key.keysym.sym == SDLK_DOWN) {
-			keyboardInput->SetArrowDown(false);
+			inputs->GetKeyboardInput()->SetArrowDown(false);
 		} else if (e.key.keysym.sym == SDLK_LEFT) {
-			keyboardInput->SetArrowLeft(false);
+			inputs->GetKeyboardInput()->SetArrowLeft(false);
 		} else if (e.key.keysym.sym == SDLK_RETURN) {
-			keyboardInput->SetButtonEnter(false);
+			inputs->GetKeyboardInput()->SetButtonEnter(false);
 		}
 	}
 }
@@ -87,21 +82,21 @@ void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 
 	if (screen == MAIN_MENU_SCREEN) {
 		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY && (value >= 8000 || value <= -8000)) {
-			gamepadInput->SetLeftY(dir);
+			inputs->GetGamepadInput()->SetLeftY(dir);
 		} else {
-			gamepadInput->SetLeftY(0);
+			inputs->GetGamepadInput()->SetLeftY(0);
 		}
 	} else if (screen == GAME_SCREEN) {
 		if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX) {
-			gamepadInput->SetLeftX(speed * dir);
+			inputs->GetGamepadInput()->SetLeftX(speed * dir);
 		} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY) {
-			gamepadInput->SetLeftY(speed * dir);
+			inputs->GetGamepadInput()->SetLeftY(speed * dir);
 		} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX) {
 			int rightX = value >= 3600 || value <= -3600 ? 1 * dir : 0;
-			gamepadInput->SetRightX(rightX);
+			inputs->GetGamepadInput()->SetRightX(rightX);
 		} else if (e.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY) {
 			int rightY = value >= 15000 || value <= -15000 ? 1 * dir : 0;
-			gamepadInput->SetRightY(rightY);
+			inputs->GetGamepadInput()->SetRightY(rightY);
 		}
 	}
 }
@@ -109,41 +104,41 @@ void InputHandler::HandleGamepadAxisInput(SDL_Event e) {
 void InputHandler::HandleGamepadButtonInput(SDL_Event e) {
 	if (e.type == SDL_CONTROLLERBUTTONDOWN) {
 		if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-			gamepadInput->SetButtonA(true);
+			inputs->GetGamepadInput()->SetButtonA(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
-			gamepadInput->SetButtonB(true);
+			inputs->GetGamepadInput()->SetButtonB(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
-			gamepadInput->SetButtonX(true);
+			inputs->GetGamepadInput()->SetButtonX(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
-			gamepadInput->SetButtonY(true);
+			inputs->GetGamepadInput()->SetButtonY(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-			gamepadInput->SetDpadUp(true);
+			inputs->GetGamepadInput()->SetDpadUp(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-			gamepadInput->SetDpadRight(true);
+			inputs->GetGamepadInput()->SetDpadRight(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-			gamepadInput->SetDpadDown(true);
+			inputs->GetGamepadInput()->SetDpadDown(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-			gamepadInput->SetDpadLeft(true);
+			inputs->GetGamepadInput()->SetDpadLeft(true);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
-			gamepadInput->TogglePause();
+			inputs->GetGamepadInput()->TogglePause();
 		}
 	} else {
 		if (e.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-			gamepadInput->SetButtonA(false);
+			inputs->GetGamepadInput()->SetButtonA(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
-			gamepadInput->SetButtonB(false);
+			inputs->GetGamepadInput()->SetButtonB(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
-			gamepadInput->SetButtonX(false);
+			inputs->GetGamepadInput()->SetButtonX(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
-			gamepadInput->SetButtonY(false);
+			inputs->GetGamepadInput()->SetButtonY(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-			gamepadInput->SetDpadUp(false);
+			inputs->GetGamepadInput()->SetDpadUp(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-			gamepadInput->SetDpadRight(false);
+			inputs->GetGamepadInput()->SetDpadRight(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-			gamepadInput->SetDpadDown(false);
+			inputs->GetGamepadInput()->SetDpadDown(false);
 		} else if (e.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-			gamepadInput->SetDpadLeft(false);
+			inputs->GetGamepadInput()->SetDpadLeft(false);
 		}
 	}
 }

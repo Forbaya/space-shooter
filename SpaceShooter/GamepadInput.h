@@ -2,9 +2,8 @@
 #define GAMEPAD_H
 
 #include "Constants.h"
-#include "InputMap.h"
 
-class GamepadInput : public InputMap {
+class GamepadInput {
 	public:
 		GamepadInput();
 		~GamepadInput();

@@ -4,7 +4,7 @@
 #include <SDL_image.h>
 #include <SDL.h>
 #include <string>
-#include "GamepadInput.h"
+#include "Inputs.h"
 #include "Vector2.h"
 
 class Entity {
@@ -28,7 +28,7 @@ class Entity {
 	public:
 		Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore);
 		~Entity();
-		virtual void Tick(GamepadInput *gamepadInput)=0;
+		virtual void Tick(Inputs *inputs)=0;
 		virtual void Move(int x, int y)=0;
 		virtual void Render(SDL_Renderer *renderer)=0;
 

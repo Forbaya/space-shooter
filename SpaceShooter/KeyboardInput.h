@@ -1,9 +1,7 @@
 #ifndef KEYBOARDINPUT_H
 #define KEYBOARDINPUT_H
 
-#include "InputMap.h"
-
-class KeyboardInput : public InputMap {
+class KeyboardInput {
 	public:
 		KeyboardInput();
 		~KeyboardInput();

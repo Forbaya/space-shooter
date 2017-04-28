@@ -37,7 +37,7 @@ void Bullet::GetSpeed(int speed) {
 	this->speed = speed;
 }
 
-void Bullet::Tick(GamepadInput *gamepadInput) {
+void Bullet::Tick(Inputs *inputs) {
 	Move(direction->GetX(), direction->GetY());
 }
 

@@ -25,7 +25,7 @@ void Asteroid::Move(int x, int y) {
 	rect.y += y;
 }
 
-void Asteroid::Tick(GamepadInput *gamepadInput) {
+void Asteroid::Tick(Inputs *inputs) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;

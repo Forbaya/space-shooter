@@ -147,7 +147,7 @@ void Tick() {
 		}
 	}
 
-	screen->Tick(inputHandler->GetGamepadInput(), inputHandler->GetKeyboardInput());
+	screen->Tick(inputHandler->GetInputs());
 }
 
 /* Closes the window. */

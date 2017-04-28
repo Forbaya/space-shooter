@@ -36,21 +36,22 @@ MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 MainMenu::~MainMenu() {
 }
 
-void MainMenu::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
+void MainMenu::Tick(Inputs *inputs) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
 	optionSwapCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	optionSelectCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 
-	ChangeSelectedOption(gamepadInput, keyboardInput);
+	ChangeSelectedOption(inputs);
 	if (optionSelectCooldownLeft <= zeroNanoseconds) {
-		SelectOption(gamepadInput, keyboardInput);
+		SelectOption(inputs);
 	}
 }
 
-void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
-	if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == 1 || gamepadInput->GetDpadDown() || keyboardInput->GetArrowDown())) {
+void MainMenu::ChangeSelectedOption(Inputs *inputs) {
+	if (optionSwapCooldownLeft <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == 1 || 
+			inputs->GetGamepadInput()->GetDpadDown() || inputs->GetKeyboardInput()->GetArrowDown())) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption++;
@@ -61,7 +62,8 @@ void MainMenu::ChangeSelectedOption(GamepadInput *gamepadInput, KeyboardInput *k
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
-	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (gamepadInput->GetLeftY() == -1 || gamepadInput->GetDpadUp() || keyboardInput->GetArrowUp())) {
+	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == -1 || 
+			inputs->GetGamepadInput()->GetDpadUp() || inputs->GetKeyboardInput()->GetArrowUp())) {
 		optionSwapCooldownLeft = optionSwapCooldown;
 		int previousOption = selectedOption;
 		selectedOption--;
@@ -93,8 +95,8 @@ SDL_Texture* MainMenu::LoadTextTexture(std::string text, SDL_Color textColor, SD
 	return texture;
 }
 
-void MainMenu::SelectOption(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
-	if (gamepadInput->GetButtonA() || keyboardInput->GetButtonEnter()) {
+void MainMenu::SelectOption(Inputs *inputs) {
+	if (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter()) {
 		if (selectedOption == QUIT) {
 			SetRunning(false);
 		} else if (selectedOption == NEW_GAME) {

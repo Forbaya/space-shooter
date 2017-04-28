@@ -134,7 +134,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="InputMap.cpp" />
+    <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -156,7 +156,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="InputMap.h" />
+    <ClInclude Include="Inputs.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />

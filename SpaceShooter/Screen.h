@@ -2,8 +2,7 @@
 #define SCREEN_H
 
 #include <SDL.h>
-#include "GamepadInput.h"
-#include "KeyboardInput.h"
+#include "Inputs.h"
 
 class Screen {
 	protected:
@@ -12,7 +11,7 @@ class Screen {
 	public:
 		Screen();
 		~Screen();
-		virtual void Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
+		virtual void Tick(Inputs *inputs);
 		virtual void Render();
 		bool IsRunning();
 		int GetNextScreen();

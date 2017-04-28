@@ -23,7 +23,7 @@ Enemy::~Enemy() {
 	texture = NULL;
 }
 
-void Enemy::Tick(GamepadInput *gamepadInput) {
+void Enemy::Tick(Inputs *inputs) {
 	if (!IsDead()) {
 		previousTickTime = currentTickTime;
 		currentTickTime = Clock::now();

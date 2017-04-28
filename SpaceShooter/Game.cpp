@@ -62,8 +62,8 @@ StarField* Game::GetStarField() {
 	return starField;
 }
 
-void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
-	SetPaused(gamepadInput->GetStartButton());
+void Game::Tick(Inputs *inputs) {
+	SetPaused(inputs->GetGamepadInput()->GetStartButton());
 
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
@@ -79,16 +79,16 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 		}
 
 		if (players.size() > 0) {
-			starField->Tick(gamepadInput);
+			starField->Tick(inputs);
 		}
 		for (Player *player : players) {
-			player->Tick(gamepadInput);
+			player->Tick(inputs);
 		}
 		for (Enemy *enemy : enemies) {
-			enemy->Tick(gamepadInput);
+			enemy->Tick(inputs);
 		}
 		for (Asteroid *asteroid : asteroids) {
-			asteroid->Tick(gamepadInput);
+			asteroid->Tick(inputs);
 		}
 
 		for (Enemy *enemy : enemies) {
@@ -164,7 +164,7 @@ void Game::Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput) {
 			players.end()
 		);
 
-		if (players.empty() && gamepadInput->GetButtonA()) {
+		if (players.empty() && inputs->GetGamepadInput()->GetButtonA()) {
 			SetNextScreen(MAIN_MENU_SCREEN);
 		}
 	}

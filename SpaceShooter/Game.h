@@ -19,7 +19,7 @@ class Game : public Screen {
 		void SetPaused(bool paused);
 		bool GetPaused();
 		StarField* GetStarField();
-		void Tick(GamepadInput *gamepadInput, KeyboardInput *keyboardInput);
+		void Tick(Inputs *inputs);
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();

@@ -6,9 +6,9 @@
 #include <SDL.h>
 #include <vector>
 #include "Alien.h"
-#include "GamepadInput.h"
 #include "Bullet.h"
 #include "Constants.h"
+#include "Inputs.h"
 #include "Vector2.h"
 
 class Player : public Alien {
@@ -16,7 +16,7 @@ class Player : public Alien {
 		Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore);
 		~Player();
 		void Move(int x, int y);
-		void Tick(GamepadInput *gamepadInput);
+		void Tick(Inputs *inputs);
 		void Render(SDL_Renderer *renderer);
 		bool IsDestroyable();
 };

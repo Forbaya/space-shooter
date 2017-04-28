@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "GamepadInput.h"
 #include "Game.h"
+#include "Inputs.h"
 #include "KeyboardInput.h"
 #include "Player.h"
 
@@ -12,8 +13,7 @@ class InputHandler {
 		InputHandler();
 		~InputHandler();
 		void HandleInput(SDL_Event e, Game *game);
-		GamepadInput* GetGamepadInput();
-		KeyboardInput* GetKeyboardInput();
+		Inputs* GetInputs();
 		int GetScreen();
 		void SetScreen(int screen);
 	private:
@@ -21,8 +21,7 @@ class InputHandler {
 		void HandleGamepadAxisInput(SDL_Event e);
 		void HandleGamepadButtonInput(SDL_Event e);
 		MovementSpeed MapAxisValueToMovementSpeed(int value);
-		GamepadInput *gamepadInput;
-		KeyboardInput *keyboardInput;
+		Inputs *inputs;
 		int screen;
 };
 
