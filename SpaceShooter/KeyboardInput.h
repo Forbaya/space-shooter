@@ -14,6 +14,7 @@ class KeyboardInput {
 		bool GetButtonS();
 		bool GetButtonD();
 		bool GetButtonEnter();
+		bool GetButtonEsc();
 		void SetArrowUp(bool arrowUp);
 		void SetArrowRight(bool arrowRight);
 		void SetArrowDown(bool arrowDown);
@@ -23,6 +24,7 @@ class KeyboardInput {
 		void SetButtonS(bool buttonS);
 		void SetButtonD(bool buttonD);
 		void SetButtonEnter(bool buttonEnter);
+		void SetButtonEsc(bool buttonEsc);
 	private:
 		bool arrowUp;
 		bool arrowRight;
@@ -33,6 +35,7 @@ class KeyboardInput {
 		bool buttonS;
 		bool buttonD;
 		bool buttonEnter;
+		bool buttonEsc;
 };
 
 #endif

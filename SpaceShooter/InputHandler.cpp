@@ -9,8 +9,7 @@ InputHandler::~InputHandler() {
 }
 
 void InputHandler::HandleInput(SDL_Event e, Game *game) {
-	if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
-	} else if (e.type == SDL_CONTROLLERAXISMOTION) {
+	if (e.type == SDL_CONTROLLERAXISMOTION) {
 		HandleGamepadAxisInput(e);
 	} else if (e.type == SDL_CONTROLLERBUTTONDOWN || e.type == SDL_CONTROLLERBUTTONUP) {
 		HandleGamepadButtonInput(e);
@@ -51,6 +50,8 @@ void InputHandler::HandleKeyboardInput(SDL_Event e) {
 			inputs->GetKeyboardInput()->SetArrowLeft(true);
 		} else if (e.key.keysym.sym == SDLK_RETURN) {
 			inputs->GetKeyboardInput()->SetButtonEnter(true);
+		} else if (e.key.keysym.sym == SDLK_ESCAPE) {
+			inputs->GetKeyboardInput()->SetButtonEsc(true);
 		}
 	} else {
 		if (e.key.keysym.sym == SDLK_w) {
@@ -71,6 +72,8 @@ void InputHandler::HandleKeyboardInput(SDL_Event e) {
 			inputs->GetKeyboardInput()->SetArrowLeft(false);
 		} else if (e.key.keysym.sym == SDLK_RETURN) {
 			inputs->GetKeyboardInput()->SetButtonEnter(false);
+		} else if (e.key.keysym.sym == SDLK_ESCAPE) {
+			inputs->GetKeyboardInput()->SetButtonEsc(false);
 		}
 	}
 }

@@ -22,6 +22,9 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	scoreRect = { SCREEN_WIDTH - 60 - 16, 20, 60, 30 };
+	int playerHealth = player->GetHealth();
+	healthBarRect = { 20, 20, playerHealth * 30, 30 };
+	healthLeftRect = { 20, 20, playerHealth * 30, 30 };
 	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
 	youDiedTexture = LoadTextTexture("YOU DIED!", { 255, 255, 255 }, renderer);
 	scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
@@ -164,10 +167,19 @@ void Game::Tick(Inputs *inputs) {
 			players.end()
 		);
 
-		if (players.empty() && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter())) {
+		if (players.empty() && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter() || 
+				inputs->GetKeyboardInput()->GetButtonEsc())) {
 			SetNextScreen(MAIN_MENU_SCREEN);
 		}
+
+		if (players.size() == 0) {
+			healthLeftRect = { 20, 20, 0, 30 };
+		} else {
+			healthLeftRect = { 20, 20, players.at(0)->GetHealth() * 30, 30 };
+		}
+		
 	}
+
 }
 
 void Game::Render() {
@@ -187,6 +199,11 @@ void Game::Render() {
 	if (paused) {
 		SDL_RenderCopy(renderer, pauseTexture, NULL, &pauseRect);
 	}
+
+	SDL_SetRenderDrawColor(renderer, 50, 50, 50, 50);
+	SDL_RenderFillRect(renderer, &healthBarRect);
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+	SDL_RenderFillRect(renderer, &healthLeftRect);
 
 	SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 }

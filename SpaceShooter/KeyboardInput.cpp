@@ -10,6 +10,7 @@ KeyboardInput::KeyboardInput() {
 	buttonS = false;
 	buttonD = false;
 	buttonEnter = false;
+	buttonEsc = false;
 }
 
 KeyboardInput::~KeyboardInput() {
@@ -51,6 +52,10 @@ bool KeyboardInput::GetButtonEnter() {
 	return buttonEnter;
 }
 
+bool KeyboardInput::GetButtonEsc() {
+	return buttonEsc;
+}
+
 void KeyboardInput::SetArrowUp(bool arrowUp) {
 	this->arrowUp = arrowUp;
 }
@@ -85,4 +90,8 @@ void KeyboardInput::SetButtonD(bool buttonD) {
 
 void KeyboardInput::SetButtonEnter(bool buttonEnter) {
 	this->buttonEnter = buttonEnter;
+}
+
+void KeyboardInput::SetButtonEsc(bool buttonEsc) {
+	this->buttonEsc = buttonEsc;
 }

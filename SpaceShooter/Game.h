@@ -41,6 +41,8 @@ class Game : public Screen {
 		SDL_Rect pauseRect;
 		SDL_Rect youDiedRect;
 		SDL_Rect scoreRect;
+		SDL_Rect healthBarRect;
+		SDL_Rect healthLeftRect;
 		SDL_Texture *pauseTexture;
 		SDL_Texture *youDiedTexture;
 		SDL_Texture *scoreTexture;
