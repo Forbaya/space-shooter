@@ -53,6 +53,7 @@ class Game : public Screen {
 		TTF_Font *font;
 		long score;
 		long *pScore;
+		int CountDigitsInInteger(int x);
 };
 
 #endif

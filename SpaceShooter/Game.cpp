@@ -21,7 +21,8 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
-	scoreRect = { SCREEN_WIDTH - 60 - 16, 50, 60, 30 };
+	int scoreDigits = CountDigitsInInteger(score);
+	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 50, 30 * scoreDigits, 30 };
 	scoreTextRect = { SCREEN_WIDTH - 75 - 20, 20, 75, 28 };
 	int playerHealth = player->GetHealth();
 	healthTextRect = { 20, 20, 90, 28 };
@@ -210,6 +211,8 @@ void Game::Render() {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 	SDL_RenderFillRect(renderer, &healthLeftRect);
 
+	int scoreDigits = CountDigitsInInteger(score);
+	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 50, 30 * scoreDigits, 30 };
 	SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 	SDL_RenderCopy(renderer, healthTextTexture, NULL, &healthTextRect);
 	SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);
@@ -243,4 +246,15 @@ long Game::GetScore() {
 
 long* Game::GetScorePointer() {
 	return pScore;
+}
+
+int Game::CountDigitsInInteger(int x) {
+	int digits = 0;
+
+	do {
+		digits++;
+		x /= 10;
+	} while (x);
+
+	return digits;
 }

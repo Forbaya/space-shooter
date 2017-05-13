@@ -10,7 +10,6 @@ Star::Star(int x, int y, int size, int speed) {
 }
 
 Star::~Star() {
-
 }
 
 int Star::GetX() {
