@@ -6,7 +6,7 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textu
 	rotationSpeed = 1.0;
 	health = 1;
 	damage = 2;
-	velocity = rand() % 10 + 1;
+	velocity = rand() % 9 + 1;
 	collision = false;
 	this->reward = 1;
 

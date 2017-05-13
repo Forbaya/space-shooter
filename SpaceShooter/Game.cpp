@@ -21,13 +21,18 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
-	scoreRect = { SCREEN_WIDTH - 60 - 16, 20, 60, 30 };
+	scoreRect = { SCREEN_WIDTH - 60 - 16, 50, 60, 30 };
+	scoreTextRect = { SCREEN_WIDTH - 75 - 20, 20, 75, 28 };
 	int playerHealth = player->GetHealth();
-	healthBarRect = { 20, 20, playerHealth * 30, 30 };
-	healthLeftRect = { 20, 20, playerHealth * 30, 30 };
+	healthTextRect = { 20, 20, 90, 28 };
+	healthBarRect = { 20, 50, playerHealth * 30, 30 };
+	healthLeftRect = { 20, 50, playerHealth * 30, 30 };
+
 	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
 	youDiedTexture = LoadTextTexture("YOU DIED!", { 255, 255, 255 }, renderer);
 	scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
+	healthTextTexture = LoadTextTexture("Health", { 255, 255, 255 }, renderer);
+	scoreTextTexture = LoadTextTexture("Score", { 255, 255, 255 }, renderer);
 
 	currentTickTime = Clock::now();
 }
@@ -173,9 +178,9 @@ void Game::Tick(Inputs *inputs) {
 		}
 
 		if (players.size() == 0) {
-			healthLeftRect = { 20, 20, 0, 30 };
+			healthLeftRect = { 20, 50, 0, 30 };
 		} else {
-			healthLeftRect = { 20, 20, players.at(0)->GetHealth() * 30, 30 };
+			healthLeftRect = { 20, 50, players.at(0)->GetHealth() * 30, 30 };
 		}
 		
 	}
@@ -206,6 +211,8 @@ void Game::Render() {
 	SDL_RenderFillRect(renderer, &healthLeftRect);
 
 	SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+	SDL_RenderCopy(renderer, healthTextTexture, NULL, &healthTextRect);
+	SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);
 }
 
 bool Game::CheckCollision(SDL_Rect a, SDL_Rect b) {
