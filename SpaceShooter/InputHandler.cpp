@@ -32,14 +32,60 @@ void InputHandler::SetScreen(int screen) {
 
 void InputHandler::HandleKeyboardInput(SDL_Event e) {
 	if (e.type == SDL_KEYDOWN) {
-		if (e.key.keysym.sym == SDLK_w) {
+		if (e.key.keysym.sym == SDLK_q) {
+			inputs->GetKeyboardInput()->SetButtonQ(true);
+		} else if (e.key.keysym.sym == SDLK_w) {
 			inputs->GetKeyboardInput()->SetButtonW(true);
+		} else if (e.key.keysym.sym == SDLK_e) {
+			inputs->GetKeyboardInput()->SetButtonE(true);
+		} else if (e.key.keysym.sym == SDLK_r) {
+			inputs->GetKeyboardInput()->SetButtonR(true);
+		} else if (e.key.keysym.sym == SDLK_t) {
+			inputs->GetKeyboardInput()->SetButtonT(true);
+		} else if (e.key.keysym.sym == SDLK_y) {
+			inputs->GetKeyboardInput()->SetButtonY(true);
+		} else if (e.key.keysym.sym == SDLK_u) {
+			inputs->GetKeyboardInput()->SetButtonU(true);
+		} else if (e.key.keysym.sym == SDLK_i) {
+			inputs->GetKeyboardInput()->SetButtonI(true);
+		} else if (e.key.keysym.sym == SDLK_o) {
+			inputs->GetKeyboardInput()->SetButtonO(true);
+		} else if (e.key.keysym.sym == SDLK_p) {
+			inputs->GetKeyboardInput()->SetButtonP(true);
 		} else if (e.key.keysym.sym == SDLK_a) {
 			inputs->GetKeyboardInput()->SetButtonA(true);
 		} else if (e.key.keysym.sym == SDLK_s) {
 			inputs->GetKeyboardInput()->SetButtonS(true);
 		} else if (e.key.keysym.sym == SDLK_d) {
 			inputs->GetKeyboardInput()->SetButtonD(true);
+		} else if (e.key.keysym.sym == SDLK_d) {
+			inputs->GetKeyboardInput()->SetButtonD(true);
+		} else if (e.key.keysym.sym == SDLK_f) {
+			inputs->GetKeyboardInput()->SetButtonF(true);
+		} else if (e.key.keysym.sym == SDLK_g) {
+			inputs->GetKeyboardInput()->SetButtonG(true);
+		} else if (e.key.keysym.sym == SDLK_h) {
+			inputs->GetKeyboardInput()->SetButtonH(true);
+		} else if (e.key.keysym.sym == SDLK_j) {
+			inputs->GetKeyboardInput()->SetButtonJ(true);
+		} else if (e.key.keysym.sym == SDLK_k) {
+			inputs->GetKeyboardInput()->SetButtonK(true);
+		} else if (e.key.keysym.sym == SDLK_l) {
+			inputs->GetKeyboardInput()->SetButtonL(true);
+		} else if (e.key.keysym.sym == SDLK_z) {
+			inputs->GetKeyboardInput()->SetButtonZ(true);
+		} else if (e.key.keysym.sym == SDLK_x) {
+			inputs->GetKeyboardInput()->SetButtonX(true);
+		} else if (e.key.keysym.sym == SDLK_c) {
+			inputs->GetKeyboardInput()->SetButtonC(true);
+		} else if (e.key.keysym.sym == SDLK_v) {
+			inputs->GetKeyboardInput()->SetButtonV(true);
+		} else if (e.key.keysym.sym == SDLK_b) {
+			inputs->GetKeyboardInput()->SetButtonB(true);
+		} else if (e.key.keysym.sym == SDLK_n) {
+			inputs->GetKeyboardInput()->SetButtonN(true);
+		} else if (e.key.keysym.sym == SDLK_m) {
+			inputs->GetKeyboardInput()->SetButtonM(true);
 		} else if (e.key.keysym.sym == SDLK_UP) {
 			inputs->GetKeyboardInput()->SetArrowUp(true);
 		} else if (e.key.keysym.sym == SDLK_RIGHT) {
@@ -54,14 +100,60 @@ void InputHandler::HandleKeyboardInput(SDL_Event e) {
 			inputs->GetKeyboardInput()->SetButtonEsc(true);
 		}
 	} else {
-		if (e.key.keysym.sym == SDLK_w) {
+		if (e.key.keysym.sym == SDLK_q) {
+			inputs->GetKeyboardInput()->SetButtonQ(false);
+		} else if (e.key.keysym.sym == SDLK_w) {
 			inputs->GetKeyboardInput()->SetButtonW(false);
+		} else if (e.key.keysym.sym == SDLK_e) {
+			inputs->GetKeyboardInput()->SetButtonE(false);
+		} else if (e.key.keysym.sym == SDLK_r) {
+			inputs->GetKeyboardInput()->SetButtonR(false);
+		} else if (e.key.keysym.sym == SDLK_t) {
+			inputs->GetKeyboardInput()->SetButtonT(false);
+		} else if (e.key.keysym.sym == SDLK_y) {
+			inputs->GetKeyboardInput()->SetButtonY(false);
+		} else if (e.key.keysym.sym == SDLK_u) {
+			inputs->GetKeyboardInput()->SetButtonU(false);
+		} else if (e.key.keysym.sym == SDLK_i) {
+			inputs->GetKeyboardInput()->SetButtonI(false);
+		} else if (e.key.keysym.sym == SDLK_o) {
+			inputs->GetKeyboardInput()->SetButtonO(false);
+		} else if (e.key.keysym.sym == SDLK_p) {
+			inputs->GetKeyboardInput()->SetButtonP(false);
 		} else if (e.key.keysym.sym == SDLK_a) {
 			inputs->GetKeyboardInput()->SetButtonA(false);
 		} else if (e.key.keysym.sym == SDLK_s) {
 			inputs->GetKeyboardInput()->SetButtonS(false);
 		} else if (e.key.keysym.sym == SDLK_d) {
 			inputs->GetKeyboardInput()->SetButtonD(false);
+		} else if (e.key.keysym.sym == SDLK_d) {
+			inputs->GetKeyboardInput()->SetButtonD(false);
+		} else if (e.key.keysym.sym == SDLK_f) {
+			inputs->GetKeyboardInput()->SetButtonF(false);
+		} else if (e.key.keysym.sym == SDLK_g) {
+			inputs->GetKeyboardInput()->SetButtonG(false);
+		} else if (e.key.keysym.sym == SDLK_h) {
+			inputs->GetKeyboardInput()->SetButtonH(false);
+		} else if (e.key.keysym.sym == SDLK_j) {
+			inputs->GetKeyboardInput()->SetButtonJ(false);
+		} else if (e.key.keysym.sym == SDLK_k) {
+			inputs->GetKeyboardInput()->SetButtonK(false);
+		} else if (e.key.keysym.sym == SDLK_l) {
+			inputs->GetKeyboardInput()->SetButtonL(false);
+		} else if (e.key.keysym.sym == SDLK_z) {
+			inputs->GetKeyboardInput()->SetButtonZ(false);
+		} else if (e.key.keysym.sym == SDLK_x) {
+			inputs->GetKeyboardInput()->SetButtonX(false);
+		} else if (e.key.keysym.sym == SDLK_c) {
+			inputs->GetKeyboardInput()->SetButtonC(false);
+		} else if (e.key.keysym.sym == SDLK_v) {
+			inputs->GetKeyboardInput()->SetButtonV(false);
+		} else if (e.key.keysym.sym == SDLK_b) {
+			inputs->GetKeyboardInput()->SetButtonB(false);
+		} else if (e.key.keysym.sym == SDLK_n) {
+			inputs->GetKeyboardInput()->SetButtonN(false);
+		} else if (e.key.keysym.sym == SDLK_m) {
+			inputs->GetKeyboardInput()->SetButtonM(false);
 		} else if (e.key.keysym.sym == SDLK_UP) {
 			inputs->GetKeyboardInput()->SetArrowUp(false);
 		} else if (e.key.keysym.sym == SDLK_RIGHT) {

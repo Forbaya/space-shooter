@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 Game::Game(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
@@ -17,6 +18,8 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	passedAsteroidSpawnTime = zeroNanoseconds;
 	timePaused = zeroNanoseconds;
+	textCooldown = Nanoseconds(150000000);
+	textCooldownLeft = zeroNanoseconds;
 
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
@@ -34,6 +37,8 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
 	healthTextTexture = LoadTextTexture("Health", { 255, 255, 255 }, renderer);
 	scoreTextTexture = LoadTextTexture("Score", { 255, 255, 255 }, renderer);
+
+	playerName = "";
 
 	currentTickTime = Clock::now();
 }
@@ -72,54 +77,168 @@ StarField* Game::GetStarField() {
 }
 
 void Game::Tick(Inputs *inputs) {
-	SetPaused(inputs->GetGamepadInput()->GetStartButton());
-
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
 
-	if (!paused) {
-		passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
-		if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
-			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0), pScore);
-			asteroids.push_back(asteroid);
-			passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
-			this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
-		}
+	if (!players.empty()) {
+		SetPaused(inputs->GetGamepadInput()->GetStartButton());
 
-		if (players.size() > 0) {
-			starField->Tick(inputs);
-		}
-		for (Player *player : players) {
-			player->Tick(inputs);
-		}
-		for (Enemy *enemy : enemies) {
-			enemy->Tick(inputs);
-		}
-		for (Asteroid *asteroid : asteroids) {
-			asteroid->Tick(inputs);
-		}
+		if (!paused) {
+			passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+			if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
+				Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0), pScore);
+				asteroids.push_back(asteroid);
+				passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
+				this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
+			}
 
-		HandleCollision();
+			if (players.size() > 0) {
+				starField->Tick(inputs);
+			}
+			for (Player *player : players) {
+				player->Tick(inputs);
+			}
+			for (Enemy *enemy : enemies) {
+				enemy->Tick(inputs);
+			}
+			for (Asteroid *asteroid : asteroids) {
+				asteroid->Tick(inputs);
+			}
 
-		SDL_DestroyTexture(scoreTexture);
-		scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
+			HandleCollision();
 
-		EraseUnnecessaryObjects();
+			SDL_DestroyTexture(scoreTexture);
+			scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
 
-		if (players.empty() && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter() || 
-				inputs->GetKeyboardInput()->GetButtonEsc())) {
+			EraseUnnecessaryObjects();
+
+
+			/*if (players.empty() && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter() ||
+			inputs->GetKeyboardInput()->GetButtonEsc())) {
 			SetNextScreen(MAIN_MENU_SCREEN);
+			}*/
+
+			if (players.size() == 0) {
+				healthLeftRect = { 20, 50, 0, 30 };
+			} else {
+				healthLeftRect = { 20, 50, players.at(0)->GetHealth() * 30, 30 };
+			}
+
+		}
+	} else {
+		textCooldownLeft += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+
+		if (textCooldownLeft >= textCooldown) {
+			if (inputs->GetKeyboardInput()->GetButtonQ()) {
+				playerName += "Q";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonW()) {
+				playerName += "W";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonE()) {
+				playerName += "E";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonR()) {
+				playerName += "R";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonT()) {
+				playerName += "T";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonY()) {
+				playerName += "Y";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonU()) {
+				playerName += "U";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonI()) {
+				playerName += "I";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonO()) {
+				playerName += "O";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonP()) {
+				playerName += "P";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonA()) {
+				playerName += "A";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonS()) {
+				playerName += "S";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonD()) {
+				playerName += "D";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonF()) {
+				playerName += "F";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonG()) {
+				playerName += "G";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonH()) {
+				playerName += "H";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonJ()) {
+				playerName += "J";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonK()) {
+				playerName += "K";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonL()) {
+				playerName += "L";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonZ()) {
+				playerName += "Z";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonX()) {
+				playerName += "X";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonC()) {
+				playerName += "C";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonV()) {
+				playerName += "V";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonB()) {
+				playerName += "B";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonN()) {
+				playerName += "N";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			if (inputs->GetKeyboardInput()->GetButtonM()) {
+				playerName += "M";
+				textCooldownLeft = zeroNanoseconds;
+			}
+			std::cout << "Player name: " << playerName << std::endl;
 		}
 
-		if (players.size() == 0) {
-			healthLeftRect = { 20, 50, 0, 30 };
-		} else {
-			healthLeftRect = { 20, 50, players.at(0)->GetHealth() * 30, 30 };
-		}
 		
 	}
-
 }
 
 void Game::Render() {

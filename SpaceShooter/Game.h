@@ -38,6 +38,8 @@ class Game : public Screen {
 		Nanoseconds nextAsteroidSpawnTime;
 		Nanoseconds passedAsteroidSpawnTime;
 		Nanoseconds timePaused;
+		Nanoseconds textCooldown;
+		Nanoseconds textCooldownLeft;
 		SDL_Rect pauseRect;
 		SDL_Rect youDiedRect;
 		SDL_Rect scoreRect;
@@ -56,6 +58,7 @@ class Game : public Screen {
 		int CountDigitsInInteger(int x);
 		void EraseUnnecessaryObjects();
 		void HandleCollision();
+		std::string playerName;
 };
 
 #endif
