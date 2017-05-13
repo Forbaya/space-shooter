@@ -20,6 +20,7 @@ class Game : public Screen {
 		bool GetPaused();
 		StarField* GetStarField();
 		void Tick(Inputs *inputs);
+		void HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime);
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();
@@ -47,11 +48,13 @@ class Game : public Screen {
 		SDL_Rect healthBarRect;
 		SDL_Rect healthLeftRect;
 		SDL_Rect scoreTextRect;
+		SDL_Rect playerNameRect;
 		SDL_Texture *pauseTexture;
 		SDL_Texture *youDiedTexture;
 		SDL_Texture *scoreTexture;
 		SDL_Texture *healthTextTexture;
 		SDL_Texture *scoreTextTexture;
+		SDL_Texture *playerNameTexture;
 		TTF_Font *font;
 		long score;
 		long *pScore;

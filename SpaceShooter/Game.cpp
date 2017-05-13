@@ -31,14 +31,15 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	healthTextRect = { 20, 20, 90, 28 };
 	healthBarRect = { 20, 50, playerHealth * 30, 30 };
 	healthLeftRect = { 20, 50, playerHealth * 30, 30 };
+	playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, 100, 50 };
 
 	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
 	youDiedTexture = LoadTextTexture("YOU DIED!", { 255, 255, 255 }, renderer);
 	scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
 	healthTextTexture = LoadTextTexture("Health", { 255, 255, 255 }, renderer);
 	scoreTextTexture = LoadTextTexture("Score", { 255, 255, 255 }, renderer);
-
 	playerName = "";
+	playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
 
 	currentTickTime = Clock::now();
 }
@@ -124,120 +125,198 @@ void Game::Tick(Inputs *inputs) {
 			} else {
 				healthLeftRect = { 20, 50, players.at(0)->GetHealth() * 30, 30 };
 			}
-
 		}
 	} else {
-		textCooldownLeft += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+		HandlePlayerNameInput(inputs, std::chrono::duration_cast<Nanoseconds>(deltaTime));
+	}
+}
 
-		if (textCooldownLeft >= textCooldown) {
-			if (inputs->GetKeyboardInput()->GetButtonQ()) {
-				playerName += "Q";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonW()) {
-				playerName += "W";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonE()) {
-				playerName += "E";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonR()) {
-				playerName += "R";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonT()) {
-				playerName += "T";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonY()) {
-				playerName += "Y";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonU()) {
-				playerName += "U";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonI()) {
-				playerName += "I";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonO()) {
-				playerName += "O";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonP()) {
-				playerName += "P";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonA()) {
-				playerName += "A";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonS()) {
-				playerName += "S";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonD()) {
-				playerName += "D";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonF()) {
-				playerName += "F";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonG()) {
-				playerName += "G";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonH()) {
-				playerName += "H";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonJ()) {
-				playerName += "J";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonK()) {
-				playerName += "K";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonL()) {
-				playerName += "L";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonZ()) {
-				playerName += "Z";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonX()) {
-				playerName += "X";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonC()) {
-				playerName += "C";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonV()) {
-				playerName += "V";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonB()) {
-				playerName += "B";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonN()) {
-				playerName += "N";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			if (inputs->GetKeyboardInput()->GetButtonM()) {
-				playerName += "M";
-				textCooldownLeft = zeroNanoseconds;
-			}
-			std::cout << "Player name: " << playerName << std::endl;
+void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
+	textCooldownLeft += deltaTime;
+	
+	if (textCooldownLeft >= textCooldown && playerName.length() <= 16) {
+		if (inputs->GetKeyboardInput()->GetButtonQ()) {
+			playerName += "Q";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
 		}
-
-		
+		if (inputs->GetKeyboardInput()->GetButtonW()) {
+			playerName += "W";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonE()) {
+			playerName += "E";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonR()) {
+			playerName += "R";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonT()) {
+			playerName += "T";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonY()) {
+			playerName += "Y";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonU()) {
+			playerName += "U";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonI()) {
+			playerName += "I";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonO()) {
+			playerName += "O";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonP()) {
+			playerName += "P";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonA()) {
+			playerName += "A";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonS()) {
+			playerName += "S";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonD()) {
+			playerName += "D";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonF()) {
+			playerName += "F";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonG()) {
+			playerName += "G";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonH()) {
+			playerName += "H";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonJ()) {
+			playerName += "J";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonK()) {
+			playerName += "K";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonL()) {
+			playerName += "L";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonZ()) {
+			playerName += "Z";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonX()) {
+			playerName += "X";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonC()) {
+			playerName += "C";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonV()) {
+			playerName += "V";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonB()) {
+			playerName += "B";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonN()) {
+			playerName += "N";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
+		if (inputs->GetKeyboardInput()->GetButtonM()) {
+			playerName += "M";
+			textCooldownLeft = zeroNanoseconds;
+			SDL_DestroyTexture(playerNameTexture);
+			playerNameRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50, (int)playerName.length() * 15, 50 };
+			playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		}
 	}
 }
 
@@ -254,6 +333,7 @@ void Game::Render() {
 	}	
 	if (players.empty()) {
 		SDL_RenderCopy(renderer, youDiedTexture, NULL, &youDiedRect);
+		SDL_RenderCopy(renderer, playerNameTexture, NULL, &playerNameRect);
 	}
 	if (paused) {
 		SDL_RenderCopy(renderer, pauseTexture, NULL, &pauseRect);
