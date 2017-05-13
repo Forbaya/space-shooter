@@ -52,7 +52,7 @@ SDL_Texture* Game::LoadTextTexture(std::string text, SDL_Color textColor, SDL_Re
 		if (texture == NULL) {
 			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 		}
-
+		
 		SDL_FreeSurface(surface);
 	}
 
@@ -100,78 +100,12 @@ void Game::Tick(Inputs *inputs) {
 			asteroid->Tick(inputs);
 		}
 
-		for (Enemy *enemy : enemies) {
-			for (Player *player : players) {
-				if (CheckCollision(player->GetRect(), enemy->GetRect())) {
-					player->TakeDamage(enemy->GetDamage());
-				}
-			}
-		}
-
-		for (Player *player : players) {
-			for (Bullet *bullet : player->GetBullets()) {
-				for (Enemy *enemy : enemies) {
-					if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
-						enemy->TakeDamage(bullet->GetDamage());
-						bullet->SetCollision(true);
-					}
-				}
-				for (Asteroid *asteroid : asteroids) {
-					if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
-						asteroid->TakeDamage(bullet->GetDamage());
-						bullet->SetCollision(true);
-					}
-				}
-			}
-		}
-
-		for (Asteroid *asteroid : asteroids) {
-			for (Player *player : players) {
-				if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
-					asteroid->TakeDamage(asteroid->GetHealth());
-					player->TakeDamage(asteroid->GetDamage());
-				}
-			}
-		}
+		HandleCollision();
 
 		SDL_DestroyTexture(scoreTexture);
 		scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
 
-		enemies.erase(
-			std::remove_if(
-				enemies.begin(), enemies.end(),
-				[&](Enemy *enemy) {
-					bool destroyable = enemy->IsDestroyable();
-					if (destroyable) delete enemy;
-					return destroyable;
-				}
-			),
-			enemies.end()
-		);
-
-		asteroids.erase(
-			std::remove_if(
-				asteroids.begin(), asteroids.end(),
-				[&](Asteroid *asteroid) {
-					bool destroyable = asteroid->IsDestroyable();
-					if (destroyable) delete asteroid;
-					return destroyable;
-				}
-			),
-			asteroids.end()
-		);
-
-		players.erase(
-			std::remove_if(
-				players.begin(), players.end(),
-				[&](Player *player) {
-					bool destroyable = player->IsDestroyable();
-					if (destroyable) delete player;
-					return destroyable;
-				}
-			),
-			players.end()
-		);
+		EraseUnnecessaryObjects();
 
 		if (players.empty() && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter() || 
 				inputs->GetKeyboardInput()->GetButtonEsc())) {
@@ -257,4 +191,78 @@ int Game::CountDigitsInInteger(int x) {
 	} while (x);
 
 	return digits;
+}
+
+void Game::EraseUnnecessaryObjects() {
+	enemies.erase(
+		std::remove_if(
+			enemies.begin(), enemies.end(),
+			[&](Enemy *enemy) {
+				bool destroyable = enemy->IsDestroyable();
+				if (destroyable) delete enemy;
+				return destroyable;
+			}
+		),
+		enemies.end()
+	);
+
+	asteroids.erase(
+		std::remove_if(
+			asteroids.begin(), asteroids.end(),
+			[&](Asteroid *asteroid) {
+				bool destroyable = asteroid->IsDestroyable();
+				if (destroyable) delete asteroid;
+				return destroyable;
+			}
+		),
+		asteroids.end()
+	);
+
+	players.erase(
+		std::remove_if(
+			players.begin(), players.end(),
+			[&](Player *player) {
+				bool destroyable = player->IsDestroyable();
+				if (destroyable) delete player;
+				return destroyable;
+			}
+		),
+		players.end()
+	);
+}
+
+void Game::HandleCollision() {
+	for (Enemy *enemy : enemies) {
+		for (Player *player : players) {
+			if (CheckCollision(player->GetRect(), enemy->GetRect())) {
+				player->TakeDamage(enemy->GetDamage());
+			}
+		}
+	}
+
+	for (Player *player : players) {
+		for (Bullet *bullet : player->GetBullets()) {
+			for (Enemy *enemy : enemies) {
+				if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
+					enemy->TakeDamage(bullet->GetDamage());
+					bullet->SetCollision(true);
+				}
+			}
+			for (Asteroid *asteroid : asteroids) {
+				if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
+					asteroid->TakeDamage(bullet->GetDamage());
+					bullet->SetCollision(true);
+				}
+			}
+		}
+	}
+
+	for (Asteroid *asteroid : asteroids) {
+		for (Player *player : players) {
+			if (CheckCollision(asteroid->GetRect(), player->GetRect())) {
+				asteroid->TakeDamage(asteroid->GetHealth());
+				player->TakeDamage(asteroid->GetDamage());
+			}
+		}
+	}
 }

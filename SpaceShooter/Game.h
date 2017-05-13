@@ -54,6 +54,8 @@ class Game : public Screen {
 		long score;
 		long *pScore;
 		int CountDigitsInInteger(int x);
+		void EraseUnnecessaryObjects();
+		void HandleCollision();
 };
 
 #endif
