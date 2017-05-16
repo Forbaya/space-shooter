@@ -98,6 +98,8 @@ void InputHandler::HandleKeyboardInput(SDL_Event e) {
 			inputs->GetKeyboardInput()->SetButtonEnter(true);
 		} else if (e.key.keysym.sym == SDLK_ESCAPE) {
 			inputs->GetKeyboardInput()->SetButtonEsc(true);
+		} else if (e.key.keysym.sym == SDLK_BACKSPACE) {
+			inputs->GetKeyboardInput()->SetButtonBackspace(true);
 		}
 	} else {
 		if (e.key.keysym.sym == SDLK_q) {
@@ -166,6 +168,8 @@ void InputHandler::HandleKeyboardInput(SDL_Event e) {
 			inputs->GetKeyboardInput()->SetButtonEnter(false);
 		} else if (e.key.keysym.sym == SDLK_ESCAPE) {
 			inputs->GetKeyboardInput()->SetButtonEsc(false);
+		} else if (e.key.keysym.sym == SDLK_BACKSPACE) {
+			inputs->GetKeyboardInput()->SetButtonBackspace(false);
 		}
 	}
 }

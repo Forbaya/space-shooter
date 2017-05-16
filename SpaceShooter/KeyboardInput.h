@@ -1,6 +1,8 @@
 #ifndef KEYBOARDINPUT_H
 #define KEYBOARDINPUT_H
 
+#include <string>
+
 class KeyboardInput {
 	public:
 		KeyboardInput();
@@ -19,7 +21,6 @@ class KeyboardInput {
 		bool GetButtonI();
 		bool GetButtonO();
 		bool GetButtonP();
-		bool GetButton≈();
 		bool GetButtonA();
 		bool GetButtonS();
 		bool GetButtonD();
@@ -29,8 +30,6 @@ class KeyboardInput {
 		bool GetButtonJ();
 		bool GetButtonK();
 		bool GetButtonL();
-		bool GetButton÷();
-		bool GetButtonƒ();
 		bool GetButtonZ();
 		bool GetButtonX();
 		bool GetButtonC();
@@ -40,6 +39,8 @@ class KeyboardInput {
 		bool GetButtonM();
 		bool GetButtonEnter();
 		bool GetButtonEsc();
+		bool GetButtonBackspace();
+
 		void SetArrowUp(bool arrowUp);
 		void SetArrowRight(bool arrowRight);
 		void SetArrowDown(bool arrowDown);
@@ -65,8 +66,6 @@ class KeyboardInput {
 		void SetButtonJ(bool buttonJ);
 		void SetButtonK(bool buttonK);
 		void SetButtonL(bool buttonL);
-		void SetButton÷(bool button÷);
-		void SetButtonƒ(bool buttonƒ);
 		void SetButtonZ(bool buttonZ);
 		void SetButtonX(bool buttonX);
 		void SetButtonC(bool buttonC);
@@ -76,6 +75,9 @@ class KeyboardInput {
 		void SetButtonM(bool buttonM);
 		void SetButtonEnter(bool buttonEnter);
 		void SetButtonEsc(bool buttonEsc);
+		void SetButtonBackspace(bool backspace);
+		bool GetButton(std::string button);
+
 	private:
 		bool arrowUp;
 		bool arrowRight;
@@ -111,6 +113,7 @@ class KeyboardInput {
 
 		bool buttonEnter;
 		bool buttonEsc;
+		bool buttonBackspace;
 };
 
 #endif

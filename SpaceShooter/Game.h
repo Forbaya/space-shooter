@@ -21,6 +21,7 @@ class Game : public Screen {
 		StarField* GetStarField();
 		void Tick(Inputs *inputs);
 		void HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime);
+		void HandleButton(Inputs *inputs, std::string);
 		void Render();
 		bool CheckCollision(SDL_Rect a, SDL_Rect b);
 		std::vector<Asteroid*> GetAsteroids();
@@ -62,6 +63,7 @@ class Game : public Screen {
 		void EraseUnnecessaryObjects();
 		void HandleCollision();
 		std::string playerName;
+		void ChangePlayerNameRectLength(int length);
 };
 
 #endif

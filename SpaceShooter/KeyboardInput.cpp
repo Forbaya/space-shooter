@@ -35,6 +35,7 @@ KeyboardInput::KeyboardInput() {
 
 	buttonEnter = false;
 	buttonEsc = false;
+	buttonBackspace = false;
 }
 
 KeyboardInput::~KeyboardInput() {
@@ -168,6 +169,10 @@ bool KeyboardInput::GetButtonEsc() {
 	return buttonEsc;
 }
 
+bool KeyboardInput::GetButtonBackspace() {
+	return buttonBackspace;
+}
+
 void KeyboardInput::SetArrowUp(bool arrowUp) {
 	this->arrowUp = arrowUp;
 }
@@ -294,4 +299,64 @@ void KeyboardInput::SetButtonEnter(bool buttonEnter) {
 
 void KeyboardInput::SetButtonEsc(bool buttonEsc) {
 	this->buttonEsc = buttonEsc;
+}
+
+void KeyboardInput::SetButtonBackspace(bool backspace) {
+	this->buttonBackspace = backspace;
+}
+
+bool KeyboardInput::GetButton(std::string button) {
+	if (button.compare("Q") == 0) {
+		return buttonQ;
+	} else if (button.compare("W") == 0) {
+		return buttonW;
+	} else if (button.compare("E") == 0) {
+		return buttonE;
+	} else if (button.compare("R") == 0) {
+		return buttonR;
+	} else if (button.compare("T") == 0) {
+		return buttonT;
+	} else if (button.compare("Y") == 0) {
+		return buttonY;
+	} else if (button.compare("U") == 0) {
+		return buttonU;
+	} else if (button.compare("I") == 0) {
+		return buttonI;
+	} else if (button.compare("O") == 0) {
+		return buttonO;
+	} else if (button.compare("P") == 0) {
+		return buttonP;
+	} else if (button.compare("A") == 0) {
+		return buttonA;
+	} else if (button.compare("S") == 0) {
+		return buttonS;
+	} else if (button.compare("D") == 0) {
+		return buttonD;
+	} else if (button.compare("F") == 0) {
+		return buttonF;
+	} else if (button.compare("G") == 0) {
+		return buttonG;
+	} else if (button.compare("H") == 0) {
+		return buttonH;
+	} else if (button.compare("J") == 0) {
+		return buttonJ;
+	} else if (button.compare("K") == 0) {
+		return buttonK;
+	} else if (button.compare("L") == 0) {
+		return buttonL;
+	} else if (button.compare("Z") == 0) {
+		return buttonZ;
+	} else if (button.compare("X") == 0) {
+		return buttonX;
+	} else if (button.compare("C") == 0) {
+		return buttonC;
+	} else if (button.compare("V") == 0) {
+		return buttonV;
+	} else if (button.compare("B") == 0) {
+		return buttonB;
+	} else if (button.compare("N") == 0) {
+		return buttonN;
+	} else if (button.compare("M") == 0) {
+		return buttonM;
+	}
 }
