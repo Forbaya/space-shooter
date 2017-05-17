@@ -24,7 +24,7 @@ MainMenu *mainMenu;
 InputHandler *inputHandler;
 SDL_Event e;
 Screen *screen;
-Database *db;
+Database *database;
 
 bool Initialize();
 void Run();
@@ -64,9 +64,9 @@ bool Initialize() {
 		return false;
 	}
 
-	db = new Database("Database.db");
+	database = new Database("Database.db");
 
-	game = new Game(renderer, db);
+	game = new Game(renderer, database);
 	mainMenu = new MainMenu(renderer);
 	screen = &(*mainMenu);
 	inputHandler = new InputHandler();
@@ -140,7 +140,7 @@ void Tick() {
 	if (nextScreen != -1) {
 		if (nextScreen == GAME_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
-			screen = &(*new Game(renderer, db));
+			screen = &(*new Game(renderer, database));
 		} else if (nextScreen == MAIN_MENU_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
 			screen = &(*new MainMenu(renderer));
@@ -154,7 +154,7 @@ void Tick() {
 void Close() {
 	delete game;
 	delete inputHandler;
-	delete db;
+	delete database;
 
 	SDL_DestroyWindow(window);
 	window = NULL;

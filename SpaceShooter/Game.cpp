@@ -3,7 +3,8 @@
 
 Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	this->renderer = renderer;
-	
+	this->database = database;
+
 	score = 0;
 	pScore = &score;
 
