@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game(SDL_Renderer *renderer) : Screen() {
+Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	this->renderer = renderer;
 	
 	score = 0;
@@ -26,12 +26,12 @@ Game::Game(SDL_Renderer *renderer) : Screen() {
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
 	int scoreDigits = CountDigitsInInteger(score);
-	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 50, 30 * scoreDigits, 30 };
-	scoreTextRect = { SCREEN_WIDTH - 75 - 20, 20, 75, 28 };
+	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 40, 30 * scoreDigits, 30 };
+	scoreTextRect = { SCREEN_WIDTH - 75 - 20, 10, 75, 28 };
 	int playerHealth = player->GetHealth();
-	healthTextRect = { 20, 20, 90, 28 };
-	healthBarRect = { 20, 50, playerHealth * 30, 30 };
-	healthLeftRect = { 20, 50, playerHealth * 30, 30 };
+	healthTextRect = { 20, 10, 90, 28 };
+	healthBarRect = { 20, 40, playerHealth * 30, 20 };
+	healthLeftRect = { 20, 40, playerHealth * 30, 20 };
 	playerNameRect = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50, 100, 50 };
 
 	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
@@ -117,11 +117,10 @@ void Game::Tick(Inputs *inputs) {
 
 			EraseUnnecessaryObjects();
 
-
 			if (players.size() == 0) {
-				healthLeftRect = { 20, 50, 0, 30 };
+				healthLeftRect = { 20, 40, 0, 20 };
 			} else {
-				healthLeftRect = { 20, 50, players.at(0)->GetHealth() * 30, 30 };
+				healthLeftRect = { 20, 40, players.at(0)->GetHealth() * 30, 20 };
 			}
 		}
 	} else {
@@ -169,6 +168,7 @@ void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
 	}
 	if (playerName.length() > 0 && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter())) {
 		SetNextScreen(MAIN_MENU_SCREEN);
+		database->InsertHighscore(playerName, score);
 	}
 }
 
@@ -209,7 +209,7 @@ void Game::Render() {
 	SDL_RenderFillRect(renderer, &healthLeftRect);
 
 	int scoreDigits = CountDigitsInInteger(score);
-	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 50, 30 * scoreDigits, 30 };
+	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 40, 30 * scoreDigits, 30 };
 	SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 	SDL_RenderCopy(renderer, healthTextTexture, NULL, &healthTextRect);
 	SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);

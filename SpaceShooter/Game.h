@@ -4,6 +4,7 @@
 #include <SDL_ttf.h>
 #include <SDL.h>
 #include "Asteroid.h"
+#include "Database.h"
 #include "Enemy.h"
 #include "GamepadInput.h"
 #include "KeyboardInput.h"
@@ -13,7 +14,7 @@
 
 class Game : public Screen {
 	public:
-		Game(SDL_Renderer *renderer);
+		Game(SDL_Renderer *renderer, Database *database);
 		~Game();
 		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
 		void SetPaused(bool paused);
@@ -64,6 +65,7 @@ class Game : public Screen {
 		void HandleCollision();
 		std::string playerName;
 		void ChangePlayerNameRectLength(int length);
+		Database *database;
 };
 
 #endif

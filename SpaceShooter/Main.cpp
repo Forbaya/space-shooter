@@ -66,7 +66,7 @@ bool Initialize() {
 
 	db = new Database("Database.db");
 
-	game = new Game(renderer);
+	game = new Game(renderer, db);
 	mainMenu = new MainMenu(renderer);
 	screen = &(*mainMenu);
 	inputHandler = new InputHandler();
@@ -140,7 +140,7 @@ void Tick() {
 	if (nextScreen != -1) {
 		if (nextScreen == GAME_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
-			screen = &(*new Game(renderer));
+			screen = &(*new Game(renderer, db));
 		} else if (nextScreen == MAIN_MENU_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
 			screen = &(*new MainMenu(renderer));
