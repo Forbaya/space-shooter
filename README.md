@@ -1,4 +1,4 @@
-# space-shooter
+# Space Shooter
 A game made with C++ & SDL2. The game should work without installation. Just run the
 .exe file.
 
@@ -7,14 +7,16 @@ it with an Xbox-controller. Testing with other controllers would be appreciated.
 You can also play with your keyboard.
 
 Controller inputs:
-Left analog stick moves the player, right analog stick shoots to the direction
-it's held. A-button selects a new game or quits in the main menu and returns you
-back to main menu when dead. Start-button pauses when in game.
+- Left analog stick moves the player
+- Right analog stick shoots to the direction it's held 
+- A-button selects a new game or quits in the main menu and returns you back to main menu when dead
+- Start-button pauses when in game.
 
 Keyboard inputs:
-WASD-keys move the player, arrow-keys shoot to a direction. Enter selects a new 
-game or quits when in main menu and returns you to main menu when dead. You can't
-pause with keyboard yet.
+- WASD-keys move the player
+- Arrow-keys shoot to a direction 
+- Enter selects a new game or quits when in main menu and returns you to main menu when dead
+- You can't pause with keyboard yet.
 
 Known issues:
 - Textures are fixed size, which is why the font of highscore changes depending on
