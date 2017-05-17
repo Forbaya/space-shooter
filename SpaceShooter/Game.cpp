@@ -8,6 +8,7 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	score = 0;
 	pScore = &score;
 
+	white = { 255, 255, 255 };
 	paused = false;
 	starField = new StarField(200);
 	Player *player = new Player(32, 32, renderer, new Vector2(0, 0), pScore);
@@ -25,7 +26,7 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
-	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
+	youDiedRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 100, 300, 80 };
 	int scoreDigits = CountDigitsInInteger(score);
 	scoreRect = { SCREEN_WIDTH - 60 - scoreDigits * 15, 40, 30 * scoreDigits, 30 };
 	scoreTextRect = { SCREEN_WIDTH - 75 - 20, 10, 75, 28 };
@@ -34,13 +35,15 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	healthBarRect = { 20, 40, playerHealth * 30, 20 };
 	healthLeftRect = { 20, 40, playerHealth * 30, 20 };
 	playerNameRect = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50, 100, 50 };
+	playerNameInstructionsRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 10, 300, 50 };
 
-	pauseTexture = LoadTextTexture("PAUSED", { 255, 255, 255 }, renderer);
-	youDiedTexture = LoadTextTexture("YOU DIED!", { 255, 255, 255 }, renderer);
-	scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
-	healthTextTexture = LoadTextTexture("Health", { 255, 255, 255 }, renderer);
-	scoreTextTexture = LoadTextTexture("Score", { 255, 255, 255 }, renderer);
-	playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+	pauseTexture = LoadTextTexture("PAUSED", white, renderer);
+	youDiedTexture = LoadTextTexture("YOU DIED!", white, renderer);
+	scoreTexture = LoadTextTexture(std::to_string(score), white, renderer);
+	healthTextTexture = LoadTextTexture("Health", white, renderer);
+	scoreTextTexture = LoadTextTexture("Score", white, renderer);
+	playerNameTexture = LoadTextTexture(playerName, white, renderer);
+	playerNameInstructionsTexture = LoadTextTexture("Enter your name", white, renderer);
 
 	currentTickTime = Clock::now();
 }
@@ -114,7 +117,7 @@ void Game::Tick(Inputs *inputs) {
 			HandleCollision();
 
 			SDL_DestroyTexture(scoreTexture);
-			scoreTexture = LoadTextTexture(std::to_string(score), { 255, 255, 255 }, renderer);
+			scoreTexture = LoadTextTexture(std::to_string(score), white, renderer);
 
 			EraseUnnecessaryObjects();
 
@@ -165,7 +168,7 @@ void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
 		textCooldownLeft = zeroNanoseconds;
 		SDL_DestroyTexture(playerNameTexture);
 		ChangePlayerNameRectLength((int)playerName.length() * 15);
-		playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		playerNameTexture = LoadTextTexture(playerName, white, renderer);
 	}
 	if (playerName.length() > 0 && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter())) {
 		SetNextScreen(MAIN_MENU_SCREEN);
@@ -179,7 +182,7 @@ void Game::HandleButton(Inputs *inputs, std::string button) {
 		textCooldownLeft = zeroNanoseconds;
 		SDL_DestroyTexture(playerNameTexture);
 		ChangePlayerNameRectLength((int)playerName.length() * 15);
-		playerNameTexture = LoadTextTexture(playerName, { 255, 255, 255 }, renderer);
+		playerNameTexture = LoadTextTexture(playerName, white, renderer);
 	}
 }
 
@@ -196,6 +199,7 @@ void Game::Render() {
 	}	
 	if (players.empty()) {
 		SDL_RenderCopy(renderer, youDiedTexture, NULL, &youDiedRect);
+		SDL_RenderCopy(renderer, playerNameInstructionsTexture, NULL, &playerNameInstructionsRect);
 		if (playerName.length() > 0) {
 			SDL_RenderCopy(renderer, playerNameTexture, NULL, &playerNameRect);
 		}

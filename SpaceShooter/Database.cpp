@@ -6,7 +6,6 @@ Database::Database(char *name) {
 	if (connection) {
 		CreateTables();
 	}
-	
 }
 
 Database::~Database() {
@@ -24,7 +23,7 @@ bool Database::OpenConnection(char *name) {
 }
 
 void Database::CreateTables() {
-	const char *createHighscoresTable = "CREATE TABLE IF NOT EXISTS Highscores (id INTEGER PRIMARY KEY, player TEXT, score INTEGER, date TEXT);";
+	const char *createHighscoresTable = "CREATE TABLE IF NOT EXISTS Highscores (id INTEGER PRIMARY KEY, player TEXT NOT NULL, score INTEGER NOT NULL, date TEXT NOT NULL);";
 
 	if (sqlite3_exec(db, createHighscoresTable, NULL, NULL, &dbError)) {
 		printf("Error executing SQLite3 statement: %s\n", sqlite3_errmsg(db));
@@ -49,11 +48,8 @@ void Database::InsertHighscore(std::string playerName, int score) {
 	std::string insert = "INSERT INTO Highscores VALUES (NULL, '" + playerName + "', " + std::to_string(score) + ",'" + date + "');";
 	const char *insertIntoHighscoresTable = insert.c_str();
 
-
 	if (sqlite3_exec(db, insertIntoHighscoresTable, NULL, NULL, &dbError)) {
 		printf("Error executing SQLite3 statement: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(dbError);
 	}
-
-	
 }

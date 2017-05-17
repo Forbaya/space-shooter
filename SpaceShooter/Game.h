@@ -51,12 +51,14 @@ class Game : public Screen {
 		SDL_Rect healthLeftRect;
 		SDL_Rect scoreTextRect;
 		SDL_Rect playerNameRect;
+		SDL_Rect playerNameInstructionsRect;
 		SDL_Texture *pauseTexture;
 		SDL_Texture *youDiedTexture;
 		SDL_Texture *scoreTexture;
 		SDL_Texture *healthTextTexture;
 		SDL_Texture *scoreTextTexture;
 		SDL_Texture *playerNameTexture;
+		SDL_Texture *playerNameInstructionsTexture;
 		TTF_Font *font;
 		long score;
 		long *pScore;
@@ -66,6 +68,7 @@ class Game : public Screen {
 		std::string playerName;
 		void ChangePlayerNameRectLength(int length);
 		Database *database;
+		SDL_Color white;
 };
 
 #endif
