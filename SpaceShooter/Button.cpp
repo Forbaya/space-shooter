@@ -16,6 +16,11 @@ Button::Button(int buttonId, SDL_Renderer *renderer, std::string text, SDL_Rect 
 }
 
 Button::~Button() {
+	TTF_CloseFont(font);
+	SDL_DestroyTexture(texture);
+
+	font = NULL;
+	texture = NULL;
 }
 
 SDL_Texture* Button::GetTexture() {

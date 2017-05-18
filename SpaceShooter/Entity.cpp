@@ -14,6 +14,9 @@ Entity::Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRe
 }
 
 Entity::~Entity() {
+	SDL_DestroyTexture(texture);
+	/*delete position; Why doesn't this work?
+	position = NULL;*/
 }
 
 SDL_Texture* Entity::LoadTexture(std::string path, SDL_Renderer *renderer) {

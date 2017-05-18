@@ -4,7 +4,6 @@ Hiscores::Hiscores(SDL_Renderer *renderer, Database *database) : Screen() {
 	this->renderer = renderer;
 	this->database = database;
 
-	font = TTF_OpenFont("res/roboto.ttf", 24);
 	white = { 255, 255, 255 };
 	selectedColor = { 255, 255, 0 };
 
@@ -23,8 +22,8 @@ Hiscores::Hiscores(SDL_Renderer *renderer, Database *database) : Screen() {
 
 	SDL_Rect backButtonRect = { 200, 400, 15 * 4, 30 };
 	SDL_Rect resetHiscoresRect = { 300, 400, 15 * 14, 30 };
-	backButton = new Button(BACK, renderer, "Back", backButtonRect, true);
-	resetHiscoresButton = new Button(RESET_HISCORES, renderer, "Reset hiscores", resetHiscoresRect, false);
+	Button *backButton = new Button(BACK, renderer, "Back", backButtonRect, true);
+	Button *resetHiscoresButton = new Button(RESET_HISCORES, renderer, "Reset hiscores", resetHiscoresRect, false);
 	buttons.push_back(backButton);
 	buttons.push_back(resetHiscoresButton);
 
@@ -37,6 +36,25 @@ Hiscores::Hiscores(SDL_Renderer *renderer, Database *database) : Screen() {
 }
 
 Hiscores::~Hiscores() {
+	for (auto it = buttons.begin(); it != buttons.end(); ++it) {
+		delete *it;
+	}
+	buttons.clear();
+
+	for (auto it = hiscoreEntries.begin(); it != hiscoreEntries.end(); ++it) {
+		delete *it;
+	}
+	hiscoreEntries.clear();
+
+	SDL_DestroyTexture(rankTextTexture);
+	SDL_DestroyTexture(playerNameTextTexture);
+	SDL_DestroyTexture(dateTextTexture);
+	SDL_DestroyTexture(scoreTextTexture);
+
+	rankTextTexture = NULL;
+	playerNameTextTexture = NULL;
+	dateTextTexture = NULL;
+	scoreTextTexture = NULL;
 }
 
 void Hiscores::Tick(Inputs *inputs) {
@@ -74,8 +92,10 @@ void Hiscores::ChangeSelectedOption(Inputs *inputs) {
 			selectedOption = BACK;
 		}
 		Button *previouslySelectedButton = buttons.at(previousOption);
+		SDL_DestroyTexture(previouslySelectedButton->GetTexture());
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
+		SDL_DestroyTexture(currentlySelectedButton->GetTexture());
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
 	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftX() == -1 ||
 			inputs->GetGamepadInput()->GetDpadLeft() || inputs->GetKeyboardInput()->GetArrowLeft())) {
@@ -86,8 +106,10 @@ void Hiscores::ChangeSelectedOption(Inputs *inputs) {
 			selectedOption = RESET_HISCORES;
 		}
 		Button *previouslySelectedButton = buttons.at(previousOption);
+		SDL_DestroyTexture(previouslySelectedButton->GetTexture());
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
+		SDL_DestroyTexture(currentlySelectedButton->GetTexture());
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
 	}
 }

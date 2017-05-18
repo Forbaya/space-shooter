@@ -12,6 +12,10 @@ StarField::StarField(int starCount) {
 }
 
 StarField::~StarField() {
+	for (auto it = stars.begin(); it != stars.end(); ++it) {
+		delete *it;
+	}
+	stars.clear();
 }
 
 void StarField::Render(SDL_Renderer *renderer) {

@@ -2,7 +2,6 @@
 
 MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
-	font = TTF_OpenFont("res/roboto.ttf", 24);
 	white = { 255, 255, 255 };
 	selectedColor = { 255, 255, 0 };
 
@@ -34,7 +33,13 @@ MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 }
 
 MainMenu::~MainMenu() {
-	
+	for (auto it = buttons.begin(); it != buttons.end(); ++it) {
+		delete *it;
+	}
+	buttons.clear();
+
+	SDL_DestroyTexture(logoTexture);
+	logoTexture = NULL;
 }
 
 void MainMenu::Tick(Inputs *inputs) {
@@ -60,8 +65,10 @@ void MainMenu::ChangeSelectedOption(Inputs *inputs) {
 			selectedOption = NEW_GAME;
 		}
 		Button *previouslySelectedButton = buttons.at(previousOption);
+		SDL_DestroyTexture(previouslySelectedButton->GetTexture());
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
+		SDL_DestroyTexture(currentlySelectedButton->GetTexture());
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
 	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == -1 || 
 			inputs->GetGamepadInput()->GetDpadUp() || inputs->GetKeyboardInput()->GetArrowUp())) {
@@ -72,8 +79,10 @@ void MainMenu::ChangeSelectedOption(Inputs *inputs) {
 			selectedOption = QUIT;
 		}
 		Button *previouslySelectedButton = buttons.at(previousOption);
+		SDL_DestroyTexture(previouslySelectedButton->GetTexture());
 		previouslySelectedButton->LoadTexture(previouslySelectedButton->GetText(), white);
 		Button *currentlySelectedButton = buttons.at(selectedOption);
+		SDL_DestroyTexture(currentlySelectedButton->GetTexture());
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
 	}
 }

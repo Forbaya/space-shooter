@@ -11,6 +11,7 @@ Database::Database(char *name) {
 
 Database::~Database() {
 	sqlite3_close(db);
+	delete dbError;
 }
 
 bool Database::OpenConnection(char *name) {

@@ -38,8 +38,17 @@ HiscoreEntry::HiscoreEntry(SDL_Renderer *renderer, int rank,
 }
 
 HiscoreEntry::~HiscoreEntry() {
+	TTF_CloseFont(font);
+
 	SDL_DestroyTexture(rankTexture);
+	SDL_DestroyTexture(playerNameTexture);
+	SDL_DestroyTexture(dateTexture);
+	SDL_DestroyTexture(scoreTexture);
+
 	rankTexture = NULL;
+	playerNameTexture = NULL;
+	dateTexture = NULL;
+	scoreTexture = NULL;
 }
 
 void HiscoreEntry::Render() {

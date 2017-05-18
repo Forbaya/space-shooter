@@ -51,6 +51,31 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 }
 
 Game::~Game() {
+	delete starField;
+
+	for (auto it = asteroids.begin(); it != asteroids.end(); ++it) {
+		delete *it;
+	}
+	asteroids.clear();
+
+	for (auto it = enemies.begin(); it != enemies.end(); ++it) {
+		delete *it;
+	}
+	enemies.clear();
+
+	for (auto it = players.begin(); it != players.end(); ++it) {
+		delete *it;
+	}
+	players.clear();
+
+	SDL_DestroyTexture(pauseTexture);
+	SDL_DestroyTexture(youDiedTexture);
+	SDL_DestroyTexture(scoreTexture);
+	SDL_DestroyTexture(healthTextTexture);
+	SDL_DestroyTexture(scoreTextTexture);
+	SDL_DestroyTexture(playerNameTexture);
+	SDL_DestroyTexture(playerNameInstructionsTexture);
+	SDL_DestroyTexture(blinkingUnderscoreTexture);
 }
 
 void Game::SetPaused(bool paused) {

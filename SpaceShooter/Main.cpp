@@ -161,6 +161,7 @@ void Close() {
 	delete game;
 	delete inputHandler;
 	delete database;
+	delete screen;
 
 	SDL_DestroyWindow(window);
 	window = NULL;

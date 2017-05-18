@@ -13,14 +13,13 @@
 class MainMenu : public Screen {
 	public:
 		MainMenu(SDL_Renderer *renderer);
-		~MainMenu();
+		virtual ~MainMenu();
 		void Tick(Inputs *inputs);
 		void Render();
 		void ChangeSelectedOption(Inputs *inputs);
 		void SelectOption(Inputs *inputs);
 	private:
 		SDL_Renderer *renderer;
-		TTF_Font *font;
 		std::vector<Button*> buttons;
 		SDL_Texture *logoTexture;
 		SDL_Rect logoRect;

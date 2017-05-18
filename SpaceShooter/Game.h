@@ -15,7 +15,7 @@
 class Game : public Screen {
 	public:
 		Game(SDL_Renderer *renderer, Database *database);
-		~Game();
+		virtual ~Game();
 		void SetPaused(bool paused);
 		bool GetPaused();
 		StarField* GetStarField();

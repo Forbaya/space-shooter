@@ -15,7 +15,7 @@
 class Hiscores : public Screen {
 	public:
 		Hiscores(SDL_Renderer *renderer, Database *database);
-		~Hiscores();
+		virtual ~Hiscores();
 		void Tick(Inputs *inputs);
 		void PopulateHiscoreEntries();
 		void ChangeSelectedOption(Inputs *inputs);
@@ -24,7 +24,6 @@ class Hiscores : public Screen {
 	private:
 		SDL_Renderer *renderer;
 		Database *database;
-		TTF_Font *font;
 		std::vector<Button*> buttons;
 		SDL_Color white;
 		SDL_Color selectedColor;
@@ -39,8 +38,6 @@ class Hiscores : public Screen {
 		SDL_Texture *scoreTextTexture;
 		std::vector<std::vector<std::string>> topTenHiscores;
 		std::vector<HiscoreEntry*> hiscoreEntries;
-		Button *backButton;
-		Button *resetHiscoresButton;
 		Time currentTickTime;
 		Time previousTickTime;
 		Nanoseconds optionSwapCooldown;

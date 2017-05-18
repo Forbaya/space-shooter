@@ -7,6 +7,8 @@ Screen::Screen() {
 }
 
 Screen::~Screen() {
+	TTF_CloseFont(font);
+	font = NULL;
 }
 
 void Screen::Tick(Inputs *inputs) {

@@ -10,6 +10,9 @@ Vector2::Vector2() {
 	y = 0;
 }
 
+Vector2::~Vector2() {
+}
+
 void Vector2::SetX(int x) {
 	this->x = x;
 }

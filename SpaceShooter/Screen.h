@@ -12,7 +12,7 @@ class Screen {
 		TTF_Font *font;
 	public:
 		Screen();
-		~Screen();
+		virtual ~Screen();
 		virtual void Tick(Inputs *inputs);
 		virtual void Render();
 		bool IsRunning();
