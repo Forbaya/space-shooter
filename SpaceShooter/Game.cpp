@@ -182,6 +182,7 @@ void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
 	if (playerName.length() > 0 && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter())) {
 		SetNextScreen(MAIN_MENU_SCREEN);
 		database->InsertHiscore(playerName, score);
+		database->GetTopTenHiscores();
 	}
 }
 

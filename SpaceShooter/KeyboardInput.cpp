@@ -359,4 +359,6 @@ bool KeyboardInput::GetButton(std::string button) {
 	} else if (button.compare("M") == 0) {
 		return buttonM;
 	}
+
+	return false;
 }

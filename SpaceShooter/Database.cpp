@@ -54,3 +54,30 @@ std::string Database::GetCurrentDateAndTime() {
 	std::string sec = now.tm_sec < 10 ? "0" + std::to_string(now.tm_sec) : std::to_string(now.tm_sec);
 	return day + "." + month + "." + year + " " + hour + ":" + min + ":" + sec;
 }
+
+std::string Database::GetTopTenHiscores() {
+	std::vector<std::string> result;
+	for (int i = 0; i < 10; i++) {
+		result.push_back(std::string());
+	}
+
+	const char *selectTopTenHiscores = "SELECT * FROM Hiscores ORDER BY score DESC LIMIT 10";
+	sqlite3_stmt *stmt;
+
+	sqlite3_prepare_v2(db, "SELECT * FROM Hiscores ORDER BY score DESC LIMIT 10;", -1, &stmt, NULL);
+	sqlite3_step(stmt);
+
+	std::string kappalul = std::string((char *)sqlite3_column_text(stmt, 0));
+
+	while (sqlite3_column_text(stmt, 0)) {
+		for (int i = 0; i < 3; i++) {
+			result.at(i) = std::string((char *)sqlite3_column_text(stmt, i));
+			sqlite3_step(stmt);
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+
+	return "kappa123";
+}

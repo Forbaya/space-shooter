@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sqlite3.h>
 #include <string>
+#include <vector>
 
 class Database {
 	public:
@@ -14,6 +15,7 @@ class Database {
 		void CreateTables();
 		void InsertHiscore(std::string playerName, int score);
 		std::string GetCurrentDateAndTime();
+		std::string GetTopTenHiscores();
 	private:
 		sqlite3 *db;
 		char *dbError;
