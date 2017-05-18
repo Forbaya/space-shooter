@@ -70,47 +70,47 @@ void Game::Tick(Inputs *inputs) {
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
 
-	if (!players.empty()) {
-		SetPaused(inputs->GetGamepadInput()->GetStartButton());
-
-		if (!paused) {
-			passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
-			if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
-				Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
-				asteroids.push_back(asteroid);
-				passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
-				this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
-			}
-
-			if (players.size() > 0) {
-				starField->Tick(inputs);
-			}
-			for (Player *player : players) {
-				player->Tick(inputs);
-			}
-			for (Enemy *enemy : enemies) {
-				enemy->Tick(inputs);
-			}
-			for (Asteroid *asteroid : asteroids) {
-				asteroid->Tick(inputs);
-			}
-
-			HandleCollision();
-
-			SDL_DestroyTexture(scoreTexture);
-			scoreTexture = LoadTextTexture(std::to_string(score), white, renderer);
-
-			EraseUnnecessaryObjects();
-
-			if (players.size() == 0) {
-				healthLeftRect = { 20, 40, 0, 20 };
-			} else {
-				healthLeftRect = { 20, 40, players.at(0)->GetHealth() * 30, 20 };
-			}
+	if (!paused) {
+		passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+		if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
+			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
+			asteroids.push_back(asteroid);
+			passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
+			this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 		}
-	} else {
+
+		if (players.size() > 0) {
+			starField->Tick(inputs);
+		}
+		for (Player *player : players) {
+			player->Tick(inputs);
+		}
+		for (Enemy *enemy : enemies) {
+			enemy->Tick(inputs);
+		}
+		for (Asteroid *asteroid : asteroids) {
+			asteroid->Tick(inputs);
+		}
+
+		HandleCollision();
+
+		SDL_DestroyTexture(scoreTexture);
+		scoreTexture = LoadTextTexture(std::to_string(score), white, renderer);
+
+		EraseUnnecessaryObjects();
+
+		if (players.size() == 0) {
+			healthLeftRect = { 20, 40, 0, 20 };
+		} else {
+			healthLeftRect = { 20, 40, players.at(0)->GetHealth() * 30, 20 };
+		}
+	}
+
+	if (players.empty()) {
 		HandlePlayerNameInput(inputs, std::chrono::duration_cast<Nanoseconds>(deltaTime));
 		HandleBlinkingUnderscore(deltaTime);
+	} else {
+		SetPaused(inputs->GetGamepadInput()->GetStartButton());
 	}
 }
 

@@ -34,6 +34,7 @@ MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 }
 
 MainMenu::~MainMenu() {
+	
 }
 
 void MainMenu::Tick(Inputs *inputs) {

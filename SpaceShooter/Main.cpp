@@ -141,11 +141,14 @@ void Tick() {
 	if (nextScreen != -1) {
 		if (nextScreen == GAME_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
+			delete screen;
 			screen = &(*new Game(renderer, database));
 		} else if (nextScreen == MAIN_MENU_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
+			delete screen;
 			screen = &(*new MainMenu(renderer));
 		} else if (nextScreen == HISCORES_SCREEN) {
+			delete screen;
 			screen = &(*new Hiscores(renderer, database));
 		}
 	}
