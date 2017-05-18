@@ -17,7 +17,6 @@ class MainMenu : public Screen {
 		void Tick(Inputs *inputs);
 		void Render();
 		void ChangeSelectedOption(Inputs *inputs);
-		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
 		void SelectOption(Inputs *inputs);
 	private:
 		SDL_Renderer *renderer;

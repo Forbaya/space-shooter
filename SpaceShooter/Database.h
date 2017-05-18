@@ -15,10 +15,13 @@ class Database {
 		void CreateTables();
 		void InsertHiscore(std::string playerName, int score);
 		std::string GetCurrentDateAndTime();
-		std::string GetTopTenHiscores();
+		std::vector<std::vector<std::string>> GetTopTenHiscores();
+		void ResetHiscoreTable();
 	private:
 		sqlite3 *db;
 		char *dbError;
+		//std::vector<std::vector<std::string>> topTenHiscores;
+		int hiscoreTableCols;
 };
 
 #endif

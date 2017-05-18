@@ -9,6 +9,7 @@
 #include <string>
 #include "Constants.h"
 #include "Database.h"
+#include "Hiscores.h"
 #include "InputHandler.h"
 #include "Game.h"
 #include "MainMenu.h"
@@ -144,6 +145,8 @@ void Tick() {
 		} else if (nextScreen == MAIN_MENU_SCREEN) {
 			inputHandler->SetScreen(nextScreen);
 			screen = &(*new MainMenu(renderer));
+		} else if (nextScreen == HISCORES_SCREEN) {
+			screen = &(*new Hiscores(renderer, database));
 		}
 	}
 

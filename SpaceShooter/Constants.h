@@ -23,8 +23,12 @@ enum Border {
 	TOP = 0, LEFT = 1, BOTTOM = 2, RIGHT = 3
 };
 
-enum Buttons {
+enum MainMenuButtons {
 	NEW_GAME, HISCORES, INSTRUCTIONS, OPTIONS, QUIT
+};
+
+enum HiscoreButtons {
+	BACK, RESET_HISCORES
 };
 
 enum Screens {

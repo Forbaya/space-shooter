@@ -2,6 +2,7 @@
 
 Database::Database(char *name) {
 	bool connection = OpenConnection(name);
+	hiscoreTableCols = 4;
 
 	if (connection) {
 		CreateTables();
@@ -23,7 +24,7 @@ bool Database::OpenConnection(char *name) {
 }
 
 void Database::CreateTables() {
-	const char *createHiscoresTable = "CREATE TABLE IF NOT EXISTS Hiscores (id INTEGER PRIMARY KEY, player TEXT NOT NULL, score INTEGER NOT NULL, date TEXT NOT NULL);";
+	const char *createHiscoresTable = "CREATE TABLE IF NOT EXISTS Hiscores (id INTEGER PRIMARY KEY, player TEXT NOT NULL, date TEXT NOT NULL, score INTEGER NOT NULL);";
 
 	if (sqlite3_exec(db, createHiscoresTable, NULL, NULL, &dbError)) {
 		printf("Error executing SQLite3 statement: %s\n", sqlite3_errmsg(db));
@@ -32,7 +33,7 @@ void Database::CreateTables() {
 }
 
 void Database::InsertHiscore(std::string playerName, int score) {
-	std::string insert = "INSERT INTO Hiscores VALUES (NULL, '" + playerName + "', " + std::to_string(score) + ",'" + GetCurrentDateAndTime() + "');";
+	std::string insert = "INSERT INTO Hiscores VALUES (NULL, '" + playerName + "', '" + GetCurrentDateAndTime() + "'," + std::to_string(score) + ");";
 	const char *insertIntoHighscoresTable = insert.c_str();
 
 	if (sqlite3_exec(db, insertIntoHighscoresTable, NULL, NULL, &dbError)) {
@@ -55,29 +56,35 @@ std::string Database::GetCurrentDateAndTime() {
 	return day + "." + month + "." + year + " " + hour + ":" + min + ":" + sec;
 }
 
-std::string Database::GetTopTenHiscores() {
-	std::vector<std::string> result;
-	for (int i = 0; i < 10; i++) {
-		result.push_back(std::string());
-	}
+std::vector<std::vector<std::string>> Database::GetTopTenHiscores() {
+	std::vector<std::vector<std::string>> topTenHiscores(10, std::vector<std::string>(4));
 
-	const char *selectTopTenHiscores = "SELECT * FROM Hiscores ORDER BY score DESC LIMIT 10";
 	sqlite3_stmt *stmt;
 
 	sqlite3_prepare_v2(db, "SELECT * FROM Hiscores ORDER BY score DESC LIMIT 10;", -1, &stmt, NULL);
 	sqlite3_step(stmt);
 
-	std::string kappalul = std::string((char *)sqlite3_column_text(stmt, 0));
-
-	while (sqlite3_column_text(stmt, 0)) {
-		for (int i = 0; i < 3; i++) {
-			result.at(i) = std::string((char *)sqlite3_column_text(stmt, i));
-			sqlite3_step(stmt);
+	int row = 0;
+	while (sqlite3_column_text(stmt, 1)) {
+		for (int col = 0; col < hiscoreTableCols; col++) {
+			topTenHiscores.at(row).at(col) = std::string((char *)sqlite3_column_text(stmt, col));
 		}
+		sqlite3_step(stmt);
+		row++;
 	}
 
 	sqlite3_finalize(stmt);
 
+	return topTenHiscores;
+}
 
-	return "kappa123";
+void Database::ResetHiscoreTable() {
+	const char *dropTableHiscores = "DROP TABLE IF EXISTS Hiscores;";
+
+	if (sqlite3_exec(db, dropTableHiscores, NULL, NULL, &dbError)) {
+		printf("Error executing SQLite3 statement: %s\n", sqlite3_errmsg(db));
+		sqlite3_free(dbError);
+	}
+
+	CreateTables();
 }

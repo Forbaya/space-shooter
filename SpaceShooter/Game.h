@@ -16,7 +16,6 @@ class Game : public Screen {
 	public:
 		Game(SDL_Renderer *renderer, Database *database);
 		~Game();
-		SDL_Texture* LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer);
 		void SetPaused(bool paused);
 		bool GetPaused();
 		StarField* GetStarField();
@@ -62,7 +61,6 @@ class Game : public Screen {
 		SDL_Texture *playerNameTexture;
 		SDL_Texture *playerNameInstructionsTexture;
 		SDL_Texture *blinkingUnderscoreTexture;
-		TTF_Font *font;
 		long score;
 		int CountDigitsInInteger(int x);
 		void EraseUnnecessaryObjects();

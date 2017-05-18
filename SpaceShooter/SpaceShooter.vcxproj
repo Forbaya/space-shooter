@@ -140,6 +140,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="HiscoreEntry.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarField.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="HiscoreEntry.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarField.h" />

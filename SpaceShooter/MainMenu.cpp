@@ -77,30 +77,14 @@ void MainMenu::ChangeSelectedOption(Inputs *inputs) {
 	}
 }
 
-SDL_Texture* MainMenu::LoadTextTexture(std::string text, SDL_Color textColor, SDL_Renderer *renderer) {
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-	SDL_Texture *texture = NULL;
-	if (surface == NULL) {
-		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-	}
-	else {
-		texture = SDL_CreateTextureFromSurface(renderer, surface);
-		if (texture == NULL) {
-			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-		}
-
-		SDL_FreeSurface(surface);
-	}
-
-	return texture;
-}
-
 void MainMenu::SelectOption(Inputs *inputs) {
 	if (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter()) {
 		if (selectedOption == QUIT) {
 			SetRunning(false);
 		} else if (selectedOption == NEW_GAME) {
 			SetNextScreen(GAME_SCREEN);
+		} else if (selectedOption == HISCORES) {
+			SetNextScreen(HISCORES_SCREEN);
 		}
 	}
 }
