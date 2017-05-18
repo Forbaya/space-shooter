@@ -11,7 +11,7 @@
 
 class Enemy : public Alien {
 	public:
-		Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore);
+		Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion);
 		~Enemy();
 		void Tick(Inputs *inputs);
 		void Move(int x, int y);

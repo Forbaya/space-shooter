@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int damage, long *gameScore) 
-		: Entity(size, size, NULL, NULL, gameScore){
+Bullet::Bullet(Vector2 *position, Vector2 *direction, int size, int speed, int damage) 
+		: Entity(size, size, NULL, NULL){
 	this->position = position;
 	this->direction = direction;
 	this->size = size;

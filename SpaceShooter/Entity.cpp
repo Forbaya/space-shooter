@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore) {
+Entity::Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion) {
 	reward = 0;
 	center = { width / 2, height / 2 };
 	rotation = 0;
@@ -11,8 +11,6 @@ Entity::Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRe
 	if (textureRegion != NULL) {
 		this->textureRegion = { textureRegion->GetX(), textureRegion->GetY(), width, height };
 	}
-	
-	this->gameScore = gameScore;
 }
 
 Entity::~Entity() {
@@ -57,9 +55,6 @@ bool Entity::IsDead() {
 void Entity::TakeDamage(int damage) {
 	if (!IsImmune()) {
 		health -= damage;
-		if (health <= 0) {
-			*gameScore += reward;
-		}
 		immunity = immunityLength;
 	}
 }
@@ -73,4 +68,8 @@ void Entity::Rotate() {
 		rotation = fmod(rotation + rotationSpeed, 360.0);
 		passedAnimationTime -= animationLength;
 	}
+}
+
+int Entity::GetReward() {
+	return reward;
 }

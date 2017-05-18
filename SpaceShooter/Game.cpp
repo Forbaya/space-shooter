@@ -6,16 +6,15 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	this->database = database;
 
 	score = 0;
-	pScore = &score;
-
 	white = { 255, 255, 255 };
 	paused = false;
+	showUnderscore = false;
 	starField = new StarField(200);
-	Player *player = new Player(32, 32, renderer, new Vector2(0, 0), pScore);
+	Player *player = new Player(32, 32, renderer, new Vector2(0, 0));
 	players.push_back(player);
-	Enemy *enemy = new Enemy(32, 32, renderer, new Vector2(0, 0), pScore);
-	enemies.push_back(enemy);
-	Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0), pScore);
+	//Enemy *enemy = new Enemy(32, 32, renderer, new Vector2(0, 0));
+	//enemies.push_back(enemy);
+	Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
 	asteroids.push_back(asteroid);
 	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
 	passedAsteroidSpawnTime = zeroNanoseconds;
@@ -23,6 +22,8 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	textCooldown = Nanoseconds(150000000);
 	textCooldownLeft = zeroNanoseconds;
 	playerName = "";
+	underscoreBlinkTime = zeroNanoseconds;
+	underscoreBlinkInterval = Nanoseconds(500000000);
 
 	font = TTF_OpenFont("res/roboto.ttf", 24);
 	pauseRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 300, 80 };
@@ -36,6 +37,7 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	healthLeftRect = { 20, 40, playerHealth * 30, 20 };
 	playerNameRect = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50, 100, 50 };
 	playerNameInstructionsRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 10, 300, 50 };
+	blinkingUnderscoreRect = { SCREEN_WIDTH / 2 - 9, SCREEN_HEIGHT / 2 + 50, 18, 50 };
 
 	pauseTexture = LoadTextTexture("PAUSED", white, renderer);
 	youDiedTexture = LoadTextTexture("YOU DIED!", white, renderer);
@@ -44,6 +46,7 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	scoreTextTexture = LoadTextTexture("Score", white, renderer);
 	playerNameTexture = LoadTextTexture(playerName, white, renderer);
 	playerNameInstructionsTexture = LoadTextTexture("Enter your name", white, renderer);
+	blinkingUnderscoreTexture = LoadTextTexture("_", white, renderer);
 
 	currentTickTime = Clock::now();
 }
@@ -95,7 +98,7 @@ void Game::Tick(Inputs *inputs) {
 		if (!paused) {
 			passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 			if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
-				Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0), pScore);
+				Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
 				asteroids.push_back(asteroid);
 				passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
 				this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
@@ -129,6 +132,7 @@ void Game::Tick(Inputs *inputs) {
 		}
 	} else {
 		HandlePlayerNameInput(inputs, std::chrono::duration_cast<Nanoseconds>(deltaTime));
+		HandleBlinkingUnderscore(deltaTime);
 	}
 }
 
@@ -167,22 +171,32 @@ void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
 		playerName = playerName.substr(0, playerName.length() - 1);
 		textCooldownLeft = zeroNanoseconds;
 		SDL_DestroyTexture(playerNameTexture);
-		ChangePlayerNameRectLength((int)playerName.length() * 15);
+		SDL_DestroyTexture(blinkingUnderscoreTexture);
+		int playerNameLengthInPixels = ((int)playerName.length() * 15);
+		ChangePlayerNameRectLength(playerNameLengthInPixels);
+		int blinkingUnderscoreLeftX = SCREEN_WIDTH / 2 + playerNameLengthInPixels / 2 + 5;
+		blinkingUnderscoreRect = { blinkingUnderscoreLeftX, SCREEN_HEIGHT / 2 + 50, 18, 50 };
 		playerNameTexture = LoadTextTexture(playerName, white, renderer);
+		blinkingUnderscoreTexture = LoadTextTexture("_", white, renderer);
 	}
 	if (playerName.length() > 0 && (inputs->GetGamepadInput()->GetButtonA() || inputs->GetKeyboardInput()->GetButtonEnter())) {
 		SetNextScreen(MAIN_MENU_SCREEN);
-		database->InsertHighscore(playerName, score);
+		database->InsertHiscore(playerName, score);
 	}
 }
 
 void Game::HandleButton(Inputs *inputs, std::string button) {
-	if (inputs->GetKeyboardInput()->GetButton(button)) {
+	if (inputs->GetKeyboardInput()->GetButton(button) && playerName.length() < 16) {
 		playerName += button;
 		textCooldownLeft = zeroNanoseconds;
 		SDL_DestroyTexture(playerNameTexture);
-		ChangePlayerNameRectLength((int)playerName.length() * 15);
+		SDL_DestroyTexture(blinkingUnderscoreTexture);
+		int playerNameLengthInPixels = ((int)playerName.length() * 15);
+		ChangePlayerNameRectLength(playerNameLengthInPixels);
+		int blinkingUnderscoreLeftX = SCREEN_WIDTH / 2 + playerNameLengthInPixels / 2 + 5;
+		blinkingUnderscoreRect = { blinkingUnderscoreLeftX, SCREEN_HEIGHT / 2 + 50, 18, 50 };
 		playerNameTexture = LoadTextTexture(playerName, white, renderer);
+		blinkingUnderscoreTexture = LoadTextTexture("_", white, renderer);
 	}
 }
 
@@ -202,6 +216,9 @@ void Game::Render() {
 		SDL_RenderCopy(renderer, playerNameInstructionsTexture, NULL, &playerNameInstructionsRect);
 		if (playerName.length() > 0) {
 			SDL_RenderCopy(renderer, playerNameTexture, NULL, &playerNameRect);
+		}
+		if (playerName.length() < 16 && showUnderscore) {
+			SDL_RenderCopy(renderer, blinkingUnderscoreTexture, NULL, &blinkingUnderscoreRect);
 		}
 	}
 	if (paused) {
@@ -244,10 +261,6 @@ std::vector<Enemy*> Game::GetEnemies() {
 
 long Game::GetScore() {
 	return score;
-}
-
-long* Game::GetScorePointer() {
-	return pScore;
 }
 
 int Game::CountDigitsInInteger(int x) {
@@ -314,12 +327,18 @@ void Game::HandleCollision() {
 				if (CheckCollision(bullet->GetRect(), enemy->GetRect())) {
 					enemy->TakeDamage(bullet->GetDamage());
 					bullet->SetCollision(true);
+					if (enemy->IsDead()) {
+						score += enemy->GetReward();
+					}
 				}
 			}
 			for (Asteroid *asteroid : asteroids) {
 				if (CheckCollision(bullet->GetRect(), asteroid->GetRect())) {
 					asteroid->TakeDamage(bullet->GetDamage());
 					bullet->SetCollision(true);
+					if (asteroid->IsDead()) {
+						score += asteroid->GetReward();
+					}
 				}
 			}
 		}
@@ -337,4 +356,12 @@ void Game::HandleCollision() {
 
 void Game::ChangePlayerNameRectLength(int length) {
 	playerNameRect = { SCREEN_WIDTH / 2 - length / 2, SCREEN_HEIGHT / 2 + 50, length, 50 };
+}
+
+void Game::HandleBlinkingUnderscore(Nanoseconds deltaTime) {
+	underscoreBlinkTime += deltaTime;
+	if (underscoreBlinkTime >= underscoreBlinkInterval) {
+		underscoreBlinkTime -= underscoreBlinkInterval;
+		showUnderscore = showUnderscore ? false : true;
+	}
 }

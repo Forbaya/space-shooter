@@ -23,33 +23,34 @@ bool Database::OpenConnection(char *name) {
 }
 
 void Database::CreateTables() {
-	const char *createHighscoresTable = "CREATE TABLE IF NOT EXISTS Highscores (id INTEGER PRIMARY KEY, player TEXT NOT NULL, score INTEGER NOT NULL, date TEXT NOT NULL);";
+	const char *createHiscoresTable = "CREATE TABLE IF NOT EXISTS Hiscores (id INTEGER PRIMARY KEY, player TEXT NOT NULL, score INTEGER NOT NULL, date TEXT NOT NULL);";
 
-	if (sqlite3_exec(db, createHighscoresTable, NULL, NULL, &dbError)) {
+	if (sqlite3_exec(db, createHiscoresTable, NULL, NULL, &dbError)) {
 		printf("Error executing SQLite3 statement: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(dbError);
 	}
 }
 
-void Database::InsertHighscore(std::string playerName, int score) {
-	time_t currentTime = time(0);
-	std::tm now;
-	localtime_s(&now, &currentTime);
-
-	int year = now.tm_year + 1900;
-	int month = now.tm_mon + 1;
-	int day = now.tm_mday;
-	int hour = now.tm_hour;
-	int min = now.tm_min;
-	int sec = now.tm_sec;
-	std::string date = std::to_string(day) + "." + std::to_string(month) + "." 
-		+ std::to_string(year) + " " + std::to_string(hour) + ":" + std::to_string(min) + ":" + std::to_string(sec);
-
-	std::string insert = "INSERT INTO Highscores VALUES (NULL, '" + playerName + "', " + std::to_string(score) + ",'" + date + "');";
+void Database::InsertHiscore(std::string playerName, int score) {
+	std::string insert = "INSERT INTO Hiscores VALUES (NULL, '" + playerName + "', " + std::to_string(score) + ",'" + GetCurrentDateAndTime() + "');";
 	const char *insertIntoHighscoresTable = insert.c_str();
 
 	if (sqlite3_exec(db, insertIntoHighscoresTable, NULL, NULL, &dbError)) {
 		printf("Error executing SQLite3 statement: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(dbError);
 	}
+}
+
+std::string Database::GetCurrentDateAndTime() {
+	time_t currentTime = time(0);
+	std::tm now;
+	localtime_s(&now, &currentTime);
+
+	std::string year = std::to_string(now.tm_year + 1900);
+	std::string month = std::to_string(now.tm_mon + 1);
+	std::string day = std::to_string(now.tm_mday);
+	std::string hour = now.tm_hour < 10 ? "0" + std::to_string(now.tm_hour) : std::to_string(now.tm_hour);
+	std::string min = now.tm_min < 10 ? "0" + std::to_string(now.tm_min) : std::to_string(now.tm_min);
+	std::string sec = now.tm_sec < 10 ? "0" + std::to_string(now.tm_sec) : std::to_string(now.tm_sec);
+	return day + "." + month + "." + year + " " + hour + ":" + min + ":" + sec;
 }

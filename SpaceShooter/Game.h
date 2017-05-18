@@ -28,7 +28,6 @@ class Game : public Screen {
 		std::vector<Asteroid*> GetAsteroids();
 		std::vector<Enemy*> GetEnemies();
 		long GetScore();
-		long *GetScorePointer();
 	private:
 		bool paused;
 		StarField *starField;
@@ -43,6 +42,8 @@ class Game : public Screen {
 		Nanoseconds timePaused;
 		Nanoseconds textCooldown;
 		Nanoseconds textCooldownLeft;
+		Nanoseconds underscoreBlinkTime;
+		Nanoseconds underscoreBlinkInterval;
 		SDL_Rect pauseRect;
 		SDL_Rect youDiedRect;
 		SDL_Rect scoreRect;
@@ -52,6 +53,7 @@ class Game : public Screen {
 		SDL_Rect scoreTextRect;
 		SDL_Rect playerNameRect;
 		SDL_Rect playerNameInstructionsRect;
+		SDL_Rect blinkingUnderscoreRect;
 		SDL_Texture *pauseTexture;
 		SDL_Texture *youDiedTexture;
 		SDL_Texture *scoreTexture;
@@ -59,16 +61,18 @@ class Game : public Screen {
 		SDL_Texture *scoreTextTexture;
 		SDL_Texture *playerNameTexture;
 		SDL_Texture *playerNameInstructionsTexture;
+		SDL_Texture *blinkingUnderscoreTexture;
 		TTF_Font *font;
 		long score;
-		long *pScore;
 		int CountDigitsInInteger(int x);
 		void EraseUnnecessaryObjects();
 		void HandleCollision();
 		std::string playerName;
 		void ChangePlayerNameRectLength(int length);
+		void HandleBlinkingUnderscore(Nanoseconds deltaTime);
 		Database *database;
 		SDL_Color white;
+		bool showUnderscore;
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore)
-		: Alien(width, height, renderer, textureRegion, gameScore) {
+Player::Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion)
+		: Alien(width, height, renderer, textureRegion) {
 	rect = { SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height };
 	rotationSpeed = 45.0;
 	health = 3;

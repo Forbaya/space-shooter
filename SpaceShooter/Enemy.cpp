@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore) 
-		: Alien(width, height, renderer, textureRegion, gameScore) {
+Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion) 
+		: Alien(width, height, renderer, textureRegion) {
 	SDL_SetTextureColorMod(texture, 255, 128, 255);
 
 	this->reward = 3;

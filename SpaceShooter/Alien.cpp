@@ -1,7 +1,7 @@
 #include "Alien.h"
 
-Alien::Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion, long *gameScore)
-		: Entity(width, height, renderer, textureRegion, gameScore) {
+Alien::Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegion)
+		: Entity(width, height, renderer, textureRegion) {
 }
 
 Alien::~Alien() {
@@ -14,7 +14,7 @@ void Alien::Shoot(Inputs *inputs) {
 		Vector2 *direction = new Vector2(inputs->GetGamepadInput()->GetRightX(), inputs->GetGamepadInput()->GetRightY());
 		
 		Bullet *bullet = new Bullet(new Vector2(rect.x + rect.w / 2 - bulletSize / 2, rect.y + rect.h / 2 - bulletSize / 2),
-									new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6, 1, NULL);
+									new Vector2(direction->GetX(), direction->GetY()), bulletSize, 6, 1);
 		bullets.push_back(bullet);
 		delete direction;
 
@@ -38,12 +38,11 @@ void Alien::Shoot(Inputs *inputs) {
 		}
 
 		Bullet *bullet = new Bullet(new Vector2(rect.x + rect.w / 2 - bulletSize / 2, rect.y + rect.h / 2 - bulletSize / 2), 
-									new Vector2(x, y), bulletSize, 6, 1, NULL);
+									new Vector2(x, y), bulletSize, 6, 1);
 		bullets.push_back(bullet);
 
 		shotCooldownLeft = shotCooldown;
 	}
-
 }
 
 std::vector<Bullet*> Alien::GetBullets() {

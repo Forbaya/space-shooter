@@ -12,7 +12,8 @@ class Database {
 		~Database();
 		bool OpenConnection(char *name);
 		void CreateTables();
-		void InsertHighscore(std::string playerName, int score);
+		void InsertHiscore(std::string playerName, int score);
+		std::string GetCurrentDateAndTime();
 	private:
 		sqlite3 *db;
 		char *dbError;
