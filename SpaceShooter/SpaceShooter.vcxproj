@@ -136,6 +136,7 @@
     <ClCompile Include="Hiscores.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Inputs.cpp" />
+    <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Hiscores.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Inputs.h" />
+    <ClInclude Include="Instructions.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />

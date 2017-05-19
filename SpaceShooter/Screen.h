@@ -10,6 +10,7 @@ class Screen {
 		bool running;
 		int nextScreen;
 		TTF_Font *font;
+		SDL_Color white;
 	public:
 		Screen();
 		virtual ~Screen();

@@ -8,13 +8,13 @@ You can also play with your keyboard.
 
 Controller inputs:
 - Left analog stick moves the player
-- Right analog stick shoots to the direction it's held 
+- Right analog stick shoots to the direction it's held
 - A-button selects a new game or quits in the main menu and returns you back to main menu when dead
 - Start-button pauses when in game.
 
 Keyboard inputs:
 - WASD-keys move the player
-- Arrow-keys shoot to a direction 
+- Arrow-keys shoot to a direction
 - Enter selects a new game or quits when in main menu and returns you to main menu when dead
 - You can't pause with keyboard yet.
 

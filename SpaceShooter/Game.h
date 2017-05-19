@@ -69,7 +69,6 @@ class Game : public Screen {
 		void ChangePlayerNameRectLength(int length);
 		void HandleBlinkingUnderscore(Nanoseconds deltaTime);
 		Database *database;
-		SDL_Color white;
 		bool showUnderscore;
 };
 

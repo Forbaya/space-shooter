@@ -4,6 +4,7 @@ Screen::Screen() {
 	running = true;
 	nextScreen = -1;
 	font = TTF_OpenFont("res/roboto.ttf", 24);
+	white = { 255, 255, 255 };
 }
 
 Screen::~Screen() {

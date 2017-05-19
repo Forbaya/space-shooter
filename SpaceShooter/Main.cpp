@@ -11,6 +11,7 @@
 #include "Database.h"
 #include "Hiscores.h"
 #include "InputHandler.h"
+#include "Instructions.h"
 #include "Game.h"
 #include "MainMenu.h"
 #include "Player.h"
@@ -150,6 +151,9 @@ void Tick() {
 		} else if (nextScreen == HISCORES_SCREEN) {
 			delete screen;
 			screen = &(*new Hiscores(renderer, database));
+		} else if (nextScreen == INSTRUCTIONS_SCREEN) {
+			delete screen;
+			screen = &(*new Instructions(renderer));
 		}
 	}
 

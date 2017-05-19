@@ -23,7 +23,6 @@ class MainMenu : public Screen {
 		std::vector<Button*> buttons;
 		SDL_Texture *logoTexture;
 		SDL_Rect logoRect;
-		SDL_Color white;
 		SDL_Color selectedColor;
 		int selectedOption;
 		Time currentTickTime;

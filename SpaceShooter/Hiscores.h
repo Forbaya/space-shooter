@@ -25,7 +25,6 @@ class Hiscores : public Screen {
 		SDL_Renderer *renderer;
 		Database *database;
 		std::vector<Button*> buttons;
-		SDL_Color white;
 		SDL_Color selectedColor;
 		int selectedOption;
 		SDL_Rect rankTextRect;

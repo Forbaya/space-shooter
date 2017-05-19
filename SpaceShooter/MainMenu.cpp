@@ -2,7 +2,6 @@
 
 MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 	this->renderer = renderer;
-	white = { 255, 255, 255 };
 	selectedColor = { 255, 255, 0 };
 
 	logoRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, 400, 80 };
@@ -95,6 +94,8 @@ void MainMenu::SelectOption(Inputs *inputs) {
 			SetNextScreen(GAME_SCREEN);
 		} else if (selectedOption == HISCORES) {
 			SetNextScreen(HISCORES_SCREEN);
+		} else if (selectedOption == INSTRUCTIONS) {
+			SetNextScreen(INSTRUCTIONS_SCREEN);
 		}
 	}
 }

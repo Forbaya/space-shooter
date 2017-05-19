@@ -6,7 +6,6 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	this->database = database;
 
 	score = 0;
-	white = { 255, 255, 255 };
 	paused = false;
 	showUnderscore = false;
 	starField = new StarField(200);

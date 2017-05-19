@@ -4,7 +4,6 @@ Hiscores::Hiscores(SDL_Renderer *renderer, Database *database) : Screen() {
 	this->renderer = renderer;
 	this->database = database;
 
-	white = { 255, 255, 255 };
 	selectedColor = { 255, 255, 0 };
 
 	rankTextRect = { 30, 10, 15*1, 30 };
