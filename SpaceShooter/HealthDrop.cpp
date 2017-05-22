@@ -7,11 +7,16 @@ HealthDrop::HealthDrop(int x, int y, int width, int height, SDL_Renderer *render
 	Rotate();
 	currentFrame = 0;
 	rect = { x, y, width, height };
-	collision = false;
+	deletable = false;
+	show = true;
 
 	passedAnimationTime = zeroNanoseconds;
 	currentFrameTime = zeroNanoseconds;
 	frameTime = Nanoseconds(500000000);
+	currentAliveTime = zeroNanoseconds;
+	aliveTime = Nanoseconds(7000000000);
+	blinkTime = zeroNanoseconds;
+	blinkInterval = Nanoseconds(333333333);
 
 	currentTickTime = Clock::now();
 }
@@ -27,10 +32,23 @@ void HealthDrop::Tick(Inputs *inputs) {
 
 	passedAnimationTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	currentFrameTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+	currentAliveTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	
 	if (currentFrameTime >= frameTime) {
 		ChangeAnimationFrame();
 		currentFrameTime -= frameTime;
+	}
+
+	if (currentAliveTime >= Nanoseconds(4000000000)) {
+		blinkTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
+		if (blinkTime >= blinkInterval) {
+			show = show ? false : true;
+			blinkTime -= blinkInterval;
+		}
+	}
+
+	if (currentAliveTime >= aliveTime) {
+		deletable = true;
 	}
 }
 
@@ -45,19 +63,21 @@ void HealthDrop::ChangeAnimationFrame() {
 }
 
 void HealthDrop::Render(SDL_Renderer *renderer) {
-	SDL_RenderCopyEx(renderer, texture, &textureRegion, &rect, rotation, &center, SDL_FLIP_NONE);
+	if (show) {
+		SDL_RenderCopyEx(renderer, texture, &textureRegion, &rect, rotation, &center, SDL_FLIP_NONE);
+	}
 }
 
 int HealthDrop::GetHealthAmount() {
 	return healthAmount;
 }
 
-bool HealthDrop::GetCollision() {
-	return collision;
+bool HealthDrop::GetDeletable() {
+	return deletable;
 }
 
-void HealthDrop::SetCollision(bool collision) {
-	this->collision = collision;
+void HealthDrop::SetDeletable(bool deletable) {
+	this->deletable = deletable;
 }
 
 int HealthDrop::NextFrame() {

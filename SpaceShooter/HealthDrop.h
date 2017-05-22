@@ -14,15 +14,21 @@ class HealthDrop : public Entity {
 		void ChangeAnimationFrame();
 		void Render(SDL_Renderer *renderer);
 		int GetHealthAmount();
-		bool GetCollision();
-		void SetCollision(bool collision);
+		bool GetDeletable();
+		void SetDeletable(bool deletable);
 	private:
 		int healthAmount;
 		Nanoseconds currentFrameTime;
 		Nanoseconds frameTime;
+		Nanoseconds currentAliveTime;
+		Nanoseconds aliveTime;
+		Nanoseconds currentBlinkTime;
+		Nanoseconds blinkTime;
+		Nanoseconds blinkInterval;
 		int currentFrame;
 		int NextFrame();
-		bool collision;
+		bool deletable;
+		bool show;
 };
 
 #endif

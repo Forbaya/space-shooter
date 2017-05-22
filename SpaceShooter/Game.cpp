@@ -324,7 +324,7 @@ void Game::EraseUnnecessaryObjects() {
 		std::remove_if(
 			healthDrops.begin(), healthDrops.end(),
 			[&](HealthDrop *healthDrops) {
-				bool destroyable = healthDrops->GetCollision();
+				bool destroyable = healthDrops->GetDeletable();
 				if (destroyable) delete healthDrops;
 				return destroyable;
 			}
@@ -372,7 +372,7 @@ void Game::HandleCollision() {
 		for (HealthDrop *healthDrop : healthDrops) {
 			if (CheckCollision(player->GetRect(), healthDrop->GetRect())) {
 				player->RegenHealth(healthDrop->GetHealthAmount());
-				healthDrop->SetCollision(true);
+				healthDrop->SetDeletable(true);
 			}
 		}
 	}
