@@ -115,6 +115,9 @@ void Game::Tick(Inputs *inputs) {
 		for (Asteroid *asteroid : asteroids) {
 			asteroid->Tick(inputs);
 		}
+		for (HealthDrop *healthDrop : healthDrops) {
+			healthDrop->Tick(inputs);
+		}
 
 		HandleCollision();
 
@@ -213,6 +216,10 @@ void Game::Render() {
 	for (Player *player : players) {
 		player->Render(renderer);
 	}	
+	for (HealthDrop *healthDrop : healthDrops) {
+		healthDrop->Render(renderer);
+	}
+
 	if (players.empty()) {
 		SDL_RenderCopy(renderer, youDiedTexture, NULL, &youDiedRect);
 		SDL_RenderCopy(renderer, playerNameInstructionsTexture, NULL, &playerNameInstructionsRect);
@@ -312,6 +319,18 @@ void Game::EraseUnnecessaryObjects() {
 		),
 		players.end()
 	);
+
+	healthDrops.erase(
+		std::remove_if(
+			healthDrops.begin(), healthDrops.end(),
+			[&](HealthDrop *healthDrops) {
+				bool destroyable = healthDrops->GetCollision();
+				if (destroyable) delete healthDrops;
+				return destroyable;
+			}
+		),
+		healthDrops.end()
+	);
 }
 
 void Game::HandleCollision() {
@@ -340,8 +359,20 @@ void Game::HandleCollision() {
 					bullet->SetCollision(true);
 					if (asteroid->IsDead()) {
 						score += asteroid->GetReward();
+						int random = rand() % 101;
+						if (random >= 95) {
+							HealthDrop *healthDrop = new HealthDrop(asteroid->GetRect().x, asteroid->GetRect().y, 32, 32, renderer, new Vector2(64, 0));
+							healthDrops.push_back(healthDrop);
+						}
 					}
 				}
+			}
+		}
+
+		for (HealthDrop *healthDrop : healthDrops) {
+			if (CheckCollision(player->GetRect(), healthDrop->GetRect())) {
+				player->RegenHealth(healthDrop->GetHealthAmount());
+				healthDrop->SetCollision(true);
 			}
 		}
 	}

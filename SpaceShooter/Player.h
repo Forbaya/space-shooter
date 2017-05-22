@@ -20,6 +20,9 @@ class Player : public Alien {
 		std::pair<int, int> GetMovement(Inputs *inputs);
 		void Render(SDL_Renderer *renderer);
 		bool IsDestroyable();
+		void RegenHealth(int amount);
+	private:
+		int maxHealth;
 };
 
 #endif

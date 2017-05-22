@@ -18,7 +18,6 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textu
 Asteroid::~Asteroid() {
 	SDL_DestroyTexture(texture);
 	texture = NULL;
-
 }
 
 void Asteroid::Move(int x, int y) {

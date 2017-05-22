@@ -7,6 +7,7 @@
 #include "Database.h"
 #include "Enemy.h"
 #include "GamepadInput.h"
+#include "HealthDrop.h"
 #include "KeyboardInput.h"
 #include "Player.h"
 #include "Screen.h"
@@ -34,6 +35,7 @@ class Game : public Screen {
 		std::vector<Asteroid*> asteroids;
 		std::vector<Enemy*> enemies;
 		std::vector<Player*> players;
+		std::vector<HealthDrop*> healthDrops;
 		Time currentTickTime;
 		Time previousTickTime;
 		Nanoseconds nextAsteroidSpawnTime;

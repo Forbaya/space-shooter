@@ -5,6 +5,7 @@ Player::Player(int width, int height, SDL_Renderer *renderer, Vector2 *textureRe
 	rect = { SCREEN_WIDTH/2 - width, SCREEN_HEIGHT/2 - height, width, height };
 	rotationSpeed = 45.0;
 	health = 3;
+	maxHealth = 3;
 
 	shotCooldown = Nanoseconds(100000000);
 	shotCooldownLeft = zeroNanoseconds;
@@ -30,6 +31,7 @@ void Player::Tick(Inputs *inputs) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
+
 	immunity -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	shotCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
 	passedAnimationTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
@@ -105,4 +107,11 @@ void Player::Render(SDL_Renderer *renderer) {
 
 bool Player::IsDestroyable() {
 	return IsDead();
+}
+
+void Player::RegenHealth(int amount) {
+	health += amount;
+	if (health > maxHealth) {
+		health = maxHealth;
+	}
 }

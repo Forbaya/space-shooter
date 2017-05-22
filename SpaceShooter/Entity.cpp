@@ -11,6 +11,8 @@ Entity::Entity(int width, int height, SDL_Renderer *renderer, Vector2 *textureRe
 	if (textureRegion != NULL) {
 		this->textureRegion = { textureRegion->GetX(), textureRegion->GetY(), width, height };
 	}
+
+	delete textureRegion;
 }
 
 Entity::~Entity() {
