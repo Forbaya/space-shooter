@@ -9,6 +9,7 @@ Asteroid::Asteroid(int width, int height, SDL_Renderer *renderer, Vector2 *textu
 	velocity = rand() % 9 + 1;
 	collision = false;
 	this->reward = 1;
+	immunity = new Cooldown(Nanoseconds(1000000000), false);
 
 	nextSpawnTime = Nanoseconds(300000000);
 

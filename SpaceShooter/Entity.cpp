@@ -60,12 +60,12 @@ bool Entity::IsDead() {
 void Entity::TakeDamage(int damage) {
 	if (!IsImmune()) {
 		health -= damage;
-		immunity = immunityLength;
+		immunity->PutOnCooldown();
 	}
 }
 
 bool Entity::IsImmune() {
-	return immunity > zeroNanoseconds;
+	return immunity->OnCooldown();
 }
 
 void Entity::Rotate() {

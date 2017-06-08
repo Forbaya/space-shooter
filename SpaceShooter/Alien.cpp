@@ -10,7 +10,7 @@ Alien::~Alien() {
 void Alien::Shoot(Inputs *inputs) {
 	int bulletSize = 6;
 
-	if ((inputs->GetGamepadInput()->GetRightX() != 0 || inputs->GetGamepadInput()->GetRightY() != 0) && shotCooldownLeft <= zeroNanoseconds) {
+	if ((inputs->GetGamepadInput()->GetRightX() != 0 || inputs->GetGamepadInput()->GetRightY() != 0) && !shotCooldown->OnCooldown()) {
 		Vector2 *direction = new Vector2(inputs->GetGamepadInput()->GetRightX(), inputs->GetGamepadInput()->GetRightY());
 		
 		Bullet *bullet = new Bullet(new Vector2(rect.x + rect.w / 2 - bulletSize / 2, rect.y + rect.h / 2 - bulletSize / 2),
@@ -18,9 +18,9 @@ void Alien::Shoot(Inputs *inputs) {
 		bullets.push_back(bullet);
 		delete direction;
 
-		shotCooldownLeft = shotCooldown;
+		shotCooldown->PutOnCooldown();
 	} else if ((inputs->GetKeyboardInput()->GetArrowUp() || inputs->GetKeyboardInput()->GetArrowRight() || inputs->GetKeyboardInput()->GetArrowLeft() ||
-				inputs->GetKeyboardInput()->GetArrowDown()) && shotCooldownLeft <= zeroNanoseconds) {
+				inputs->GetKeyboardInput()->GetArrowDown()) && !shotCooldown->OnCooldown()) {
 		int x = 0;
 		int y = 0;
 
@@ -41,7 +41,7 @@ void Alien::Shoot(Inputs *inputs) {
 									new Vector2(x, y), bulletSize, 6, 1);
 		bullets.push_back(bullet);
 
-		shotCooldownLeft = shotCooldown;
+		shotCooldown->PutOnCooldown();
 	}
 }
 

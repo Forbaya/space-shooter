@@ -4,6 +4,8 @@
 #include <SDL_image.h>
 #include <SDL.h>
 #include <string>
+
+#include "Cooldown.h"
 #include "Inputs.h"
 #include "Vector2.h"
 
@@ -18,8 +20,7 @@ class Entity {
 		Vector2 *position;
 		Nanoseconds animationLength;
 		Nanoseconds passedAnimationTime;
-		Nanoseconds immunity;
-		Nanoseconds immunityLength;
+		Cooldown *immunity;
 		Time currentTickTime;
 		Time previousTickTime;
 		int health;

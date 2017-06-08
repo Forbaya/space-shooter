@@ -23,10 +23,8 @@ MainMenu::MainMenu(SDL_Renderer *renderer) : Screen() {
 	//buttons.push_back(optionsButton);
 	buttons.push_back(quitButton);
 
-	optionSwapCooldown = Nanoseconds(500000000);
-	optionSwapCooldownLeft = zeroNanoseconds;
-	optionSelectCooldown = Nanoseconds(500000000);
-	optionSelectCooldownLeft = optionSelectCooldown;
+	optionSwapCooldown = new Cooldown(Nanoseconds(500000000), false);
+	optionSelectCooldown = new Cooldown(Nanoseconds(500000000), true);
 
 	currentTickTime = Clock::now();
 }
@@ -45,19 +43,19 @@ void MainMenu::Tick(Inputs *inputs) {
 	previousTickTime = currentTickTime;
 	currentTickTime = Clock::now();
 	auto deltaTime = currentTickTime - previousTickTime;
-	optionSwapCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
-	optionSelectCooldownLeft -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
+	optionSwapCooldown->Tick(std::chrono::duration_cast<Nanoseconds>(deltaTime));
+	optionSelectCooldown->Tick(std::chrono::duration_cast<Nanoseconds>(deltaTime));
 
 	ChangeSelectedOption(inputs);
-	if (optionSelectCooldownLeft <= zeroNanoseconds) {
+	if (!optionSelectCooldown->OnCooldown()) {
 		SelectOption(inputs);
 	}
 }
 
 void MainMenu::ChangeSelectedOption(Inputs *inputs) {
-	if (optionSwapCooldownLeft <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == 1 || 
+	if (optionSwapCooldown->GetCooldownLeft() <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == 1 ||
 			inputs->GetGamepadInput()->GetDpadDown() || inputs->GetKeyboardInput()->GetArrowDown())) {
-		optionSwapCooldownLeft = optionSwapCooldown;
+		optionSwapCooldown->PutOnCooldown();
 		int previousOption = selectedOption;
 		selectedOption++;
 		if (selectedOption >= 4) {
@@ -69,9 +67,9 @@ void MainMenu::ChangeSelectedOption(Inputs *inputs) {
 		Button *currentlySelectedButton = buttons.at(selectedOption);
 		SDL_DestroyTexture(currentlySelectedButton->GetTexture());
 		currentlySelectedButton->LoadTexture(currentlySelectedButton->GetText(), selectedColor);
-	} else if (optionSwapCooldownLeft <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == -1 || 
+	} else if (optionSwapCooldown->GetCooldownLeft() <= zeroNanoseconds && (inputs->GetGamepadInput()->GetLeftY() == -1 ||
 			inputs->GetGamepadInput()->GetDpadUp() || inputs->GetKeyboardInput()->GetArrowUp())) {
-		optionSwapCooldownLeft = optionSwapCooldown;
+		optionSwapCooldown->PutOnCooldown();
 		int previousOption = selectedOption;
 		selectedOption--;
 		if (selectedOption <= -1) {

@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{ED0D9EE5-09F4-4722-A169-0B0B2E061F14}</ProjectGuid>
     <RootNamespace>SpaceShooter</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,6 +77,10 @@
     <IncludePath>C:\SDL2-2.0.5\include;C:\sqlite3;$(IncludePath)</IncludePath>
     <LibraryPath>C:\SDL2-2.0.5\lib\x86;C:\sqlite3;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -94,6 +98,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -127,6 +136,7 @@
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Cooldown.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="GamepadInput.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -152,6 +162,7 @@
     <ClInclude Include="Alien.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Cooldown.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="GamepadInput.h" />
     <ClInclude Include="Bullet.h" />

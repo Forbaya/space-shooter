@@ -6,15 +6,16 @@
 #include <SDL.h>
 #include <string>
 #include <vector>
+
 #include "Bullet.h"
+#include "Cooldown.h"
 #include "Entity.h"
 #include "Inputs.h"
 #include "Vector2.h"
 
 class Alien : public Entity {
 	protected:
-		Nanoseconds shotCooldown;
-		Nanoseconds shotCooldownLeft;
+		Cooldown *shotCooldown;
 		std::vector<Bullet*> bullets;
 		int damage;
 	public:

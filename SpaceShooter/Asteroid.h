@@ -2,6 +2,8 @@
 #define ASTEROID_H
 
 #include <SDL.h>
+
+#include "Cooldown.h"
 #include "Constants.h"
 #include "Entity.h"
 #include "Vector2.h"

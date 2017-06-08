@@ -5,7 +5,9 @@
 #include <SDL.h>
 #include <string>
 #include <vector>
+
 #include "Button.h"
+#include "Cooldown.h"
 #include "GamepadInput.h"
 #include "KeyboardInput.h"
 #include "Screen.h"
@@ -27,10 +29,8 @@ class MainMenu : public Screen {
 		int selectedOption;
 		Time currentTickTime;
 		Time previousTickTime;
-		Nanoseconds optionSwapCooldown;
-		Nanoseconds optionSwapCooldownLeft;
-		Nanoseconds optionSelectCooldown;
-		Nanoseconds optionSelectCooldownLeft;
+		Cooldown *optionSwapCooldown;
+		Cooldown *optionSelectCooldown;
 };
 
 #endif

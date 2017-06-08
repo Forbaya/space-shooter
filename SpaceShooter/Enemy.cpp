@@ -12,8 +12,7 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegi
 
 	animationLength = Nanoseconds(100000000);
 	passedAnimationTime = zeroNanoseconds;
-	immunity = zeroNanoseconds;
-	immunityLength = Nanoseconds(1000000000);
+	immunity = new Cooldown(Nanoseconds(1000000000), false);
 
 	currentTickTime = Clock::now();
 }
@@ -28,7 +27,7 @@ void Enemy::Tick(Inputs *inputs) {
 		previousTickTime = currentTickTime;
 		currentTickTime = Clock::now();
 		auto deltaTime = currentTickTime - previousTickTime;
-		immunity -= std::chrono::duration_cast<Nanoseconds>(deltaTime);
+		immunity->Tick(std::chrono::duration_cast<Nanoseconds>(deltaTime));
 		passedAnimationTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
 		
 		Rotate();
