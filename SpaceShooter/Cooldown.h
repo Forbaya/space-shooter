@@ -12,6 +12,7 @@ public:
 	void PutOnCooldown();
 	bool OnCooldown();
 	Nanoseconds GetCooldownLeft();
+	void SetCooldownLength(Nanoseconds newCooldownLength);
 private:
 	Nanoseconds cooldownLeft;
 	Nanoseconds cooldownLength;

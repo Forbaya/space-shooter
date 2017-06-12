@@ -140,4 +140,4 @@ void Hiscores::Render() {
 	for (Button *button : buttons) {
 		button->Render();
 	}
-} 
+}

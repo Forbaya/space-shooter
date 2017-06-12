@@ -20,6 +20,8 @@ Enemy::Enemy(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegi
 Enemy::~Enemy() {
 	SDL_DestroyTexture(texture);
 	texture = NULL;
+	delete immunity;
+	immunity = NULL;
 }
 
 void Enemy::Tick(Inputs *inputs) {

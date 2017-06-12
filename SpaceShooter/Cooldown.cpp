@@ -21,6 +21,10 @@ Nanoseconds Cooldown::GetCooldownLeft() {
 	return cooldownLeft;
 }
 
+void Cooldown::SetCooldownLength(Nanoseconds newCooldownLength) {
+	this->cooldownLength = newCooldownLength;
+}
+
 void Cooldown::PutOnCooldown() {
 	this->cooldownLeft = cooldownLength;
 }

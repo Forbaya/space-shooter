@@ -15,11 +15,9 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 	//enemies.push_back(enemy);
 	Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
 	asteroids.push_back(asteroid);
-	nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
-	passedAsteroidSpawnTime = zeroNanoseconds;
+	asteroidSpawnCooldown = new Cooldown(asteroid->GetNextSpawnTime(), true);
 	timePaused = zeroNanoseconds;
-	textCooldown = Nanoseconds(150000000);
-	textCooldownLeft = zeroNanoseconds;
+	textCooldown = new Cooldown(Nanoseconds(150000000), false);
 	playerName = "";
 	underscoreBlinkTime = zeroNanoseconds;
 	underscoreBlinkInterval = Nanoseconds(500000000);
@@ -51,6 +49,11 @@ Game::Game(SDL_Renderer *renderer, Database *database) : Screen() {
 
 Game::~Game() {
 	delete starField;
+	starField = NULL;
+	delete asteroidSpawnCooldown;
+	asteroidSpawnCooldown = NULL;
+	delete textCooldown;
+	textCooldown = NULL;
 
 	for (auto it = asteroids.begin(); it != asteroids.end(); ++it) {
 		delete *it;
@@ -66,6 +69,11 @@ Game::~Game() {
 		delete *it;
 	}
 	players.clear();
+
+	for (auto it = healthDrops.begin(); it != healthDrops.end(); ++it) {
+		delete *it;
+	}
+	healthDrops.clear();
 
 	SDL_DestroyTexture(pauseTexture);
 	SDL_DestroyTexture(youDiedTexture);
@@ -95,12 +103,12 @@ void Game::Tick(Inputs *inputs) {
 	auto deltaTime = currentTickTime - previousTickTime;
 
 	if (!paused) {
-		passedAsteroidSpawnTime += std::chrono::duration_cast<Nanoseconds>(deltaTime);
-		if (passedAsteroidSpawnTime >= nextAsteroidSpawnTime) {
+		asteroidSpawnCooldown->Tick(std::chrono::duration_cast<Nanoseconds>(deltaTime));
+		if (!asteroidSpawnCooldown->OnCooldown()) {
 			Asteroid *asteroid = new Asteroid(32, 32, renderer, new Vector2(32, 0));
 			asteroids.push_back(asteroid);
-			passedAsteroidSpawnTime -= nextAsteroidSpawnTime;
-			this->nextAsteroidSpawnTime = asteroid->GetNextSpawnTime();
+			asteroidSpawnCooldown->SetCooldownLength(asteroid->GetNextSpawnTime());
+			asteroidSpawnCooldown->PutOnCooldown();
 		}
 
 		if (players.size() > 0) {
@@ -134,6 +142,7 @@ void Game::Tick(Inputs *inputs) {
 	}
 
 	if (players.empty()) {
+		textCooldown->Tick(std::chrono::duration_cast<Nanoseconds>(deltaTime));
 		HandlePlayerNameInput(inputs, std::chrono::duration_cast<Nanoseconds>(deltaTime));
 		HandleBlinkingUnderscore(deltaTime);
 	} else {
@@ -142,9 +151,7 @@ void Game::Tick(Inputs *inputs) {
 }
 
 void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
-	textCooldownLeft += deltaTime;
-	
-	if (textCooldownLeft >= textCooldown && playerName.length() < 16) {
+	if (!textCooldown->OnCooldown() && playerName.length() < 16) {
 		HandleButton(inputs, "Q");
 		HandleButton(inputs, "W");
 		HandleButton(inputs, "E");
@@ -172,9 +179,9 @@ void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
 		HandleButton(inputs, "N");
 		HandleButton(inputs, "M");
 	}
-	if (inputs->GetKeyboardInput()->GetButtonBackspace() && textCooldownLeft >= textCooldown && playerName.length() >= 1) {
+	if (inputs->GetKeyboardInput()->GetButtonBackspace() && !textCooldown->OnCooldown() && playerName.length() >= 1) {
 		playerName = playerName.substr(0, playerName.length() - 1);
-		textCooldownLeft = zeroNanoseconds;
+		textCooldown->PutOnCooldown();
 		SDL_DestroyTexture(playerNameTexture);
 		SDL_DestroyTexture(blinkingUnderscoreTexture);
 		int playerNameLengthInPixels = ((int)playerName.length() * 15);
@@ -193,7 +200,7 @@ void Game::HandlePlayerNameInput(Inputs *inputs, Nanoseconds deltaTime) {
 void Game::HandleButton(Inputs *inputs, std::string button) {
 	if (inputs->GetKeyboardInput()->GetButton(button) && playerName.length() < 16) {
 		playerName += button;
-		textCooldownLeft = zeroNanoseconds;
+		textCooldown->PutOnCooldown();
 		SDL_DestroyTexture(playerNameTexture);
 		SDL_DestroyTexture(blinkingUnderscoreTexture);
 		int playerNameLengthInPixels = ((int)playerName.length() * 15);

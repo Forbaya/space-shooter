@@ -38,11 +38,11 @@ class Game : public Screen {
 		std::vector<HealthDrop*> healthDrops;
 		Time currentTickTime;
 		Time previousTickTime;
-		Nanoseconds nextAsteroidSpawnTime;
-		Nanoseconds passedAsteroidSpawnTime;
+		Cooldown *asteroidSpawnCooldown;
+		//Nanoseconds nextAsteroidSpawnTime;
+		//Nanoseconds passedAsteroidSpawnTime;
 		Nanoseconds timePaused;
-		Nanoseconds textCooldown;
-		Nanoseconds textCooldownLeft;
+		Cooldown *textCooldown;
 		Nanoseconds underscoreBlinkTime;
 		Nanoseconds underscoreBlinkInterval;
 		SDL_Rect pauseRect;

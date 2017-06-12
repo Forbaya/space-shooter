@@ -5,6 +5,8 @@ Alien::Alien(int width, int height, SDL_Renderer *renderer, Vector2 *textureRegi
 }
 
 Alien::~Alien() {
+	delete shotCooldown;
+	shotCooldown = NULL;
 }
 
 void Alien::Shoot(Inputs *inputs) {

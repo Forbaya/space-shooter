@@ -85,7 +85,6 @@ bool Initialize() {
 	return true;
 }
 
-/* The game loop. */
 void Run() {
 	int ticks = 0;
 	int frames = 0;
@@ -136,7 +135,6 @@ void Render() {
 	SDL_RenderPresent(renderer);
 }
 
-/* Updates the game world. */
 void Tick() {
 	int nextScreen = screen->GetNextScreen();
 	if (nextScreen != -1) {
@@ -160,7 +158,6 @@ void Tick() {
 	screen->Tick(inputHandler->GetInputs());
 }
 
-/* Closes the window. */
 void Close() {
 	delete game;
 	delete inputHandler;
@@ -186,5 +183,6 @@ int main(int argc, char *args[]) {
 	Run();
 
 	Close();
+
 	return 0;
 }
