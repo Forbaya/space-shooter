@@ -39,8 +39,6 @@ class Game : public Screen {
 		Time currentTickTime;
 		Time previousTickTime;
 		Cooldown *asteroidSpawnCooldown;
-		//Nanoseconds nextAsteroidSpawnTime;
-		//Nanoseconds passedAsteroidSpawnTime;
 		Nanoseconds timePaused;
 		Cooldown *textCooldown;
 		Nanoseconds underscoreBlinkTime;
